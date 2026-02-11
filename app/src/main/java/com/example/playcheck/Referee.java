@@ -13,6 +13,13 @@ public class Referee extends User {
         this.schedule = new ArrayList<>();
     }
 
+    public Referee(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+        super.setUserId(userId);
+        super.setName(firstName, lastName);
+        super.setGender(gender);
+        super.setDateOfBirth(dateOfBirth);
+    }
+
     public List<LocalDate> getGameDatesAvailability() {
         return gameDateAvailabilityDates;
     }
