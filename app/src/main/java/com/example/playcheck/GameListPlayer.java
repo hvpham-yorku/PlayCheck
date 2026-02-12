@@ -18,35 +18,37 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*
+The GameListPlayer class creates the Game List page.
+ */
+
 public class GameListPlayer extends AppCompatActivity {
+
 
     DatabaseReference gamedetails;
     RecyclerView recyclerView;
-    ArrayList<GameListPlayerInfo> games;
-
+    ArrayList<Games> games;
     AdapterGameListPlayer adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState){//called when the game list page starts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
         recyclerView = findViewById(R.id.gamelist);
         gamedetails = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("games"); //points to the "games" folder in database
         games = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AdapterGameListPlayer(this, games);
-        recyclerView.setAdapter(adapter);
+        adapter = new AdapterGameListPlayer(this, games); //creating a new adapter for this activity using data from 'games'
+        recyclerView.setAdapter(adapter); //set the adapter that will be used to add data to games list
 
         gamedetails.addValueEventListener(new ValueEventListener() {
             @Override
-            //when games are added/deleted in firebase, the game list gets updated
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated
                 games.clear(); //clear list before updating it again
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    GameListPlayerInfo info = dataSnapshot.getValue(GameListPlayerInfo.class);
+                    Games info = dataSnapshot.getValue(Games.class);
                     games.add(info);
                 }
-                Log.d("FirebaseTest", "Total items found: " + snapshot.getChildrenCount());
                 adapter.notifyDataSetChanged();
             }
 

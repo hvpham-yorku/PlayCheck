@@ -1,18 +1,23 @@
 package com.example.playcheck;
-
-public class GameListPlayerInfo {
+/*
+This class defines the information that each Game has.
+ */
+public class Games {
     private String gameName;
     private String gameDate;
     private String gameVenue;
 
-    public GameListPlayerInfo(){
+    private String gameType;
+
+    public Games(){
 
     }
 
-    public GameListPlayerInfo(String gameName, String gameDate, String gameVenue) {
+    public Games(String gameName, String gameDate, String gameVenue, String gameType) {
         this.gameName = gameName;
         this.gameDate = gameDate;
         this.gameVenue = gameVenue;
+        this.gameType = gameType;
     }
 
     public String getGameName() {
@@ -27,6 +32,10 @@ public class GameListPlayerInfo {
         return gameVenue;
     }
 
+    public String getGameType(){
+        return gameType;
+    }
+
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
@@ -37,5 +46,9 @@ public class GameListPlayerInfo {
 
     public void setGameVenue(String gameVenue) {
         this.gameVenue = gameVenue;
+    }
+
+    public void setGameType(String gameType){
+        this.gameType = gameType;
     }
 }
