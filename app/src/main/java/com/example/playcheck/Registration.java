@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ public class Registration extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    AutoCompleteTextView accountTypeDropdown;
 
 
     @Override
@@ -36,7 +39,7 @@ public class Registration extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProfileSetup.class);
             startActivity(intent);
             finish();
 
@@ -53,6 +56,17 @@ public class Registration extends AppCompatActivity {
         buttonReg = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.loginNow);
+        accountTypeDropdown = findViewById(R.id.accountTypeDropdown);
+
+        ArrayAdapter<String> accountTypeAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.account_type_choices)
+        );
+        accountTypeDropdown.setAdapter(accountTypeAdapter);
+        // Optional: prevent free-typing and force picking one of the 3 options
+        accountTypeDropdown.setKeyListener(null);
+
         textView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -66,9 +80,11 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
-                email = String.valueOf(editTextEmail.getText());
-                password = String.valueOf(editTextPassword.getText());
+                String email, password, accountType;
+                email = String.valueOf(editTextEmail.getText()).trim();
+                password = String.valueOf(editTextPassword.getText()).trim();
+                accountType = String.valueOf(accountTypeDropdown.getText()).trim();
+
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Registration.this, "Enter email", Toast.LENGTH_SHORT).show();
@@ -79,6 +95,11 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(Registration.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (TextUtils.isEmpty(accountType)) {
+                    Toast.makeText(Registration.this, "Select an account type", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -88,13 +109,13 @@ public class Registration extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Registration.this,"Account created.",
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                    Intent intent = new Intent(getApplicationContext(), ProfileSetup.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(Registration.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Registration.this, "Authentication failed: " + task.getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });

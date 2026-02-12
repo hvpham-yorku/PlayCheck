@@ -7,4 +7,20 @@
     <string name="click_to_login">Click to login</string>
     <string name="click_to_register">Click to register</string>
     <string name="logout">Logout</string>
+    <string name="account_type">Account type</string>
+    <string name="profile">Profile</string>
+    <string name="first_name">First Name</string>
+    <string name="date_of_birth_dd_mm_yyyy">Date of Birth (DD/MM/YYYY)</string>
+    <string name="gender">Gender</string>
+    <string name="save">Save</string>
+    <string-array name="account_type_choices">
+        <item>Player</item>
+        <item>Referee</item>
+        <item>Organizer</item>
+    </string-array>
+    <string-array name="gender_choices">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Prefer not to say</item>
+    </string-array>
 </resources>
