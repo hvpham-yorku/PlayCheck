@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class ProfileSetup extends AppCompatActivity {
     Button saveBtn;
 
     FirebaseAuth auth;
-    FirebaseFirestore db;
+    DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class ProfileSetup extends AppCompatActivity {
         setContentView(R.layout.activity_profile_setup);
 
         auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
 
         firstNameEdit = findViewById(R.id.firstName);
         dobEdit = findViewById(R.id.dob);
@@ -73,8 +74,10 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("dob", dob);
             profile.put("gender", gender);
 
-            db.collection("users").document(uid)
-                    .set(profile)
+            dbRef.child("users")
+                    .child(uid)
+                    .child("profile")
+                    .setValue(profile)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, MainActivity.class));
