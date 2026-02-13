@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.playcheck"
-        minSdk = 24
+        minSdk = 26 //changed this from 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

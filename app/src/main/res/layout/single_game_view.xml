@@ -36,13 +36,21 @@
                 android:id="@+id/gameDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Game Date" />
+                android:text="Game Date and Start Hour" />
 
             <TextView
                 android:id="@+id/gameVenue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Game Venue" />
+
+            <TextView
+                android:id="@+id/gameType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Game Type" />
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
