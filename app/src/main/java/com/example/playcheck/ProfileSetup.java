@@ -60,8 +60,9 @@ public class ProfileSetup extends AppCompatActivity {
                 Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (TextUtils.isEmpty(lastName)) {
-                Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enter last name", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (TextUtils.isEmpty(dob)) {
@@ -81,6 +82,11 @@ public class ProfileSetup extends AppCompatActivity {
 
             String uid = auth.getCurrentUser().getUid();
             String email = auth.getCurrentUser().getEmail();
+            String accountType = getIntent().getStringExtra("accountType");
+            if (TextUtils.isEmpty(accountType)){
+                Toast.makeText(this, "Error: No Account Type", Toast.LENGTH_LONG).show();
+                return;
+            }
 
             Map<String, Object> profile = new HashMap<>();
             profile.put("firstName", firstName);
@@ -88,8 +94,10 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("dob", dob);
             profile.put("gender", gender);
             profile.put("email", email);
+            profile.put("accountType", accountType);
 
             dbRef.child("users")
+                    .child(accountType)
                     .child(uid)
                     .child("profile")
                     .setValue(profile)

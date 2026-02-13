@@ -39,7 +39,13 @@ public class Registration extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
+            // PLEASE CHANGE THIS TO A POTENTIAL HOME SCREEN CLASS!!!
+            // PLEASEEE
             Intent intent = new Intent(getApplicationContext(), ProfileSetup.class);
+            if (accountTypeDropdown != null){
+                String accountType = String.valueOf(accountTypeDropdown.getText()).trim();
+                intent.putExtra("accountType", accountType);
+            }
             startActivity(intent);
             finish();
 
@@ -110,6 +116,7 @@ public class Registration extends AppCompatActivity {
                                     Toast.makeText(Registration.this,"Account created.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), ProfileSetup.class);
+                                    intent.putExtra("accountType", accountType);
                                     startActivity(intent);
                                     finish();
                                 } else {
