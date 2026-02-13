@@ -1,15 +1,12 @@
 package com.example.playcheck;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +24,7 @@ public class GameListPlayer extends AppCompatActivity {
 
     DatabaseReference gamedetails;
     RecyclerView recyclerView;
-    ArrayList<Games> games;
+    ArrayList<Game> games;
     AdapterGameListPlayer adapter;
 
     @Override
@@ -46,7 +43,7 @@ public class GameListPlayer extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated
                 games.clear(); //clear list before updating it again
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Games info = dataSnapshot.getValue(Games.class);
+                    Game info = dataSnapshot.getValue(Game.class);
                     games.add(info);
                 }
                 adapter.notifyDataSetChanged();

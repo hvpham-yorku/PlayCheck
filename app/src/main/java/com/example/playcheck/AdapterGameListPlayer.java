@@ -17,9 +17,9 @@ The AdapterGameListPlayer class is used to bind game information called from the
 
 public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListPlayer.ViewHolder> {
     Context context;
-    ArrayList<Games> list; //contains information about all the games from Firebase
+    ArrayList<Game> list; //contains information about all the games from Firebase
 
-    public AdapterGameListPlayer(Context context, ArrayList<Games> list) {
+    public AdapterGameListPlayer(Context context, ArrayList<Game> list) {
         this.context = context;
         this.list = list;
     }
@@ -33,9 +33,9 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) { //Replaces the contents of ViewHolder's views with data
-        Games game = list.get(position);
+        Game game = list.get(position);
         holder.gameName.setText(game.getGameName());
-        holder.gameDate.setText(game.getGameDate());
+        holder.gameDate.setText(game.getGameDateLongtoString(game.getGameDate()));
         holder.gameVenue.setText(game.getGameVenue());
         holder.gameType.setText(game.getGameType());
 

@@ -1,19 +1,25 @@
 package com.example.playcheck;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 /*
 This class defines the information that each Game has.
  */
-public class Games {
+public class Game {
     private String gameName;
-    private String gameDate;
+    private long gameDate;
     private String gameVenue;
 
     private String gameType;
 
-    public Games(){
+    public Game(){
 
     }
 
-    public Games(String gameName, String gameDate, String gameVenue, String gameType) {
+    public Game(String gameName, long gameDate, String gameVenue, String gameType) {
         this.gameName = gameName;
         this.gameDate = gameDate;
         this.gameVenue = gameVenue;
@@ -24,8 +30,14 @@ public class Games {
         return gameName;
     }
 
-    public String getGameDate() {
+    public long getGameDate() { //return date as a long int
         return gameDate;
+    }
+
+    public String getGameDateLongtoString(long gameDate){ //converts game date from long -> LocalDateTime -> String
+        LocalDateTime dateAsString = LocalDateTime.ofInstant(Instant.ofEpochMilli(gameDate), ZoneId.of("UTC"));
+        DateTimeFormatter gameDateFormat = DateTimeFormatter.ofPattern("h:mm a - MMM dd yyy");
+        return dateAsString.format(gameDateFormat);
     }
 
     public String getGameVenue() {
@@ -40,7 +52,7 @@ public class Games {
         this.gameName = gameName;
     }
 
-    public void setGameDate(String gameDate) {
+    public void setGameDate(long gameDate) {
         this.gameDate = gameDate;
     }
 
