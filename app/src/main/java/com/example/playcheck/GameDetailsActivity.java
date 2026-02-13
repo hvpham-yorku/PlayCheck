@@ -1,5 +1,7 @@
 package com.example.playcheck;
 import android.widget.TextView;
+import android.content.Intent;
+
 
 
 import android.os.Bundle;
@@ -22,13 +24,27 @@ public class GameDetailsActivity extends AppCompatActivity {
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
+        TextView teamAPlayersText = findViewById(R.id.teamAPlayersText);
+        TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
 
-        Game game = GameRepository.getGames().get(0);
+// Get data from Intent
+        Intent intent = getIntent();
 
-        teamText.setText(game.getTeamA() + " vs " + game.getTeamB());
-        dateText.setText("Date: " + game.getDate());
-        locationText.setText("Location: " + game.getLocation());
-        scoreText.setText("Score: " + game.getScore());
+        String teamA = intent.getStringExtra("teamA");
+        String teamB = intent.getStringExtra("teamB");
+        String date = intent.getStringExtra("date");
+        String location = intent.getStringExtra("location");
+        String score = intent.getStringExtra("score");
+        String teamAPlayers = intent.getStringExtra("teamAPlayers");
+        String teamBPlayers = intent.getStringExtra("teamBPlayers");
+
+// Set UI
+        teamText.setText(teamA + " vs " + teamB);
+        dateText.setText("Date: " + date);
+        locationText.setText("Location: " + location);
+        scoreText.setText("Score: " + score);
+        teamAPlayersText.setText(teamAPlayers);
+        teamBPlayersText.setText(teamBPlayers);
 
     }
 }
