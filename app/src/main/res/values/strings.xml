@@ -13,6 +13,8 @@
     <string name="date_of_birth_dd_mm_yyyy">Date of Birth (DD/MM/YYYY)</string>
     <string name="gender">Gender</string>
     <string name="save">Save</string>
+    <string name="lastname">lastName</string>
+    <string name="last_name">Last Name</string>
     <string-array name="account_type_choices">
         <item>Player</item>
         <item>Referee</item>

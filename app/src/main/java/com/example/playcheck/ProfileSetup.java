@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class ProfileSetup extends AppCompatActivity {
 
-    TextInputEditText firstNameEdit, dobEdit;
+    TextInputEditText firstNameEdit, lastNameEdit, dobEdit;
     AutoCompleteTextView genderDropdown;
     Button saveBtn;
 
@@ -36,6 +36,7 @@ public class ProfileSetup extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         firstNameEdit = findViewById(R.id.firstName);
+        lastNameEdit = findViewById(R.id.lastName);
         dobEdit = findViewById(R.id.dob);
         genderDropdown = findViewById(R.id.genderDropdown);
         saveBtn = findViewById(R.id.btnSaveProfile);
@@ -53,8 +54,13 @@ public class ProfileSetup extends AppCompatActivity {
             String firstName = String.valueOf(firstNameEdit.getText()).trim();
             String dob = String.valueOf(dobEdit.getText()).trim();
             String gender = String.valueOf(genderDropdown.getText()).trim();
+            String lastName = String.valueOf(lastNameEdit.getText()).trim();
 
             if (TextUtils.isEmpty(firstName)) {
+                Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (TextUtils.isEmpty(lastName)) {
                 Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -67,12 +73,21 @@ public class ProfileSetup extends AppCompatActivity {
                 return;
             }
 
+            if (auth.getCurrentUser() == null) {
+                Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
             String uid = auth.getCurrentUser().getUid();
+            String email = auth.getCurrentUser().getEmail();
 
             Map<String, Object> profile = new HashMap<>();
             profile.put("firstName", firstName);
+            profile.put("lastName", lastName);
             profile.put("dob", dob);
             profile.put("gender", gender);
+            profile.put("email", email);
 
             dbRef.child("users")
                     .child(uid)
@@ -80,12 +95,15 @@ public class ProfileSetup extends AppCompatActivity {
                     .setValue(profile)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
+                        // Will connect to a home screen that specifically is for players
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show()
                     );
+
+
         });
     }
 }
