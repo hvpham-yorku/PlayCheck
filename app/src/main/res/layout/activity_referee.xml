@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activityfiles.RefereeActivity"
+    tools:layout_editor_absoluteX="2dp"
+    tools:layout_editor_absoluteY="0dp">
+
+
+    <RadioButton
+        android:id="@+id/femaleButton"
+        android:layout_width="94dp"
+        android:layout_height="45dp"
+        android:text="Female"
+        tools:layout_editor_absoluteX="276dp"
+        tools:layout_editor_absoluteY="555dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="223dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="431dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="259dp"
+        android:hint="Enter text here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="223dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="494dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="196dp"
+        android:hint="Enter text here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="223dp"
+        android:layout_height="41dp"
+        android:hint="Enter text here"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="618dp" />
+
+    <TextView
+        android:id="@+id/lastName"
+        android:layout_width="130dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="431dp"
+        android:layout_marginEnd="257dp"
+        android:layout_marginBottom="259dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="Last Name:"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateOfBirth"
+        android:layout_width="130dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="494dp"
+        android:layout_marginEnd="257dp"
+        android:layout_marginBottom="196dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="Date of birth:"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="130dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="552dp"
+        android:layout_marginBottom="138dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="Gender:"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="26dp" /><![CDATA[
+
+    "
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="618dp" />
+
+    ]]>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="130dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="618dp"
+        android:layout_marginEnd="255dp"
+        android:layout_marginBottom="72dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="User Name:"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="377dp"
+        android:layout_height="231dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="440dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/reFormInstruct"
+        android:layout_width="367dp"
+        android:layout_height="33dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="@string/Fill_User_Instructions"
+        android:textSize="19.5dp"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="309dp" />
+
+    <TextView
+        android:id="@+id/RefereeProfile"
+        android:layout_width="182dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="677dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="Referee Profile"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/firstName"
+        android:layout_width="126dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="361dp"
+        android:layout_marginEnd="257dp"
+        android:layout_marginBottom="329dp"
+        android:background="@color/material_dynamic_secondary95"
+        android:text="First Name:"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:layout_width="223dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="361dp"
+        android:layout_marginBottom="329dp"
+        android:hint="Enter text here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="172dp" />
+
+    <RadioButton
+        android:id="@+id/maleButton"
+        android:layout_width="94dp"
+        android:layout_height="45dp"
+        android:text="Male"
+        tools:layout_editor_absoluteX="170dp"
+        tools:layout_editor_absoluteY="555dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

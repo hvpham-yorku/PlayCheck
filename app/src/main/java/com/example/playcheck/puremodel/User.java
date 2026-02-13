@@ -1,3 +1,5 @@
+package com.example.playcheck.puremodel;
+
 
 import java.time.LocalDate;
 

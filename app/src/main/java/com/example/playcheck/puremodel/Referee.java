@@ -1,3 +1,4 @@
+package com.example.playcheck.puremodel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,5 +48,6 @@ public class Referee extends User {
     public boolean isAvailableOnDate(LocalDate date) {
         return this.gameDateAvailabilityDates.contains(date);
     }
+
 
 }
