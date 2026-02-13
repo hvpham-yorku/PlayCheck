@@ -2,6 +2,7 @@ package com.example.playcheck.puremodel;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public abstract class User {
 
