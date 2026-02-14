@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/RefereeProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/referee_profile"
+        android:textSize="26sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Image -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RefereeProfile" />
+
+    <TextView
+        android:id="@+id/reFormInstruct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Fill_User_Instructions"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- First Name label -->
+    <TextView
+        android:id="@+id/firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/first_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reFormInstruct" />
+
+    <!-- First Name input -->
+    <EditText
+        android:id="@+id/firstNameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/enter_text_here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/firstName"
+        app:layout_constraintTop_toTopOf="@+id/firstName" />
+
+    <!-- Last Name label -->
+    <TextView
+        android:id="@+id/lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/last_name"
+        app:layout_constraintEnd_toEndOf="@+id/firstName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/firstName"
+        app:layout_constraintTop_toBottomOf="@id/firstName" />
+
+    <!-- Last Name input -->
+    <EditText
+        android:id="@+id/lastNameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/EnterTextHere"
+        app:layout_constraintEnd_toEndOf="@id/firstNameInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/firstNameInput"
+        app:layout_constraintTop_toTopOf="@id/lastName" />
+
+    <!-- DOB label -->
+    <TextView
+        android:id="@+id/dateOfBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="@string/date_of_birth"
+        app:layout_constraintEnd_toEndOf="@+id/firstName"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toStartOf="@id/firstName"
+        app:layout_constraintTop_toBottomOf="@id/lastName" />
+
+    <!-- DOB input -->
+    <EditText
+        android:id="@+id/dateOfBirthInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/format_yyyy_mm_dd"
+        app:layout_constraintEnd_toEndOf="@id/firstNameInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/firstNameInput"
+        app:layout_constraintTop_toTopOf="@+id/dateOfBirth" />
+
+    <!-- Gender label -->
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="53dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/gender"
+        app:layout_constraintBottom_toBottomOf="@+id/maleButton"
+        app:layout_constraintEnd_toEndOf="@+id/dateOfBirth"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/firstName"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfBirth"
+        app:layout_constraintVertical_bias="0.635" />
+
+    <!-- Male -->
+    <RadioButton
+        android:id="@+id/maleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:text="@string/male"
+        app:layout_constraintBottom_toBottomOf="@+id/femaleButton"
+        app:layout_constraintStart_toStartOf="@+id/firstNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- Female -->
+    <RadioButton
+        android:id="@+id/femaleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/female"
+        app:layout_constraintEnd_toEndOf="@+id/reFormInstruct"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toEndOf="@id/maleButton"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput" />
+
+    <!-- Username label -->
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/user_name"
+        app:layout_constraintEnd_toEndOf="@+id/dateOfBirth"
+        app:layout_constraintHorizontal_bias="0.631"
+        app:layout_constraintStart_toStartOf="@id/firstName"
+        app:layout_constraintTop_toBottomOf="@id/gender" />
+
+    <!-- Username input -->
+    <EditText
+        android:id="@+id/userNameTextField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:hint="Enter text here"
+        app:layout_constraintBottom_toBottomOf="@+id/userName"
+        app:layout_constraintEnd_toEndOf="@id/firstNameInput"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/userName"
+        app:layout_constraintStart_toStartOf="@id/firstNameInput"
+        app:layout_constraintTop_toBottomOf="@+id/femaleButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Submit button -->
+    <Button
+        android:id="@+id/refProfileSubmitButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:layout_constraintVertical_bias="0.385" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

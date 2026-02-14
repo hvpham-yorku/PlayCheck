@@ -1,4 +1,4 @@
-package com.example.playcheck;
+package com.example.playcheck.puremodel;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
