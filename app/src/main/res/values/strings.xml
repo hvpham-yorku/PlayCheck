@@ -7,25 +7,22 @@
     <string name="click_to_login">Click to login</string>
     <string name="click_to_register">Click to register</string>
     <string name="logout">Logout</string>
-    <string name="Fill_User_Instructions">Fill in Your User Details below(Referee):</string>
-    <string name="account_type">User Account Type</string>
-    <string name="referee_profile">Referee Profile</string>
-    <string name="first_name">First Name:</string>
-    <string name="enter_text_here">Enter text here</string>
-    <string name="last_name">Last Name:</string>
-    <string name="date_of_birth">Date of birth:</string>
-    <string name="format_yyyy_mm_dd">Format: yyyy-mm-dd</string>
-    <string name="gender">Gender:</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="user_name">User Name:</string>
-    <string name="submit">Submit</string>
-    <string name="EnterTextHere">Enter text here</string>
-    <string-array name="account_types">
+    <string name="account_type">Account type</string>
+    <string name="profile">Profile</string>
+    <string name="first_name">First Name</string>
+    <string name="date_of_birth_dd_mm_yyyy">Date of Birth (DD/MM/YYYY)</string>
+    <string name="gender">Gender</string>
+    <string name="save">Save</string>
+    <string name="lastname">lastName</string>
+    <string name="last_name">Last Name</string>
+    <string-array name="account_type_choices">
         <item>Player</item>
         <item>Referee</item>
         <item>Organizer</item>
-        <item>Guest</item>
     </string-array>
-
+    <string-array name="gender_choices">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Prefer not to say</item>
+    </string-array>
 </resources>

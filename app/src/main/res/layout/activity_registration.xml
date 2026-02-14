@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
-    tools:context=".activityfiles.Registration">
+    tools:context=".Registration">
 
     <TextView
         android:text="@string/register"
@@ -54,11 +54,13 @@
             android:id="@+id/accountTypeDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/account_type"
+            android:inputType="none"
             android:importantForAutofill="no"
-            android:inputType="none" />
+            android:hint="@string/account_type"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
