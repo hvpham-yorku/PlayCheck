@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- Acts as a container for a single game -->
     <androidx.cardview.widget.CardView
         android:id="@+id/singlegame"
         android:layout_width="380dp"
@@ -19,13 +20,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Make list horizonal -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
-
+            <!-- Text that appears for each game -->
             <TextView
                 android:id="@+id/gameName"
                 android:layout_width="match_parent"

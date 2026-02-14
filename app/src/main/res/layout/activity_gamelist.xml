@@ -4,11 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Text Title of Screen -->
+    <TextView
+        android:id="@+id/gameListPageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Game List"
+        android:textSize="20dp" />
+
+    <!-- Drop-down Filter -->
+    <Spinner
+        android:id="@+id/gameListSpinner"
+        android:layout_width="399dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="2dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:padding="10dp"
+        android:spinnerMode="dropdown" />
+
+    <!-- Contains the views for each single_game_view.xml -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gamelist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="95dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

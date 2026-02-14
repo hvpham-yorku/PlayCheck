@@ -34,8 +34,8 @@ public class Game {
         return gameDate;
     }
 
-    public String getGameDateLongtoString(long gameDate){ //converts game date from long -> LocalDateTime -> String
-        LocalDateTime dateAsString = LocalDateTime.ofInstant(Instant.ofEpochMilli(gameDate), ZoneId.of("UTC"));
+    public String getGameDateLongtoString(long gameDate){ //converts game date from long (datetime in milliseconds)-> LocalDateTime -> String
+        LocalDateTime dateAsString = LocalDateTime.ofInstant(Instant.ofEpochMilli(gameDate), ZoneId.systemDefault()); //convert to LocalDateTime (EST) by timestamping an instance on the timeline
         DateTimeFormatter gameDateFormat = DateTimeFormatter.ofPattern("h:mm a - MMM dd yyy");
         return dateAsString.format(gameDateFormat);
     }
