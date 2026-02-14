@@ -1,8 +1,10 @@
 package com.example.playcheck.puremodel;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.playcheck.*;
+
 
 public class Referee extends User {
 
@@ -43,6 +45,7 @@ public class Referee extends User {
     }
 
     public void deleteGameFromSchedule(Game game) {
+
         this.schedule.remove(game);
     }
 
