@@ -7,7 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -18,161 +19,97 @@ import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class RefereeActivity extends AppCompatActivity implements View.OnClickListener {
 
     User theReferee;
-    Button maleButton,femaleButton,refProfileSubmitButton;
-    EditText firstNameTextField,lastNameTextField,dateOfBirthTextField,userNameTextField;
+    Button refProfileSubmitButton;
+    RadioButton maleButton, femaleButton;  // Changed to RadioButton
+    EditText firstNameTextField, lastNameTextField, dateOfBirthTextField, userNameTextField;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_referee);
 
         theReferee = new Referee();
 
-        /*
-        TODO: A Back Button to the previous page needs to be done
-        TODO: All of the input text fields and Selections need to be connected to a Database
-         */
-
-        maleButton =  findViewById(R.id.maleButton);
+        // Initialize views
+        maleButton = findViewById(R.id.maleButton);
         femaleButton = findViewById(R.id.femaleButton);
-        refProfileSubmitButton = findViewById((R.id.refProfileSubmitButton));
-
-
+        refProfileSubmitButton = findViewById(R.id.refProfileSubmitButton);
 
         firstNameTextField = findViewById(R.id.firstNameInput);
         lastNameTextField = findViewById(R.id.lastNameInput);
         dateOfBirthTextField = findViewById(R.id.dateOfBirthInput);
         userNameTextField = findViewById(R.id.userNameTextField);
 
-
+        // Set click listeners
         maleButton.setOnClickListener(this);
         femaleButton.setOnClickListener(this);
         refProfileSubmitButton.setOnClickListener(this);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
-        int id,refProfileSubmitId;
+        int id = view.getId();
 
-        id = view.getId();
-
+        // Handle gender selection separately
         if (id == R.id.maleButton) {
-            Log.d("tag","male button was selected");
+            Log.d("tag", "male button was selected");
             theReferee.setGender("male");
-
-        } else if (id == R.id.femaleButton) {
-            Log.d("tag","female button was selected");
+            return;  // Exit early, don't process submit logic
+        }
+        else if (id == R.id.femaleButton) {
+            Log.d("tag", "female button was selected");
             theReferee.setGender("female");
+            return;  // Exit early, don't process submit logic
+        }
+        else if (id == R.id.refProfileSubmitButton) {
+            // Handle form submission
+            submitForm();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void submitForm() {
+        // Get all input values
+        String fName = firstNameTextField.getText().toString().trim();
+        String lName = lastNameTextField.getText().toString().trim();
+        String fdOb = dateOfBirthTextField.getText().toString().trim();
+        String fuserName = userNameTextField.getText().toString().trim();
+
+        // Validate all fields are filled
+        if (fName.isEmpty() || lName.isEmpty() || fdOb.isEmpty() ||
+                fuserName.isEmpty() || theReferee.getGender() == null) {
+
+            Toast.makeText(this, "Please fill all fields and select gender",
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        refProfileSubmitId = view.getId();
+        try {
+            // Set name
+            theReferee.setName(fName, lName);
 
-        Boolean profileNotCompleted = true;
-        while(profileNotCompleted){
+            // Parse and set date of birth
+            LocalDate dob = LocalDate.parse(fdOb);
+            theReferee.setDateOfBirth(dob);
 
-            if(refProfileSubmitId == R.id.refProfileSubmitButton){
+            // Set username
+            theReferee.setUserId(fuserName);
 
-                /*
-                This is where the object to take the app to the next page is defined
-                MainActivity Page has now been Temporarily been selected
-                TODO: Input the Appropriate Next Page
-                 to move to after the referee Profile Page
-                 */
+            // Navigate to next page
+            Intent goToNextPage = new Intent(this, MainActivity.class);
+            startActivity(goToNextPage);
+            finish(); // Optional: close this activity
 
-                Intent goToNextPage = new Intent(this,MainActivity.class);
-
-
-
-                String fName,lName,fdOb,fuserName;
-
-
-                /*
-                This is where the first Name and the Last Name of the Referee is
-                being collected and stored to the above Strings and then finally set
-                 */
-                fName = firstNameTextField.getText().toString();
-                lName = lastNameTextField.getText().toString();
-                theReferee.setName(fName,lName);
-
-                /*
-                This is where the date of birth and username is being
-                collected as Strings
-                 */
-                fdOb = dateOfBirthTextField.getText().toString();
-                fuserName = userNameTextField.getText().toString();
-
-
-                /*This is trying to make sure that the all fields have been
-                filled before we can go to the next of the App
-                 */
-
-                if(fName != null && lName != null && theReferee != null
-                        && fdOb != null && fuserName != null){
-
-                    profileNotCompleted = false;
-
-                }
-
-                /*
-                The date of Birth and Username is finally set here. The Date of Birth is
-                supposed to be of type Local Date hence I tried parsing the collected String
-                to a Local Date type.
-                 */
-
-                assert theReferee != null;
-                theReferee.setDateOfBirth(LocalDate.parse(fdOb));
-                theReferee.setUserId(fuserName);
-
-                /*
-                Finally the Referee Details have been collected
-                and now we head to the next page
-                 */
-                startActivity(goToNextPage);
-
-            }
-
-
+        } catch (Exception e) {
+            // Handle date parsing errors
+            Toast.makeText(this, "Invalid date format. Use yyyy-mm-dd",
+                    Toast.LENGTH_SHORT).show();
+            Log.e("RefereeActivity", "Error parsing date", e);
         }
-
-
-
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 }
