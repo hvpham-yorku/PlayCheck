@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.playcheck"
-        minSdk = 24
+        minSdk = 26 //changed this from 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -40,6 +40,9 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.recyclerview)
+    implementation(libs.cardview)
+    implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
