@@ -1,5 +1,3 @@
-# PlayCheck – Vision Statement
-
 # Summary
 PlayCheck is a low-cost, mobile-based sports support system for referees, players, and organizers in university intramural and amateur sports. It improves fairness, coordination, and transparency by integrating tools for video review, scheduling, communication, and league data access into one platform.
 
