@@ -33,8 +33,12 @@
         <activity
             android:name=".GameListPlayer"
             android:theme="@style/Theme.Material3.Light.NoActionBar"
-            android:exported="true"
+            android:exported="false"
             >
+        </activity>
+        <activity
+            android:name=".GameSchedule"
+            android:exported="true">
         </activity>
 
         <activity
