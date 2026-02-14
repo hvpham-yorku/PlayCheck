@@ -4,87 +4,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_margin="4dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="2dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
-        <!-- Date and Status Row -->
+        <!-- Game Name -->
+        <TextView
+            android:id="@+id/txtGameName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team A vs Team B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Time and Venue in one line -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
 
+            <!-- Time -->
             <TextView
-                android:id="@+id/txtGameDate"
+                android:id="@+id/txtGameTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Friday, March 15, 2024"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#333333" />
+                android:text="7:00 PM"
+                android:textSize="13sp"
+                android:textColor="#555555" />
 
+            <!-- Venue -->
             <TextView
-                android:id="@+id/txtGameStatus"
+                android:id="@+id/txtGameVenue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPCOMING"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#4CAF50"
-                android:background="#E8F5E9"
-                android:padding="4dp"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- Time -->
-        <TextView
-            android:id="@+id/txtGameTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="7:00 PM"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:layout_marginTop="8dp" />
-
-        <!-- Teams -->
-        <TextView
-            android:id="@+id/txtGameTeams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Team A vs Team B"
-            android:textSize="16sp"
-            android:textColor="#555555"
-            android:layout_marginTop="4dp" />
-
-        <!-- Location -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📍"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtGameLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Main Gym - Court 1"
-                android:textSize="14sp"
-                android:textColor="#777777"
-                android:layout_marginStart="4dp" />
+                android:text="📍 Main Gym"
+                android:textSize="13sp"
+                android:textColor="#D32F2F"
+                android:maxLines="1"
+                android:ellipsize="end" />
         </LinearLayout>
 
     </LinearLayout>
