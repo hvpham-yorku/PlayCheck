@@ -15,6 +15,7 @@ public class Referee extends User {
     }
 
     public Referee(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+        this();
         super.setUserId(userId);
         super.setName(firstName, lastName);
         super.setGender(gender);
