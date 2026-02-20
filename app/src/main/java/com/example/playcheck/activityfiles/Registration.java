@@ -1,4 +1,4 @@
-package com.example.playcheck;
+package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;

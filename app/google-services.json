@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "211954661941",
-    "project_id": "eecs2311-playcheck",
-    "storage_bucket": "eecs2311-playcheck.firebasestorage.app"
+    "project_number": "783647903101",
+    "firebase_url": "https://recycleviewgamelistplayer-default-rtdb.firebaseio.com",
+    "project_id": "recycleviewgamelistplayer",
+    "storage_bucket": "recycleviewgamelistplayer.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:211954661941:android:173b3811d71bd2da6dcf7c",
+        "mobilesdk_app_id": "1:783647903101:android:6d2c8b5e8c65b27ed75014",
         "android_client_info": {
           "package_name": "com.example.playcheck"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAWS8WxsrMDB9Y1DYTPBMcJuc6pyj0kHIQ"
+          "current_key": "AIzaSyDpeW-zlk7VzDR0WGBf50sFGXT_oyF31F4"
         }
       ],
       "services": {
