@@ -1,0 +1,16 @@
+AbstractTextEditor.Color.Background.SystemDefault=false
+AbstractTextEditor.Color.SelectionBackground.SystemDefault=false
+AbstractTextEditor.Color.SelectionForeground.SystemDefault=false
+adtBlockHighlightingColor=255,128,128
+adtBlockHighlightingTextStyle=BOX
+adtOccurrenceIndicationColor=0,128,128
+adtTentativeOccurrenceIndicationColor=192,192,192
+adtWriteOccurrenceIndicationColor=255,72,72
+com.sap.adt.tools.abapsource.coverage.annotation.fullyCovered.text=false
+com.sap.adt.tools.abapsource.coverage.annotation.notCovered.text=false
+com.sap.adt.tools.abapsource.coverage.annotation.partiallyCovered.text=false
+com.sap.adt.tools.abapsource.coverage.annotation.unknown.color=64,128,128
+com.sap.adt.tools.abapsource.coverage.annotation.unknown.text=false
+eclipse.preferences.version=1
+org.eclipse.cdt.ui.overrideIndicatorColor=27,98,145
+org.eclipse.ui.editors.stickyLinesSeparatorColor=81,86,88

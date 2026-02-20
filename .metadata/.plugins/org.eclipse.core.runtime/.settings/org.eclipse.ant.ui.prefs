@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.eclipse.ant.ui.constantStringsColor_italic=true
+org.eclipse.ant.ui.errorColor=225,30,70
+org.eclipse.ant.ui.processingInstructionsColor_bold=true
+org.eclipse.ant.ui.tagsColor_bold=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true
