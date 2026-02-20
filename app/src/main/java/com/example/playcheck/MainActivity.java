@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.logout);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+
+        Button openDetails = findViewById(R.id.openGameDetails);
+
+        openDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
+            startActivity(intent);
+        });
+
         if (user == null){
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
