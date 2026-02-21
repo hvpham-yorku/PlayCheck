@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
 
+
 import java.util.ArrayList;
+
 
 /*
 The AdapterGameListPlayer class is used to bind game information called from the Games class ArrayList to single_game_view layout.

@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
-import puremodel.Referee;
-import puremodel.User;
+import com.example.playcheck.puremodel.Referee;
+import com.example.playcheck.puremodel.User;
 
 import java.time.LocalDate;
 
