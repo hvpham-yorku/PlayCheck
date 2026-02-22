@@ -7,8 +7,9 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
-import puremodel.Game;
-import puremodel.Referee;
+import com.example.playcheck.puremodel.Game;
+import com.example.playcheck.puremodel.Referee;
+
 
 public class RefereeTest {
 
