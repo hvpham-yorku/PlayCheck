@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,11 +51,24 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         mAuth = FirebaseAuth.getInstance();
+
+        // Initialize views
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         buttonReg = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.loginNow);
+        AutoCompleteTextView dropdown = findViewById(R.id.accountTypeDropdown);
+        String[] types = getResources().getStringArray(R.array.account_type_choices);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>
+                        (this,
+                        android.R.layout.simple_list_item_1,
+                        types);
+
+        dropdown.setAdapter(adapter);
+
+
         textView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

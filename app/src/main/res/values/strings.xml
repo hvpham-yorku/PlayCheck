@@ -26,11 +26,14 @@
     <string name="referee_profile">Referee Profile</string>
     <string name="referee_profile_image">Referee Profile Image</string>
     <string name="Fill_User_Instructions">Fill in your Referee Profile details:</string>
+    <string name="EnterYourUserNameHint">Enter your chosen username</string>
+
     <string-array name="account_type_choices">
         <item>Player</item>
         <item>Referee</item>
         <item>Organizer</item>
     </string-array>
+
     <string-array name="gender_choices">
         <item>Male</item>
         <item>Female</item>

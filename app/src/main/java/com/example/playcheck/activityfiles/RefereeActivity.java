@@ -50,7 +50,6 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
         refProfileSubmitButton.setOnClickListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -72,7 +71,6 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void submitForm() {
         // Get all input values
         String fName = firstNameTextField.getText().toString().trim();
