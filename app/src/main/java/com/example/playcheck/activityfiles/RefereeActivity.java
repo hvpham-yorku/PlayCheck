@@ -46,12 +46,6 @@ public class RefereeActivity extends AppCompatActivity {
         userNameTextField = findViewById(R.id.userNameTextField);
         refProfileSubmitButton = findViewById(R.id.refProfileSubmitButton);
 
-        // Set click listeners
-//        maleButton.setOnClickListener(this);
-//        femaleButton.setOnClickListener(this);
-//        refProfileSubmitButton.setOnClickListener(this);
-
-
 
         // Handle gender selection through RadioGroup only
         genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -77,42 +71,11 @@ public class RefereeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitForm();
+
             }
         });
 
-
-
     }
-
-//    @Override
-//    public void onClick(View view) {
-//        int id = view.getId();
-//
-//        // Handle gender selection with toggle functionality
-//        if (id == R.id.maleButton) {
-//            // Check if this button is already selected
-//            if (maleButton.isChecked() && "male".equals(theReferee.getGender())) {
-//                // If already selected, unselect it
-//                genderRadioGroup.clearCheck();
-//                theReferee.setGender(null);
-//                maleButton.setChecked(false);
-//            }
-//            // No else needed - RadioGroup will handle selection automatically
-//        }
-//        else if (id == R.id.femaleButton) {
-//            // Check if this button is already selected
-//            if (femaleButton.isChecked() && "female".equals(theReferee.getGender())) {
-//                // If already selected, unselect it
-//                genderRadioGroup.clearCheck();
-//                theReferee.setGender(null);
-//                femaleButton.setChecked(false);
-//            }
-//        }
-//        else if (id == R.id.refProfileSubmitButton) {
-//            // Handle form submission
-//            submitForm();
-//        }
-//    }
 
     private void submitForm() {
         // Get all input values
@@ -121,10 +84,14 @@ public class RefereeActivity extends AppCompatActivity {
         String fdOb = dateOfBirthTextField.getText().toString().trim();
         String fuserName = userNameTextField.getText().toString().trim();
 
+        Log.d("tag", "Form submitted with values: " + fName + ", " + lName + ", " + fdOb + ", " + fuserName);
+        Log.d("tag", "Current gender: " + theReferee.getGender());
+
         // Validate all fields are filled
         if (fName.isEmpty() || lName.isEmpty() || fdOb.isEmpty() ||
                 fuserName.isEmpty() || theReferee.getGender() == null) {
 
+            Log.d("tag", "Validation failed - some fields are empty");
             Toast.makeText(this, "Please fill all fields and select gender",
                     Toast.LENGTH_SHORT).show();
             return;
@@ -133,25 +100,33 @@ public class RefereeActivity extends AppCompatActivity {
         try {
             // Set name
             theReferee.setName(fName, lName);
+            Log.d("tag", "Name set successfully");
 
             // Parse and set date of birth
             LocalDate dob = LocalDate.parse(fdOb);
             theReferee.setDateOfBirth(dob);
+            Log.d("tag", "DOB set successfully: " + dob);
 
             // Set username
             theReferee.setUserId(fuserName);
+            Log.d("tag", "Username set successfully");
 
 
             // Navigate to next page
+            Log.d("tag", "Attempting to navigate to MainActivity");
             Intent goToNextPage = new Intent(this, MainActivity.class);
             startActivity(goToNextPage);
+            Log.d("tag", "Navigation intent sent");
+            Toast.makeText(RefereeActivity.this,"Account created.",Toast.LENGTH_SHORT).show();
             finish(); // Optional: close this activity
+            Log.d("tag", "Activity finished");
 
         } catch (Exception e) {
             // Handle date parsing errors
+            Log.e("RefereeActivity", "Error parsing date", e);
             Toast.makeText(this, "Invalid date format. Use yyyy-mm-dd",
                     Toast.LENGTH_SHORT).show();
-            Log.e("RefereeActivity", "Error parsing date", e);
+
         }
     }
 }
