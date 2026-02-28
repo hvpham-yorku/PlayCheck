@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
     User theReferee;
     Button refProfileSubmitButton;
     RadioButton maleButton, femaleButton;  // Changed to RadioButton
+    RadioGroup genderRadioGroup;
     EditText firstNameTextField, lastNameTextField, dateOfBirthTextField, userNameTextField;
 
     @Override
@@ -37,6 +39,8 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
         // Initialize views
         maleButton = findViewById(R.id.maleButton);
         femaleButton = findViewById(R.id.femaleButton);
+        genderRadioGroup = findViewById(R.id.genderRadioGroup);
+
         refProfileSubmitButton = findViewById(R.id.refProfileSubmitButton);
 
         firstNameTextField = findViewById(R.id.firstNameInput);
@@ -48,22 +52,44 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
         maleButton.setOnClickListener(this);
         femaleButton.setOnClickListener(this);
         refProfileSubmitButton.setOnClickListener(this);
+
+        genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.maleButton) {
+                    Log.d("tag", "male button was selected");
+                    theReferee.setGender("male");
+                } else if (checkedId == R.id.femaleButton) {
+                    Log.d("tag", "female button was selected");
+                    theReferee.setGender("female");
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
 
-        // Handle gender selection separately
+        // Handle gender selection with toggle functionality
         if (id == R.id.maleButton) {
-            Log.d("tag", "male button was selected");
-            theReferee.setGender("male");
-            return;  // Exit early, don't process submit logic
+            // Check if this button is already selected
+            if (maleButton.isChecked() && "male".equals(theReferee.getGender())) {
+                // If already selected, unselect it
+                genderRadioGroup.clearCheck();
+                theReferee.setGender(null);
+                maleButton.setChecked(false);
+            }
+            // No else needed - RadioGroup will handle selection automatically
         }
         else if (id == R.id.femaleButton) {
-            Log.d("tag", "female button was selected");
-            theReferee.setGender("female");
-            return;  // Exit early, don't process submit logic
+            // Check if this button is already selected
+            if (femaleButton.isChecked() && "female".equals(theReferee.getGender())) {
+                // If already selected, unselect it
+                genderRadioGroup.clearCheck();
+                theReferee.setGender(null);
+                femaleButton.setChecked(false);
+            }
         }
         else if (id == R.id.refProfileSubmitButton) {
             // Handle form submission
@@ -97,6 +123,7 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
 
             // Set username
             theReferee.setUserId(fuserName);
+
 
             // Navigate to next page
             Intent goToNextPage = new Intent(this, MainActivity.class);
