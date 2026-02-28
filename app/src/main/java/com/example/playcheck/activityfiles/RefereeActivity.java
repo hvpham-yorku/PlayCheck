@@ -21,7 +21,7 @@ import com.example.playcheck.puremodel.User;
 
 import java.time.LocalDate;
 
-public class RefereeActivity extends AppCompatActivity implements View.OnClickListener {
+public class RefereeActivity extends AppCompatActivity {
 
     User theReferee;
     Button refProfileSubmitButton;
@@ -37,65 +37,82 @@ public class RefereeActivity extends AppCompatActivity implements View.OnClickLi
         theReferee = new Referee();
 
         // Initialize views
-        maleButton = findViewById(R.id.maleButton);
-        femaleButton = findViewById(R.id.femaleButton);
-        genderRadioGroup = findViewById(R.id.genderRadioGroup);
-
-        refProfileSubmitButton = findViewById(R.id.refProfileSubmitButton);
-
         firstNameTextField = findViewById(R.id.firstNameInput);
         lastNameTextField = findViewById(R.id.lastNameInput);
         dateOfBirthTextField = findViewById(R.id.dateOfBirthInput);
+        maleButton = findViewById(R.id.maleButton);
+        femaleButton = findViewById(R.id.femaleButton);
+        genderRadioGroup = findViewById(R.id.genderRadioGroup);
         userNameTextField = findViewById(R.id.userNameTextField);
+        refProfileSubmitButton = findViewById(R.id.refProfileSubmitButton);
 
         // Set click listeners
-        maleButton.setOnClickListener(this);
-        femaleButton.setOnClickListener(this);
-        refProfileSubmitButton.setOnClickListener(this);
+//        maleButton.setOnClickListener(this);
+//        femaleButton.setOnClickListener(this);
+//        refProfileSubmitButton.setOnClickListener(this);
 
+
+
+        // Handle gender selection through RadioGroup only
         genderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.maleButton) {
-                    Log.d("tag", "male button was selected");
+
+                    Log.d("tag", "male button selected");
                     theReferee.setGender("male");
                 } else if (checkedId == R.id.femaleButton) {
-                    Log.d("tag", "female button was selected");
+                    Log.d("tag", "female button selected");
                     theReferee.setGender("female");
+                } else {
+                    // checkedId == -1 means nothing selected
+                    Log.d("tag", "gender deselected");
+                    theReferee.setGender(null);
                 }
             }
         });
+
+        // Handle submit button click
+        refProfileSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitForm();
+            }
+        });
+
+
+
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-
-        // Handle gender selection with toggle functionality
-        if (id == R.id.maleButton) {
-            // Check if this button is already selected
-            if (maleButton.isChecked() && "male".equals(theReferee.getGender())) {
-                // If already selected, unselect it
-                genderRadioGroup.clearCheck();
-                theReferee.setGender(null);
-                maleButton.setChecked(false);
-            }
-            // No else needed - RadioGroup will handle selection automatically
-        }
-        else if (id == R.id.femaleButton) {
-            // Check if this button is already selected
-            if (femaleButton.isChecked() && "female".equals(theReferee.getGender())) {
-                // If already selected, unselect it
-                genderRadioGroup.clearCheck();
-                theReferee.setGender(null);
-                femaleButton.setChecked(false);
-            }
-        }
-        else if (id == R.id.refProfileSubmitButton) {
-            // Handle form submission
-            submitForm();
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        int id = view.getId();
+//
+//        // Handle gender selection with toggle functionality
+//        if (id == R.id.maleButton) {
+//            // Check if this button is already selected
+//            if (maleButton.isChecked() && "male".equals(theReferee.getGender())) {
+//                // If already selected, unselect it
+//                genderRadioGroup.clearCheck();
+//                theReferee.setGender(null);
+//                maleButton.setChecked(false);
+//            }
+//            // No else needed - RadioGroup will handle selection automatically
+//        }
+//        else if (id == R.id.femaleButton) {
+//            // Check if this button is already selected
+//            if (femaleButton.isChecked() && "female".equals(theReferee.getGender())) {
+//                // If already selected, unselect it
+//                genderRadioGroup.clearCheck();
+//                theReferee.setGender(null);
+//                femaleButton.setChecked(false);
+//            }
+//        }
+//        else if (id == R.id.refProfileSubmitButton) {
+//            // Handle form submission
+//            submitForm();
+//        }
+//    }
 
     private void submitForm() {
         // Get all input values
