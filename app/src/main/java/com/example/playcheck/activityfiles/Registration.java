@@ -103,8 +103,6 @@ public class Registration extends AppCompatActivity {
 
             progressBar.setVisibility(View.GONE);
 
-            Toast.makeText(Registration.this,"Account created.",Toast.LENGTH_SHORT).show();
-
             // Navigate BASED ON ACCOUNT TYPEà
             Intent nextIntent;
 
