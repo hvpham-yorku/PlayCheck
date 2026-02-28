@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.playcheck">
-    <!-- PlayCheck -->
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,21 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light">
         <activity
-            android:name=".activityfiles.OrganizerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activityfiles.PlayerActivity"
-            android:exported="false" /> <!-- Login is your launcher activity -->
-        <activity
             android:name=".activityfiles.Login"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Other activities - only exported if needed by other apps -->
+        </activity>
+        <activity
+            android:name=".activityfiles.PlayerHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".activityfiles.Registration"
             android:exported="false"
@@ -38,6 +37,12 @@
             android:name=".activityfiles.ProfileSetup"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.OrganizerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.PlayerActivity"
+            android:exported="false" />
         <activity
             android:name=".activityfiles.GameListPlayer"
             android:exported="false"
@@ -58,6 +63,7 @@
             android:name=".activityfiles.GameActivity"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
+
     </application>
 
 </manifest>
