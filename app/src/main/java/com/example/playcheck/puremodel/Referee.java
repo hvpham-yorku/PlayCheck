@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Referee extends User {
 
     private List<LocalDate> gameDateAvailabilityDates;
@@ -43,6 +44,7 @@ public class Referee extends User {
     }
 
     public void deleteGameFromSchedule(Game game) {
+
         this.schedule.remove(game);
     }
 

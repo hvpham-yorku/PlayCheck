@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_database_url" translatable="false">https://recycleviewgamelistplayer-default-rtdb.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">783647903101</string>
+    <string name="google_api_key" translatable="false">AIzaSyDpeW-zlk7VzDR0WGBf50sFGXT_oyF31F4</string>
+    <string name="google_app_id" translatable="false">1:783647903101:android:6d2c8b5e8c65b27ed75014</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDpeW-zlk7VzDR0WGBf50sFGXT_oyF31F4</string>
+    <string name="google_storage_bucket" translatable="false">recycleviewgamelistplayer.firebasestorage.app</string>
+    <string name="project_id" translatable="false">recycleviewgamelistplayer</string>
+</resources>

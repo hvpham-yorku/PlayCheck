@@ -1,4 +1,4 @@
-package com.example.playcheck;
+package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.example.playcheck.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
