@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.playcheck">
+    <!-- PlayCheck -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,14 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light">
         <activity
-            android:name=".ProfileSetup"
+            android:name=".activityfiles.OrganizerActivity"
             android:exported="false" />
         <activity
-            android:name=".Registration"
-            android:exported="false"
-            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+            android:name=".activityfiles.PlayerActivity"
+            android:exported="false" /> <!-- Login is your launcher activity -->
         <activity
-            android:name=".Login"
+            android:name=".activityfiles.Login"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar">
             <intent-filter>
@@ -29,17 +29,35 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- Other activities - only exported if needed by other apps -->
         <activity
-            android:name=".GameListPlayer"
-            android:theme="@style/Theme.Material3.Light.NoActionBar"
-            android:exported="true"
-            >
-        </activity>
-
+            android:name=".activityfiles.Registration"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:name=".activityfiles.ProfileSetup"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.GameListPlayer"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.GameSchedule"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.RefereeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.GameActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
     </application>
 
 </manifest>

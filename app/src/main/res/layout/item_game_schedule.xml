@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="2dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- Game Name -->
+        <TextView
+            android:id="@+id/txtGameName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team A vs Team B"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Time and Venue in one line -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <!-- Time -->
+            <TextView
+                android:id="@+id/txtGameTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7:00 PM"
+                android:textSize="13sp"
+                android:textColor="#555555" />
+
+            <!-- Venue -->
+            <TextView
+                android:id="@+id/txtGameVenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍 Main Gym"
+                android:textSize="13sp"
+                android:textColor="#D32F2F"
+                android:maxLines="1"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
