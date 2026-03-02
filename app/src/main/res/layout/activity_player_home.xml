@@ -1,68 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F5F5F5">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:text="Welcome Back,"
+        android:textSize="18sp"
+        android:textColor="#666666"/>
 
-        <!-- Header -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Back,"
-            android:textSize="18sp"
-            android:textColor="#666666"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Player"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Games"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
 
-        <!-- Buttons -->
-        <Button
-            android:id="@+id/btnViewGames"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="View Games"
-            android:textSize="18sp"
-            android:backgroundTint="#5E4DB2"
-            android:layout_marginBottom="16dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGames"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/btnSchedule"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="View Schedule"
-            android:textSize="18sp"
-            android:backgroundTint="#5E4DB2"
-            android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:id="@+id/btnStandings"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="View Standings"
-            android:textSize="18sp"
-            android:backgroundTint="#5E4DB2"
-            android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:id="@+id/btnHistory"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Game History"
-            android:textSize="18sp"
-            android:backgroundTint="#5E4DB2"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

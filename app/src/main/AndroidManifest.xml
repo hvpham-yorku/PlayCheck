@@ -63,6 +63,9 @@
             android:name=".activityfiles.GameActivity"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.RefereeHomeActivity"
+            android:exported="false" />
 
     </application>
 

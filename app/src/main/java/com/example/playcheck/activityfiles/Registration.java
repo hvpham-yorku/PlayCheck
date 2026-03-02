@@ -115,7 +115,7 @@ public class Registration extends AppCompatActivity {
 
                 case "Player":
                     Log.d("Registration", "Player selected");
-                    nextIntent = new Intent(this, PlayerActivity.class);
+                    nextIntent = new Intent(this, PlayerHomeActivity.class);
                     break;
 
                 case "Organizer":

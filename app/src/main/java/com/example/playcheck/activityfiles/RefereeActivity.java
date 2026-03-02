@@ -113,8 +113,8 @@ public class RefereeActivity extends AppCompatActivity {
 
 
             // Navigate to next page
-            Log.d("tag", "Attempting to navigate to MainActivity");
-            Intent goToNextPage = new Intent(this, MainActivity.class);
+            Log.d("tag", "Attempting to navigate to RefereeHomeActivity");
+            Intent goToNextPage = new Intent(this, RefereeHomeActivity.class);
             startActivity(goToNextPage);
             Log.d("tag", "Navigation intent sent");
             Toast.makeText(RefereeActivity.this,"Account created.",Toast.LENGTH_SHORT).show();
