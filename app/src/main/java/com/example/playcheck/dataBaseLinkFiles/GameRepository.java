@@ -1,4 +1,4 @@
-package com.example.playcheck;
+package com.example.playcheck.dataBaseLinkFiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -27,7 +27,7 @@
             android:name=".activityfiles.PlayerHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".GameDetailsActivity"
+            android:name=".activityfiles.GameDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Registration"

@@ -5,6 +5,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+import com.example.playcheck.dataBaseLinkFiles.GameRepository;
+
 public class GameRepositoryTest {
 
     @Test
