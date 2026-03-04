@@ -15,9 +15,8 @@ public class Referee extends User {
         this.schedule = new ArrayList<>();
     }
 
-    public Referee(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+    public Referee( String firstName, String lastName, String gender, LocalDate dateOfBirth) {
         this();
-        super.setUserId(userId);
         super.setName(firstName, lastName);
         super.setGender(gender);
         super.setDateOfBirth(dateOfBirth);

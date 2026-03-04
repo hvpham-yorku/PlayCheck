@@ -1,4 +1,10 @@
 package com.example.playcheck.dataBaseLinkFiles;
 
-public class PlayerLinkToDatabase {
+import com.example.playcheck.puremodel.Player;
+import com.example.playcheck.puremodel.User;
+
+public class PlayerLinkToDatabase extends UserLinkToDatabase{
+    PlayerLinkToDatabase(Player thePlayer) {
+        super(thePlayer);
+    }
 }
