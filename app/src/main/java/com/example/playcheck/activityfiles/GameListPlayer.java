@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /*
 The GameListPlayer class creates the Game List page.
  */
-
+// TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the GameLinkToDatabase
 public class GameListPlayer extends AppCompatActivity {
 
 

@@ -30,6 +30,7 @@ public class OrganizerActivity extends AppCompatActivity {
     EditText firstNameTextField, lastNameTextField, dateOfBirthTextField, userNameTextField;
     EditText teamNameTextField, leagueNameTextField; // NEW
 
+    // TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the OrganizerLinkToDatabase
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
