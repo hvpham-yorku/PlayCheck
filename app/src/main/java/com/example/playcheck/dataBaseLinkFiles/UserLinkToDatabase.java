@@ -1,11 +1,17 @@
 package com.example.playcheck.dataBaseLinkFiles;
 
+import androidx.annotation.NonNull;
+
+import com.example.playcheck.puremodel.Organizer;
 import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -124,13 +130,106 @@ myRef.addValueEventListener(object: ValueEventListener {
 
     /*
 
-    Function: Often returns the saved entity with its generated ID.
+   -Function: Often returns the saved entity with its generated ID.
+   -This can be used in a profile Activity class like this:
 
-     */
-    public String getUser(){
+  protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
-        return theUser.getUid();
+        TextView nameText = findViewById(R.id.name_text);
+        TextView emailText = findViewById(R.id.email_text);
+
+        // Call the method with callback
+        getCurrentUserProfile(new UserProfileCallback() {
+            @Override
+            public void onUserProfileLoaded(User user) {
+                // This runs when data is loaded - NOW you can use the user!
+                runOnUiThread(() -> {
+                    nameText.setText(user.getFirstName() + " " + user.getLastName());
+                    emailText.setText(user.getEmail());
+                });
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                runOnUiThread(() -> {
+                    Toast.makeText(ProfileActivity.this,
+                        "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+
+        // ❌ DON'T try to use user here - it hasn't loaded yet!
     }
+}
+     */
+
+    public interface UserProfileCallback {
+        void onUserProfileLoaded(User user);
+        void onError(String errorMessage);
+    }
+    public static void getCurrentUserProfile(UserProfileCallback callback) {
+        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+
+        // Since we don't know the account type, we need to search
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot accountTypeSnapshot : snapshot.getChildren()) {
+                    User user = null;
+                    // Check if this account type contains our UID
+                    if (accountTypeSnapshot.hasChild(currentUid)) {
+                        String accountType = accountTypeSnapshot.getKey(); // "Player", "Organizer", etc.
+                        DataSnapshot userSnapshot = accountTypeSnapshot.child(currentUid).child("profile");
+
+                        // Get user data
+                        String firstName = userSnapshot.child("firstName").getValue(String.class);
+                        String lastName = userSnapshot.child("lastName").getValue(String.class);
+                        String email = userSnapshot.child("email").getValue(String.class);
+                        String dob = userSnapshot.child("dob").getValue(String.class);
+                        String gender = userSnapshot.child("gender").getValue(String.class);
+
+                        // Create user object or handle the data
+                        if(accountType.equals("Referee")){
+
+                             user = new Referee(firstName, lastName, email, dob,gender);
+
+                        } else if (accountType.equals("Player")) {
+
+                             user = new Player(firstName, lastName, email, dob, gender);
+
+                        } else {
+
+                             user = new Organizer(firstName, lastName, email, dob, gender);
+
+                        }
+                        // Send user back through callback
+                        callback.onUserProfileLoaded(user);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle error
+                callback.onError(error.getMessage());
+            }
+        });
+    }
+
+
+    public void getAllPlayers(){
+
+    }
+
+
+    public void getUserByUid(String uid, final UserCallback callback){
+
+    }
+
 
     /*
     Optional Function
@@ -140,7 +239,7 @@ myRef.addValueEventListener(object: ValueEventListener {
     LinkToDatabase classes
 
      */
-    private void update(){
+    private void updatePassword(){
 
     }
 

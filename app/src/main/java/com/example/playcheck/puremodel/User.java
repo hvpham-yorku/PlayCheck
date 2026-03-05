@@ -14,10 +14,24 @@ public abstract class User {
     private String password;
     private String uid;
 
+
+    public User() {
+
+    }
+
     User(String email, String password){
         this.email = email;
         this.password = password;
         this.uid = null;
+    }
+
+
+    User(String firstName,String lastName, String email, String dob, String gender){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        setDateOfBirth(LocalDate.parse(dob));
+        this.gender = gender;
     }
 
 
@@ -68,6 +82,7 @@ public abstract class User {
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
 
     public String getGender() {
         return gender;

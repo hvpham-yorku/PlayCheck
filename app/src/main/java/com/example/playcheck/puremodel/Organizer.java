@@ -14,13 +14,17 @@ public class Organizer extends User {
     private String leagueName;
 
     public Organizer() {
+        super();
         this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
         this.schedule = new ArrayList<>();
     }
 
+    public Organizer(String firstName,String lastName, String email, String dob){
+        super(firstName,lastName,email,dob);
+    }
+
     public Organizer(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
         this();
-        super.setUserId(userId);
         super.setName(firstName, lastName);
         super.setGender(gender);
         super.setDateOfBirth(dateOfBirth);

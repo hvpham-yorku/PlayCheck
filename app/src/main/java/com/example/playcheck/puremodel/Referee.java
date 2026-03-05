@@ -22,6 +22,13 @@ public class Referee extends User {
         super.setDateOfBirth(dateOfBirth);
     }
 
+    public Referee( String firstName, String lastName, String email, String dateOfBirth, String gender){
+        super(firstName,lastName,email,dateOfBirth, gender);
+        this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
+        this.schedule = new ArrayList<>();
+    }
+
+
     public List<LocalDate> getGameDatesAvailability() {
         return gameDateAvailabilityDates;
     }
