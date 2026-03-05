@@ -11,6 +11,7 @@ public class Referee extends User {
     private List<Game> schedule;
 
     public Referee() {
+        super(null, null);
         this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
         this.schedule = new ArrayList<>();
     }

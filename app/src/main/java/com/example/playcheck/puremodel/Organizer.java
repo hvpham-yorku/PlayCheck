@@ -3,6 +3,7 @@ package com.example.playcheck.puremodel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.playcheck.puremodel.User;
 
 
 public class Organizer extends User {
@@ -14,13 +15,14 @@ public class Organizer extends User {
     private String leagueName;
 
     public Organizer() {
+        super(null, null);
         this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
         this.schedule = new ArrayList<>();
     }
 
     public Organizer(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
         this();
-        super.setUserId(userId);
+        super.setUid(userId);
         super.setName(firstName, lastName);
         super.setGender(gender);
         super.setDateOfBirth(dateOfBirth);
