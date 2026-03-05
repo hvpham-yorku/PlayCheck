@@ -105,22 +105,16 @@ public class ProfileSetup extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for that account type
-                        Intent nextIntent;
-                        switch (accountType) {
-                            case "Referee":
-                                nextIntent = new Intent(this, RefereeActivity.class);
-                                break;
-                            case "Player":
-                                nextIntent = new Intent(this, PlayerHomeActivity.class);
-                                break;
-                            case "Organizer":
-                                nextIntent = new Intent(this, OrganizerActivity.class);
-                                break;
-
-                            default:
-                                nextIntent = new Intent(this, Registration.class);
+                        if (accountType.equals("Organizer")) {
+                            startActivity(new Intent(this, OrganizerDashboardActivity.class));
                         }
-                        startActivity(nextIntent);
+                        else if (accountType.equals("Player")) {
+                            startActivity(new Intent(this, PlayerHomeActivity.class));
+                        }
+                        else if (accountType.equals("Referee")) {
+                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                        }
+
                         finish();
                     })
                     .addOnFailureListener(e ->

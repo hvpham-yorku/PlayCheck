@@ -39,7 +39,7 @@ public class Registration extends AppCompatActivity {
     String email,password,accountType;
 
 
-    // TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the UserLinkToDatabase
+
     @Override
     public void onStart() {super.onStart();}
 

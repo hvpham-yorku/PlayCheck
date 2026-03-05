@@ -40,10 +40,20 @@ public class Game {
         return gameDate;
     }
 
-    public String getGameDateLongtoString(long gameDate){ //converts game date from long (datetime in milliseconds)-> LocalDateTime -> String
-        LocalDateTime dateAsString = LocalDateTime.ofInstant(Instant.ofEpochMilli(gameDate), ZoneId.systemDefault()); //convert to LocalDateTime (EST) by timestamping an instance on the timeline
-        DateTimeFormatter gameDateFormat = DateTimeFormatter.ofPattern("h:mm a - MMM dd yyy");
-        return dateAsString.format(gameDateFormat);
+
+    public String getGameDateLongtoString(long gameDate){
+        try {
+            LocalDateTime dateAsString = LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(gameDate),
+                    ZoneId.systemDefault());
+
+            DateTimeFormatter format =
+                    DateTimeFormatter.ofPattern("h:mm a - MMM dd yyyy");
+
+            return dateAsString.format(format);
+        } catch (Exception e) {
+            return "Invalid Date";
+        }
     }
 
     public String getGameVenue() {
