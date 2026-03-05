@@ -3,7 +3,10 @@ package com.example.playcheck.dataBaseLinkFiles;
 import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,6 +56,47 @@ myRef.addValueEventListener(object: ValueEventListener {
     }
 
 
+    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String uid = currentUser.getUid();
+
+        DatabaseReference playerRef = database.getReference("users")
+                .child("Player")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        DatabaseReference organizerRef = database.getReference("users")
+                .child("Organizer")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        DatabaseReference refereeRef = database.getReference("users")
+                .child("Referee")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        return playerRef.get().continueWithTask(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                return Tasks.forResult(task.getResult().getValue(String.class));
+            }
+
+            return organizerRef.get().continueWithTask(task2 -> {
+                if (task2.isSuccessful() && task2.getResult().exists()) {
+                    return Tasks.forResult(task2.getResult().getValue(String.class));
+                }
+
+                return refereeRef.get().continueWith(task3 -> {
+                    if (task3.isSuccessful() && task3.getResult().exists()) {
+                        return task3.getResult().getValue(String.class);
+                    }
+                    return null;
+                });
+            });
+        });
+    }
     //-------------------------------------------------------------------------------------------
   /*  1. Core CRUD Operations
     These are the fundamental building blocks of any persistence class.

@@ -27,7 +27,7 @@
             android:name=".activityfiles.PlayerHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.GameDetailsActivity"
+            android:name=".GameDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Registration"
@@ -44,7 +44,7 @@
             android:name=".activityfiles.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.GameListPlayer"
+            android:name=".activityfiles.GameList"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity

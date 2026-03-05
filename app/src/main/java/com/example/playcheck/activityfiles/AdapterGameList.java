@@ -20,11 +20,11 @@ import java.util.ArrayList;
 The AdapterGameListPlayer class is used to bind game information called from the Games class ArrayList to single_game_view layout.
  */
 
-public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListPlayer.ViewHolder> {
+public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHolder> {
     Context context;
     ArrayList<Game> list; //contains information about all the games from Firebase
 
-    public AdapterGameListPlayer(Context context, ArrayList<Game> list) {
+    public AdapterGameList(Context context, ArrayList<Game> list) {
         this.context = context;
         this.list = list;
     }
@@ -39,7 +39,8 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) { //Replaces the contents of ViewHolder's views with data
         Game game = list.get(position);
-        holder.gameName.setText(game.getGameName());
+        holder.teamA.setText(game.getTeamA());
+        holder.teamB.setText(game.getTeamB());
         holder.gameDate.setText(game.getGameDateLongtoString(game.getGameDate()));
         holder.gameVenue.setText(game.getGameVenue());
         holder.gameType.setText(game.getGameType());
@@ -52,12 +53,13 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
     } //# of games in the ArrayList of Games
 
     public static class ViewHolder extends RecyclerView.ViewHolder{ // contains references to a ViewHolder
-        TextView gameName, gameDate, gameVenue, gameType;
+        TextView gameName, gameDate, gameVenue, gameType, teamA, teamB;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // Connect the Java variables to the XML IDs
-            gameName = itemView.findViewById(R.id.gameName);
+            teamA = itemView.findViewById(R.id.teamA);
+            teamB = itemView.findViewById(R.id.teamB);
             gameDate = itemView.findViewById(R.id.gameDate);
             gameVenue = itemView.findViewById(R.id.gameVenue);
             gameType = itemView.findViewById(R.id.gameType);

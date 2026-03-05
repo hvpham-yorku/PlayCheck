@@ -99,7 +99,7 @@ public class GameSchedule extends AppCompatActivity {
                     if (game != null) {
                         allGames.add(game);
                         // DEBUG: Print each game
-                        System.out.println("Loaded game: " + game.getGameName());
+                        System.out.println("Loaded game: " + game.getTeamA() + "vs. " + game.getTeamB());
                     }
                 }
 
@@ -184,7 +184,7 @@ public class GameSchedule extends AppCompatActivity {
         TextView txtGameTime = cardView.findViewById(R.id.txtGameTime);
         TextView txtGameVenue = cardView.findViewById(R.id.txtGameVenue);
 
-        txtGameName.setText(game.getGameName());
+        txtGameName.setText(game.getTeamA() + "vs. " + game.getTeamB());
 
         // Extract just the time from the full date string
         String fullDate = game.getGameDateLongtoString(game.getGameDate());
@@ -196,7 +196,7 @@ public class GameSchedule extends AppCompatActivity {
         // Make card clickable for future detail view
         cardView.setOnClickListener(v -> {
             // TODO: Navigate to detailed game page (your teammate's work)
-            Toast.makeText(this, "Clicked: " + game.getGameName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Clicked: " + game.getTeamA() + "vs. " + game.getTeamB(), Toast.LENGTH_SHORT).show();
         });
 
         return cardView;
@@ -221,7 +221,7 @@ public class GameSchedule extends AppCompatActivity {
 
             if (selectedDateString.equals(gameDateString)) {
                 gamesOnDate.add(game);
-                System.out.println("MATCH: " + game.getGameName() + " on " + gameDateString);
+                System.out.println("MATCH: " + game.getTeamA() + "vs. " + game.getTeamB() + " on " + gameDateString);
             }
         }
 
