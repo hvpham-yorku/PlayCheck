@@ -8,4 +8,9 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase{
         super(theReferee);
 
     }
+
+
+    private void update(){
+
+    }
 }

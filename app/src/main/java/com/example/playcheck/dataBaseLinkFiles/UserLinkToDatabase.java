@@ -132,13 +132,28 @@ myRef.addValueEventListener(object: ValueEventListener {
         return theUser.getUid();
     }
 
+    /*
+    Optional Function
+    -This function could be worked on if THERE IS A NEED to change something like Gender for a user
+    in the database
+    -The changes to other fields in regard to the specific account types will be in their specific
+    LinkToDatabase classes
 
-    public void update(){
+     */
+    private void update(){
 
     }
 
 
-   public void delete(String userID){
+    /*
+
+    Function: Deletion of a User completely from the database as a whole
+
+     */
+   public void delete(String uid){
+
+       userRef.removeValue();
+
 
    }
 
@@ -166,73 +181,56 @@ myRef.addValueEventListener(object: ValueEventListener {
     To improve performance and reduce database round-trips.
     Persists multiple records in a single batch.
      */
-    public void saveAll(List<User> users){
-
+ /*  public void saveAll(List<User> users){
 
     }
 
 
-    /*
+
     Deletes multiple records efficiently.
-     */
     public void deleteAll(List<User> users){
 
-
     }
 
-    /*
+
     Updates a collection of entities.
-     */
     public void updateAll(List<User> users){
 
     }
 
 
-//
-//    3. Query Methods / Finder Methods
-//    Since you rarely just retrieve by ID, you need methods to find entities based on specific business criteria.
-//
-//            findBy[Attribute](value)
-//
-//    e.g., findByEmail(String email) or findByStatus(Status status).
-//
-//    findBy[Attribute]Containing / findBy[Attribute]Like
-//
-//    For text searches (e.g., findByNameContaining(String searchTerm)).
-//
-//    findBy[Attribute]Between
-//
-//    For date or numeric ranges.
-//
-//            findAllBy[Criteria](...args)
-//
-//    Generic methods to return lists based on complex criteria.
 
+    3. Query Methods / Finder Methods
+    Since you rarely just retrieve by ID, you need methods to find entities based on specific business criteria.
 
+            findBy[Attribute](value)
 
+    e.g., findByEmail(String email) or findByStatus(Status status).
 
+    findBy[Attribute]Containing / findBy[Attribute]Like
 
+    For text searches (e.g., findByNameContaining(String searchTerm)).
 
+    findBy[Attribute]Between
 
+    For date or numeric ranges.
 
+            findAllBy[Criteria](...args)
 
+    Generic methods to return lists based on complex criteria.
 
 
 
 
 
+    4. Count Operations
+    count()
 
+    Returns the total number of records.
 
+    countBy[Attribute](value)
 
-//
-//    4. Count Operations
-//    count()
-//
-//    Returns the total number of records.
-//
-//    countBy[Attribute](value)
-//
-//    Returns the count of records matching a specific condition.
+    Returns the count of records matching a specific condition.
 
 
 
@@ -244,22 +242,17 @@ myRef.addValueEventListener(object: ValueEventListener {
 
 
 
-//
-//    5. Sorting and Pagination
-//    Essential for API performance and UI display.
-//
-//            findAll(sort)
-//
-//    Returns all records sorted by specific fields (ASC/DESC).
-//
-//    findAll(pageable)
-//
-//    Returns a slice/page of data rather than the whole table. This usually returns a Page object containing the data and metadata (total pages, current page).
 
+    5. Sorting and Pagination
+    Essential for API performance and UI display.
 
+            findAll(sort)
 
+    Returns all records sorted by specific fields (ASC/DESC).
 
+    findAll(pageable)
 
+    Returns a slice/page of data rather than the whole table. This usually returns a Page object containing the data and metadata (total pages, current page).
 
 
 
@@ -268,25 +261,18 @@ myRef.addValueEventListener(object: ValueEventListener {
 
 
 
-//
-//    6. Transaction Management
-//    While often handled by annotations (@Transactional), the functions themselves define the transactional boundaries.
-//
-//    executeWithinTransaction(callback)
-//
-//    A function that ensures a block of code runs within a database transaction (Commit/Rollback).
 
 
 
 
 
 
+    6. Transaction Management
+    While often handled by annotations (@Transactional), the functions themselves define the transactional boundaries.
 
+    executeWithinTransaction(callback)
 
-//    7. Relationship/Lazy Loading Handling
-//    findByIdWithAssociations(id)
-//
-//    Explicit methods to fetch an entity along with its related data (e.g., findUserWithOrders(id)) to avoid lazy loading exceptions when the session is closed.
+    A function that ensures a block of code runs within a database transaction (Commit/Rollback).
 
 
 
@@ -295,25 +281,35 @@ myRef.addValueEventListener(object: ValueEventListener {
 
 
 
+    7. Relationship/Lazy Loading Handling
+    findByIdWithAssociations(id)
 
+    Explicit methods to fetch an entity along with its related data (e.g., findUserWithOrders(id)) to avoid lazy loading exceptions when the session is closed.
 
 
-//
-//    8. Query Execution (Custom/SQL)
-//    For complex operations that cannot be done via simple method naming.
-//
-//            executeNativeQuery(sql, params)
-//
-//    A method to run raw SQL.
-//
-//    executeStoredProcedure(procedureName, params)
-//
-//    A method to call database-stored procedures.
 
 
 
 
 
+
+
+
+
+
+    8. Query Execution (Custom/SQL)
+    For complex operations that cannot be done via simple method naming.
+
+            executeNativeQuery(sql, params)
+
+    A method to run raw SQL.
+
+    executeStoredProcedure(procedureName, params)
+
+    A method to call database-stored procedures.
+
+
+  */
 
 
 }
