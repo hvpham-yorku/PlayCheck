@@ -19,8 +19,8 @@ public class Organizer extends User {
         this.schedule = new ArrayList<>();
     }
 
-    public Organizer(String firstName,String lastName, String email, String dob){
-        super(firstName,lastName,email,dob);
+    public Organizer(String firstName,String lastName, String email, String dob, String gender){
+        super(firstName,lastName,email,dob, gender);
     }
 
     public Organizer(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {

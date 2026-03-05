@@ -226,7 +226,7 @@ myRef.addValueEventListener(object: ValueEventListener {
     }
 
 
-    public void getUserByUid(String uid, final UserCallback callback){
+    public void getUserByUid(String uid){
 
     }
 
