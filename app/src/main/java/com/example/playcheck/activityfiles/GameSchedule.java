@@ -1,6 +1,7 @@
 package com.example.playcheck.activityfiles;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.playcheck.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
 import com.google.firebase.database.DataSnapshot;
@@ -97,7 +99,7 @@ public class GameSchedule extends AppCompatActivity {
                     if (game != null) {
                         allGames.add(game);
                         // DEBUG: Print each game
-                        System.out.println("Loaded game: " + game.getGameName());
+                        System.out.println("Loaded game: " + game.getTeamA() + " vs " + game.getTeamB());
                     }
                 }
 
@@ -175,14 +177,14 @@ public class GameSchedule extends AppCompatActivity {
      */
     private View createGameCard(Game game) {
         // Inflate the card layout
-        View cardView = getLayoutInflater().inflate(R.layout.item_game_schedule, null);
+        View cardView = getLayoutInflater().inflate(R.layout.item_game_schedule, null, false);
 
         // Set the game data
         TextView txtGameName = cardView.findViewById(R.id.txtGameName);
         TextView txtGameTime = cardView.findViewById(R.id.txtGameTime);
         TextView txtGameVenue = cardView.findViewById(R.id.txtGameVenue);
 
-        txtGameName.setText(game.getGameName());
+        txtGameName.setText(game.getTeamA() + " vs " + game.getTeamB());
 
         // Extract just the time from the full date string
         String fullDate = game.getGameDateLongtoString(game.getGameDate());
@@ -194,7 +196,14 @@ public class GameSchedule extends AppCompatActivity {
         // Make card clickable for future detail view
         cardView.setOnClickListener(v -> {
             // TODO: Navigate to detailed game page (your teammate's work)
-            Toast.makeText(this, "Clicked: " + game.getGameName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, GameDetailsActivity.class);
+
+            intent.putExtra("gameName", game.getTeamA() + " vs " + game.getTeamB());
+            intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
+            intent.putExtra("location", game.getGameVenue());
+            intent.putExtra("gameType", game.getGameType());
+
+            startActivity(intent);
         });
 
         return cardView;
@@ -219,7 +228,7 @@ public class GameSchedule extends AppCompatActivity {
 
             if (selectedDateString.equals(gameDateString)) {
                 gamesOnDate.add(game);
-                System.out.println("MATCH: " + game.getGameName() + " on " + gameDateString);
+                System.out.println("MATCH: " + game.getTeamA() +  " vs " + game.getTeamB() + " on " + gameDateString);
             }
         }
 

@@ -1,6 +1,7 @@
 package com.example.playcheck.activityfiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.playcheck.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
 
@@ -39,10 +41,42 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) { //Replaces the contents of ViewHolder's views with data
         Game game = list.get(position);
-        holder.gameName.setText(game.getGameName());
-        holder.gameDate.setText(game.getGameDateLongtoString(game.getGameDate()));
-        holder.gameVenue.setText(game.getGameVenue());
-        holder.gameType.setText(game.getGameType());
+
+        if (game==null) {
+            return;
+        }
+
+        if (holder.gameName != null) {
+            holder.gameName.setText(game.getTeamA() + " vs " + game.getTeamB());
+        }
+        if (holder.gameDate != null) {
+            holder.gameDate.setText(game.getGameDateLongtoString(game.getGameDate()));
+        }
+        if (holder.gameVenue != null) {
+            holder.gameVenue.setText(game.getGameVenue());
+        }
+
+        if (holder.card != null) {
+            holder.card.setOnClickListener(v -> {
+
+                Intent intent = new Intent(v.getContext(), GameDetailsActivity.class);
+
+                intent.putExtra("gameName", game.getTeamA() + " vs " + game.getTeamB());
+                intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
+                intent.putExtra("location", game.getGameVenue());
+                intent.putExtra("gameType", game.getGameType());
+                intent.putExtra("gameId", game.getGameDate());
+
+// temporary demo data
+                intent.putExtra("score", "3 - 2");
+                intent.putExtra("teamAPlayers", "Mike\nTom\nSam");
+                intent.putExtra("teamBPlayers", "Alex\nJake\nChris");
+                intent.putExtra("referee", "John Smith");
+                intent.putExtra("sportsmanship", "Team A: 4.5 | Team B: 4.2");
+
+                v.getContext().startActivity(intent);
+            });
+        }
 
     }
 
@@ -53,10 +87,12 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
 
     public static class ViewHolder extends RecyclerView.ViewHolder{ // contains references to a ViewHolder
         TextView gameName, gameDate, gameVenue, gameType;
+        View card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // Connect the Java variables to the XML IDs
+            card = itemView.findViewById(R.id.singlegame);
             gameName = itemView.findViewById(R.id.gameName);
             gameDate = itemView.findViewById(R.id.gameDate);
             gameVenue = itemView.findViewById(R.id.gameVenue);

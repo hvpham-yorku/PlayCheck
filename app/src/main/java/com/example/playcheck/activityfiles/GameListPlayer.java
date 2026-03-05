@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,9 +96,14 @@ public class GameListPlayer extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated
                 games.clear(); //clear list before updating it again
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+
                     Game info = dataSnapshot.getValue(Game.class);
-                    games.add(info);
+
+                    if (info != null) {
+                        games.add(info);
+                    }
+
                 }
                 adapter.notifyDataSetChanged(); //Tells the recycler view to update with new game list
             }

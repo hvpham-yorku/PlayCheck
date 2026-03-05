@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.example.playcheck.activityfiles.OrganizerDashboardActivity;
 
 public class ProfileSetup extends AppCompatActivity {
 
@@ -105,7 +106,16 @@ public class ProfileSetup extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for players
-                        startActivity(new Intent(this, PlayerHomeActivity.class));
+                        if (accountType.equals("Organizer")) {
+                            startActivity(new Intent(this, OrganizerDashboardActivity.class));
+                        }
+                        else if (accountType.equals("Player")) {
+                            startActivity(new Intent(this, PlayerHomeActivity.class));
+                        }
+                        else if (accountType.equals("Referee")) {
+                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                        }
+
                         finish();
                     })
                     .addOnFailureListener(e ->
