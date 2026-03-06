@@ -1,6 +1,7 @@
 package com.example.playcheck.puremodel;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -60,5 +61,52 @@ public class Game {
 
     public void setGameType(String gameType){
         this.gameType = gameType;
+    }
+
+    // TODO: 2026-03-05 Work on this function that is used in the RefereeLinkToDatabase 
+    public String getGameId() {
+        String s = "";
+        
+        return s;
+    }
+
+    // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
+    public void setGameId(String gameId) {
+    }
+
+    // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
+    public String getEventId() {
+        String s = "";
+        return s;
+    }
+
+    // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
+    public String getTeam1Id() {
+        String s = "";
+        return s;
+    }
+
+    // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
+    public String getTeam2Id() {
+        String s = "";
+        return s;
+    }
+
+    // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
+    public String getRefereeId() {
+        String s = "";
+        return s;
+    }
+
+
+    // TODO: 2026-03-05 Work on this as it is used in Referee class
+    public LocalDate getDate() {
+        if (this.gameDate <= 0) {
+            return null;
+        }
+
+        return Instant.ofEpochMilli(this.gameDate)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 }

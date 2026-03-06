@@ -14,4 +14,18 @@ public class Team {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+
+
+    // TODO: 2026-03-05  work on this function that is used in PlayerLinkToDatabase class 
+    public void setTeamId(String teamId) {
+        
+    }
+
+
+    // TODO: 2026-03-05 work on this as it used in the player class
+    public String getTeamId() {
+        String s = "";
+
+        return s;
+    }
 }
