@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
+import com.example.playcheck.R;
 
 import com.example.playcheck.activityfiles.RefereeReportActivity;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +28,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_game_details);
 
-        TextView teamText = findViewById(R.id.teamText);
+        TextView teamAText = findViewById(R.id.teamA);
+        TextView teamBText = findViewById(R.id.teamB);
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
@@ -50,7 +52,8 @@ public class GameDetailsActivity extends AppCompatActivity {
 // Get data from Intent
         Intent intent = getIntent();
 
-        String gameName = intent.getStringExtra("gameName");
+        String teamA = intent.getStringExtra("teamA");
+        String teamB = intent.getStringExtra("teamB");
         String date = intent.getStringExtra("date");
         String location = intent.getStringExtra("location");
         String score = intent.getStringExtra("score");
@@ -59,7 +62,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         String referee = intent.getStringExtra("referee");
 
 // Set UI
-        teamText.setText(gameName);
+        teamAText.setText(teamA);
+        teamBText.setText(teamB);
         dateText.setText("Date: " + date);
         locationText.setText("Location: " + location);
         scoreText.setText("Score: " + score);

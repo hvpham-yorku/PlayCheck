@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
 import com.example.playcheck.activityfiles.CreateGameActivity;
-import com.example.playcheck.activityfiles.GameListPlayer;
+import com.example.playcheck.activityfiles.GameList;
 
 public class OrganizerDashboardActivity extends AppCompatActivity {
 
@@ -24,6 +24,6 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CreateGameActivity.class)));
 
         viewGames.setOnClickListener(v ->
-                startActivity(new Intent(this, GameListPlayer.class)));
+                startActivity(new Intent(this, GameList.class)));
     }
 }

@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
                         return;
                     }
                     if (accountType.equals("Referee")){
-                        nextIntent = new Intent(this, RefereeActivity.class);
+                        nextIntent = new Intent(this, RefereeHomeActivity.class);
                         startActivity(nextIntent);
                         finish();
                     } else if (accountType.equals("Player")){

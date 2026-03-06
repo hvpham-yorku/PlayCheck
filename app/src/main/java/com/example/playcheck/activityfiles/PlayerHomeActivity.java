@@ -22,7 +22,7 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerPreview;
     private ArrayList<Game> previewGames;
-    private AdapterGameListPlayer previewAdapter;
+    private AdapterGameList previewAdapter;
     private DatabaseReference gamesRef;
 
     @Override
@@ -32,12 +32,13 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
         Button btnViewGames = findViewById(R.id.btnPlayerViewGames);
         Button btnSchedule = findViewById(R.id.btnPlayerSchedule);
+        Button btnCreateTeam = findViewById(R.id.btnMakeTeam);
 
         recyclerPreview = findViewById(R.id.recyclerPreview);
         recyclerPreview.setLayoutManager(new LinearLayoutManager(this));
 
         previewGames = new ArrayList<>();
-        previewAdapter = new AdapterGameListPlayer(this, previewGames);
+        previewAdapter = new AdapterGameList(this, previewGames);
         recyclerPreview.setAdapter(previewAdapter);
 
         // Button opens FULL game list page
@@ -48,6 +49,11 @@ public class PlayerHomeActivity extends AppCompatActivity {
         // Button opens schedule page
         btnSchedule.setOnClickListener(v -> {
             startActivity(new Intent(this, GameSchedule.class));
+        });
+
+        // Button opens create game page
+        btnCreateTeam.setOnClickListener(v -> {
+            startActivity(new Intent(this, CreateGame.class));
         });
 
         // Load preview: upcoming games only (limit to like 3)

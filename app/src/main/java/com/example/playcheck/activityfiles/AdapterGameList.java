@@ -22,11 +22,12 @@ import java.util.ArrayList;
 The AdapterGameListPlayer class is used to bind game information called from the Games class ArrayList to single_game_view layout.
  */
 
-public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListPlayer.ViewHolder> {
+public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHolder> {
     Context context;
     ArrayList<Game> list; //contains information about all the games from Firebase
 
-    public AdapterGameListPlayer(Context context, ArrayList<Game> list) {
+
+    public AdapterGameList(Context context, ArrayList<Game> list) {
         this.context = context;
         this.list = list;
     }
@@ -66,7 +67,8 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
 
                 Intent intent = new Intent(v.getContext(), GameDetailsActivity.class);
 
-                intent.putExtra("gameName", game.getTeamA() + " vs " + game.getTeamB());
+                intent.putExtra("teamA", game.getTeamA());
+                intent.putExtra("teamB", game.getTeamB());
                 intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
                 intent.putExtra("location", game.getGameVenue());
                 intent.putExtra("gameType", game.getGameType());
@@ -92,6 +94,7 @@ public class AdapterGameListPlayer extends RecyclerView.Adapter<AdapterGameListP
 
     public static class ViewHolder extends RecyclerView.ViewHolder{ // contains references to a ViewHolder
         TextView gameName, gameDate, gameVenue, gameType, teamA, teamB;
+        View card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

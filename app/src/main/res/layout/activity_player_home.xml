@@ -35,11 +35,19 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:text="View Schedule"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnMakeTeam"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Create Team"
         android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Upcoming (preview)"
         android:textSize="18sp"
         android:textStyle="bold"
