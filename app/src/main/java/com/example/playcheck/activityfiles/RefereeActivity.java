@@ -108,7 +108,7 @@ public class RefereeActivity extends AppCompatActivity {
             Log.d("tag", "DOB set successfully: " + dob);
 
             // Set username
-            theReferee.setUserId(fuserName);
+            theReferee.setUsername(fuserName);
             Log.d("tag", "Username set successfully");
 
 
