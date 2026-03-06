@@ -1,0 +1,17 @@
+content_assist_completion_replacement_background=200,200,0
+content_assist_completion_replacement_foreground=200,0,0
+eclipse.preferences.version=1
+fontPropagated=true
+javaScriptOccurrenceIndicationColor=18,79,120
+org.eclipse.wst.jsdt.ui.editor.tab.width=
+org.eclipse.wst.jsdt.ui.formatterprofiles.version=11
+org.eclipse.wst.jsdt.ui.javadoclocations.migrated=true
+proposalOrderMigrated=true
+semanticHighlighting.deprecatedMember.color=171,31,54
+semanticHighlighting.parameterVariable.color=121,171,255
+semanticHighlighting.parameterVariable.enabled=true
+sourceHoverBackgroundColor=68,68,68
+sourceHoverBackgroundColor.SystemDefault=false
+tabWidthPropagated=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true

@@ -105,7 +105,7 @@ public class ProfileSetup extends AppCompatActivity {
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for players
-                        startActivity(new Intent(this, MainActivity.class));
+                        startActivity(new Intent(this, PlayerHomeActivity.class));
                         finish();
                     })
                     .addOnFailureListener(e ->

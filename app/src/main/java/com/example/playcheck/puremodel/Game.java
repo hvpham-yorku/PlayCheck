@@ -15,9 +15,7 @@ public class Game {
 
     private String gameType;
 
-    public Game(){
-
-    }
+    public Game(){}
 
     public Game(String gameName, long gameDate, String gameVenue, String gameType) {
         this.gameName = gameName;

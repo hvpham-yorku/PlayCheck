@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Referee;
 
+
 public class RefereeTest {
 
     private Referee referee;
