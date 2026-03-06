@@ -57,7 +57,7 @@ public class PlayerLinkToDatabase extends UserLinkToDatabase {
             return null;
         }
     }
-}
+
 
     /**
      * Remove player from team

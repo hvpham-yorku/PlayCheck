@@ -8,9 +8,7 @@ import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,10 +31,6 @@ public class UserLinkToDatabase {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
-        override fun onCancelled(error: DatabaseError) {
-            Log.w(TAG, "Failed to read value.", error.toException())
-
-            */
 
     FirebaseAuth uAuth;
 

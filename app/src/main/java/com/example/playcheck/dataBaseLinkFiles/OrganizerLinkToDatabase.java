@@ -43,7 +43,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     }
 
     /* Method that returns all ids for players in the database */
-    public static void getPlayerIDs(final PlayerIdCallback callback){
+    public static void getPlayerIDs(final PlayerIdCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
         ArrayList<String> playerIds = new ArrayList<>();
 
@@ -52,10 +52,10 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 playerIds.clear();
 
-                    for (DataSnapshot idSnapshot : snapshot.getChildren()) {
-                        String playerId = idSnapshot.getKey();
-                        playerIds.add(playerId);
-                    }
+                for (DataSnapshot idSnapshot : snapshot.getChildren()) {
+                    String playerId = idSnapshot.getKey();
+                    playerIds.add(playerId);
+                }
 
                 callback.onCallback(playerIds); //return data
             }
@@ -67,7 +67,6 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         });
 
     }
-
     /* Method that returns all player names in the database */
     public static void getPlayerNames(PlayerNameCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
@@ -96,7 +95,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
             }
         });
     }
-}
+
 
     //-------------------------------------------------------------------------------------------
     // Organizer-specific Database Operations

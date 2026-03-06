@@ -126,7 +126,7 @@ public class OrganizerActivity extends AppCompatActivity {
         theOrganizer.setDateOfBirth(dob);
         Log.d(TAG, "DOB set successfully: " + dob);
 
-        theOrganizer.setUserId(userName);
+        //theOrganizer.setUserId(userName);
         Log.d(TAG, "Username set successfully");
 
         theOrganizer.setTeamName(teamName);
