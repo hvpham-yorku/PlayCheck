@@ -101,41 +101,26 @@ public class Registration extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.GONE);
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
 
-            // Navigate BASED ON ACCOUNT TYPEà
-            Intent nextIntent;
+                        progressBar.setVisibility(View.GONE);
 
-            switch (accountType) {
+                        if (task.isSuccessful()) {
 
-                case "Referee":
-                    Log.d("Registration", "Referee selected");
-                    nextIntent = new Intent(this, RefereeActivity.class);
-                    break;
+                            Intent nextIntent = new Intent(Registration.this, ProfileSetup.class);
+                            nextIntent.putExtra("accountType", accountType);
 
-                case "Player":
-                    Log.d("Registration", "Player selected");
-                    nextIntent = new Intent(this, PlayerHomeActivity.class);
-                    break;
+                            startActivity(nextIntent);
+                            finish();
 
-                case "Organizer":
-                    Log.d("Registration", "Organizer selected");
-                    nextIntent = new Intent(this, OrganizerActivity.class);
-                    break;
+                        } else {
 
-                default:
-                    nextIntent = new Intent(this, Registration.class);
-            }
-
-
-            nextIntent.putExtra("email", email);
-            nextIntent.putExtra("password", password);
-            nextIntent.putExtra("accountType", accountType);
-            progressBar.setVisibility(ProgressBar.GONE);
-
-            startActivity(nextIntent);
-            finish();
-
+                            Toast.makeText(Registration.this,
+                                    "Registration Failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
 
 
         });
