@@ -32,6 +32,8 @@ import java.util.Date;
  * Calendar-based game schedule view
  * Shows popup with game previews when date is clicked
  */
+
+// TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the GameLinkToDatabase
 public class GameSchedule extends AppCompatActivity {
 
     private CalendarView calendarView;

@@ -28,7 +28,7 @@
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
-            android:name=".GameDetailsActivity"
+            android:name=".activityfiles.GameDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Registration"

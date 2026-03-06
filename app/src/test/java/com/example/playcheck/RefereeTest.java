@@ -88,7 +88,6 @@ public class RefereeTest {
     @Test
     public void testParameterizedConstructorInitializesLists() {
         Referee ref = new Referee(
-                "1",
                 "John",
                 "Doe",
                 "Male",

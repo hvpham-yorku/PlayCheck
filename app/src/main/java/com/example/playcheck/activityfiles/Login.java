@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textView;
 
+    // TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the UserLinkToDataBase
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
