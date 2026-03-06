@@ -33,6 +33,8 @@ public class PlayerHomeActivity extends AppCompatActivity {
         Button btnViewGames = findViewById(R.id.btnPlayerViewGames);
         Button btnSchedule = findViewById(R.id.btnPlayerSchedule);
         Button btnCreateTeam = findViewById(R.id.btnMakeTeam);
+        Button btnMyTeams = findViewById(R.id.btnPlayerTeams);
+
 
         recyclerPreview = findViewById(R.id.recyclerPreview);
         recyclerPreview.setLayoutManager(new LinearLayoutManager(this));
@@ -54,6 +56,11 @@ public class PlayerHomeActivity extends AppCompatActivity {
         // Button opens create game page
         btnCreateTeam.setOnClickListener(v -> {
             startActivity(new Intent(this, CreateTeam.class));
+        });
+
+        // Button opens create game page
+        btnMyTeams.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyTeams.class));
         });
 
         // Load preview: upcoming games only (limit to like 3)
