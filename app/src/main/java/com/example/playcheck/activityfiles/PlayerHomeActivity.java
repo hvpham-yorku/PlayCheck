@@ -22,7 +22,7 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerPreview;
     private ArrayList<Game> previewGames;
-    private AdapterGameListPlayer previewAdapter;
+    private AdapterGameList previewAdapter;
     private DatabaseReference gamesRef;
 
     @Override
@@ -32,22 +32,35 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
         Button btnViewGames = findViewById(R.id.btnPlayerViewGames);
         Button btnSchedule = findViewById(R.id.btnPlayerSchedule);
+        Button btnCreateTeam = findViewById(R.id.btnMakeTeam);
+        Button btnMyTeams = findViewById(R.id.btnPlayerTeams);
+
 
         recyclerPreview = findViewById(R.id.recyclerPreview);
         recyclerPreview.setLayoutManager(new LinearLayoutManager(this));
 
         previewGames = new ArrayList<>();
-        previewAdapter = new AdapterGameListPlayer(this, previewGames);
+        previewAdapter = new AdapterGameList(this, previewGames);
         recyclerPreview.setAdapter(previewAdapter);
 
         // Button opens FULL game list page
         btnViewGames.setOnClickListener(v -> {
-            startActivity(new Intent(this, GameListPlayer.class));
+            startActivity(new Intent(this, GameList.class));
         });
 
         // Button opens schedule page
         btnSchedule.setOnClickListener(v -> {
             startActivity(new Intent(this, GameSchedule.class));
+        });
+
+        // Button opens create game page
+        btnCreateTeam.setOnClickListener(v -> {
+            startActivity(new Intent(this, CreateTeam.class));
+        });
+
+        // Button opens create game page
+        btnMyTeams.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyTeams.class));
         });
 
         // Load preview: upcoming games only (limit to like 3)

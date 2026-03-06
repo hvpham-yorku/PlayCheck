@@ -7,7 +7,10 @@ import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +33,79 @@ public class UserLinkToDatabase {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
+        override fun onCancelled(error: DatabaseError) {
+            Log.w(TAG, "Failed to read value.", error.toException())
+
+            */
+
+    FirebaseAuth uAuth;
+
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference rootRef = userRef.child("Referee");
+    DatabaseReference rootPlayerRef = userRef.child("Player");
+
+    DatabaseReference rootOrganizerRef = userRef.child("Organizer");
+//-----------------------------------------------------------------------------------------------
+
+    //The entity that updates/deletion are going to base on in the database
+    User theUser;
+    UserLinkToDatabase(User theUser){
+
+        this.theUser = theUser;
+        uAuth = FirebaseAuth.getInstance();
+    }
+
+
+    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String uid = currentUser.getUid();
+
+        DatabaseReference playerRef = database.getReference("users")
+                .child("Player")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        DatabaseReference organizerRef = database.getReference("users")
+                .child("Organizer")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        DatabaseReference refereeRef = database.getReference("users")
+                .child("Referee")
+                .child(uid)
+                .child("profile")
+                .child("accountType");
+
+        return playerRef.get().continueWithTask(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                return Tasks.forResult(task.getResult().getValue(String.class));
+            }
+
+            return organizerRef.get().continueWithTask(task2 -> {
+                if (task2.isSuccessful() && task2.getResult().exists()) {
+                    return Tasks.forResult(task2.getResult().getValue(String.class));
+                }
+
+                return refereeRef.get().continueWith(task3 -> {
+                    if (task3.isSuccessful() && task3.getResult().exists()) {
+                        return task3.getResult().getValue(String.class);
+                    }
+                    return null;
+                });
+            });
+        });
+    }
     //-------------------------------------------------------------------------------------------
-    // Authentication Operations
-    //-------------------------------------------------------------------------------------------
+  /*  1. Core CRUD Operations
+    These are the fundamental building blocks of any persistence class.
+
+    create(entity) / save(entity) / insert(entity)
+
+    Function: Persists a new record to the database.
+
+    Returns: Often returns the saved entity with its generated ID.
 
     /**
      * Creates a new user with email and password.

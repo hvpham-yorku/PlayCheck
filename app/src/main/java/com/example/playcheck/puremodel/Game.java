@@ -2,10 +2,14 @@ package com.example.playcheck.puremodel;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/*
+This class defines the information that each Game has.
+ */
 public class Game {
 
     private String teamA;
@@ -38,20 +42,10 @@ public class Game {
     public String getTeamA() {
         return teamA;
     }
-
-    public void setTeamA(String teamA) {
-        this.teamA = teamA;
-    }
-
     public String getTeamB() {
         return teamB;
     }
-
-    public void setTeamB(String teamB) {
-        this.teamB = teamB;
-    }
-
-    public long getGameDate() {
+    public long getGameDate() { //return date as a long int
         return gameDate;
     }
 
@@ -78,24 +72,29 @@ public class Game {
 
     }
 
-    public void setGameDate(long gameDate) {
-        this.gameDate = gameDate;
-    }
-
-
     public String getGameVenue() {
         return gameVenue;
+    }
+
+    public String getGameType(){
+        return gameType;
+    }
+
+    public void setTeamA(String teamA) {
+        this.teamA = teamA;
+    }
+    public void setTeamB(String teamB) {
+        this.teamB = teamB;
+    }
+    public void setGameDate(long gameDate) {
+        this.gameDate = gameDate;
     }
 
     public void setGameVenue(String gameVenue) {
         this.gameVenue = gameVenue;
     }
 
-    public String getGameType() {
-        return gameType;
-    }
-
-    public void setGameType(String gameType) {
+    public void setGameType(String gameType){
         this.gameType = gameType;
     }
 

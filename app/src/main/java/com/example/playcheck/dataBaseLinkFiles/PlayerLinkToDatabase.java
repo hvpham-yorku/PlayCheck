@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import com.example.playcheck.puremodel.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class PlayerLinkToDatabase extends UserLinkToDatabase {
 
@@ -45,6 +48,16 @@ public class PlayerLinkToDatabase extends UserLinkToDatabase {
 
         return future;
     }
+
+    public static String getCurrentUserId(FirebaseAuth mAuth) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid();
+        } else {
+            return null;
+        }
+    }
+}
 
     /**
      * Remove player from team

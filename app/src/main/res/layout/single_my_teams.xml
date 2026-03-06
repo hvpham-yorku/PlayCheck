@@ -9,7 +9,8 @@
 
     <!-- Acts as a container for a single game -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/singlegame"
+        android:id="@+id/singleTeam"
+        android:onClick="expand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -25,7 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <!-- Make list horizonal -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,49 +33,42 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <!-- Text that appears for each game -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/myTeamName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/teamA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Team A" />
+                android:text="Team Name" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" vs. " />
+                    android:text="Players: " />
 
                 <TextView
-                    android:id="@+id/teamB"
+                    android:id="@+id/numberOfPlayers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Team B" />
+                    android:text="# of Players" />
+
             </LinearLayout>
 
             <TextView
-                android:id="@+id/gameDate"
+                android:id="@+id/clickShowPlayers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Game Date and Start Hour" />
+                android:text="Click to Show Players" />
 
-            <TextView
-                android:id="@+id/gameVenue"
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Game Venue" />
-
-            <TextView
-                android:id="@+id/gameType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Game Type" />
-
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/Players">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

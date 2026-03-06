@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.GameDetailsActivity;
+import com.example.playcheck.activityfiles.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
 import com.google.firebase.database.DataSnapshot;
@@ -32,8 +32,6 @@ import java.util.Date;
  * Calendar-based game schedule view
  * Shows popup with game previews when date is clicked
  */
-
-// TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the GameLinkToDatabase
 public class GameSchedule extends AppCompatActivity {
 
     private CalendarView calendarView;
@@ -101,7 +99,7 @@ public class GameSchedule extends AppCompatActivity {
                     if (game != null) {
                         allGames.add(game);
                         // DEBUG: Print each game
-                        System.out.println("Loaded game: " + game.getTeamA() + " vs " + game.getTeamB());
+                        System.out.println("Loaded game: " + game.getTeamA() + "vs. " + game.getTeamB());
                     }
                 }
 
