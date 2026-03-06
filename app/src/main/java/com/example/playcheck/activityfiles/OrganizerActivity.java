@@ -120,7 +120,7 @@ public class OrganizerActivity extends AppCompatActivity {
             Log.d("tag", "DOB set successfully: " + dob);
 
             // Set username
-            theOrganizer.setUserId(fuserName);
+            theOrganizer.setUsername(fuserName);
             Log.d("tag", "Username set successfully");
 
             // Set team name + league name

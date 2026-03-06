@@ -270,8 +270,10 @@ public class UserLinkToDatabase {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            Player player = userSnapshot.getValue(Player.class);
-                            if (player != null) {
+                            // Use createUserFromSnapshot to properly set all fields including username
+                            User user = createUserFromSnapshot(userSnapshot);
+                            if (user instanceof Player) {
+                                Player player = (Player) user;
                                 player.setUid(userSnapshot.getKey());
                                 players.add(player);
                             }
@@ -332,7 +334,10 @@ public class UserLinkToDatabase {
 
     /**
      * Reconstructs a User (or subclass) object from a DataSnapshot.
-     * Expects the snapshot to contain fields: classType, firstName, lastName, email, dateOfBirth, gender.
+     * Now includes the username field.
+     *
+     * @param snapshot The DataSnapshot containing user data
+     * @return A User object of the appropriate subclass, or null if parsing fails
      */
     private User createUserFromSnapshot(DataSnapshot snapshot) {
         String classType = snapshot.child("classType").getValue(String.class);
@@ -341,19 +346,30 @@ public class UserLinkToDatabase {
         String email = snapshot.child("email").getValue(String.class);
         String dob = snapshot.child("dateOfBirth").getValue(String.class);
         String gender = snapshot.child("gender").getValue(String.class);
+        String username = snapshot.child("username").getValue(String.class);  // NEW: read username
 
         if (classType == null) return null;
 
+        User user;
         switch (classType) {
             case "Referee":
-                return new Referee(firstName, lastName, email, dob, gender);
+                user = new Referee(firstName, lastName, email, dob, gender);
+                break;
             case "Player":
-                return new Player(firstName, lastName, email, dob, gender);
+                user = new Player(firstName, lastName, email, dob, gender);
+                break;
             case "Organizer":
-                return new Organizer(firstName, lastName, email, dob, gender);
+                user = new Organizer(firstName, lastName, email, dob, gender);
+                break;
             default:
                 return null;
         }
+
+        // Set the username (and any other fields not in constructors)
+        if (user != null) {
+            user.setUsername(username);
+        }
+        return user;
     }
 
     /**

@@ -19,6 +19,7 @@ public abstract class User {
     private LocalDate dateOfBirth;
     private String email;
     private String password;
+    private String username;          // NEW: username field
     private String uid;
     private String classType; // Stores the concrete class name for deserialization
 
@@ -135,6 +136,9 @@ public abstract class User {
                 case "gender":
                     this.gender = (String) entry.getValue();
                     break;
+                case "username":                     // NEW: handle username update
+                    this.username = (String) entry.getValue();
+                    break;
                 case "dateOfBirth":
                     if (entry.getValue() instanceof String) {
                         this.dateOfBirth = LocalDate.parse((String) entry.getValue());
@@ -194,6 +198,7 @@ public abstract class User {
                     this.lastName = refreshedUser.lastName;
                     this.email = refreshedUser.email;
                     this.gender = refreshedUser.gender;
+                    this.username = refreshedUser.username;   // NEW: copy username
                     this.dateOfBirth = refreshedUser.dateOfBirth;
                     this.classType = refreshedUser.classType;
                     // Subclasses should override if they have additional fields
@@ -276,5 +281,14 @@ public abstract class User {
 
     public String getClassType() {
         return classType;
+    }
+
+    // NEW: username getter and setter
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
