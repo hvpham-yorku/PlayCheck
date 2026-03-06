@@ -128,11 +128,11 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         updates.put("games/" + gameId, game);
         updates.put("events/" + game.getEventId() + "/games/" + gameId, true);
 
-        if (game.getTeam1Id() != null) {
-            updates.put("teams/" + game.getTeam1Id() + "/games/" + gameId, true);
+        if (game.getTeamA() != null) {
+            updates.put("teams/" + game.getTeamA() + "/games/" + gameId, true);
         }
-        if (game.getTeam2Id() != null) {
-            updates.put("teams/" + game.getTeam2Id() + "/games/" + gameId, true);
+        if (game.getTeamB() != null) {
+            updates.put("teams/" + game.getTeamB() + "/games/" + gameId, true);
         }
         if (game.getRefereeId() != null) {
             updates.put("referees/" + game.getRefereeId() + "/assignedGames/" + gameId, true);

@@ -1,6 +1,8 @@
 package com.example.playcheck.puremodel;
 
 import com.example.playcheck.dataBaseLinkFiles.RefereeLinkToDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -92,7 +94,7 @@ public class Referee extends User {
 
     public CompletableFuture<Void> acceptGame(Game game) {
         this.schedule.add(game);
-        this.gameDateAvailabilityDates.remove(game.getDate());
+        this.gameDateAvailabilityDates.remove(game.getDateInLocalDate());
 
         if (getUid() != null) {
             return refereeDbService.assignGameToReferee(getUid(), game)
@@ -125,4 +127,22 @@ public class Referee extends User {
     }
 
 
+    /**
+     * Retrieves the unique identifier for the referee, which corresponds to their
+     * UID in the Firebase Realtime Database.
+     * @return the referee's UID
+     */
+    public String getRefereeId() {
+        if (getUid() != null) {
+            return getUid();
+        }
+        // Fallback: try to get from FirebaseAuth if a user is currently logged in
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String authUid = currentUser.getUid();
+            setUid(authUid); // Optionally set it locally for future calls
+            return authUid;
+        }
+        return null;
+    }
 }
