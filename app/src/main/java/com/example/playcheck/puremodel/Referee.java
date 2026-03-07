@@ -1,6 +1,6 @@
 package com.example.playcheck.puremodel;
 
-import com.example.playcheck.dataBaseLinkFiles.RefereeLinkToDatabase;
+import com.example.playcheck.Database.RefereeLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

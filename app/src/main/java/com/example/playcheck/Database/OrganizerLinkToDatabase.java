@@ -1,12 +1,10 @@
-package com.example.playcheck.dataBaseLinkFiles;
+package com.example.playcheck.Database;
 
 import com.example.playcheck.puremodel.Event;
 import com.example.playcheck.puremodel.Game;
-import com.example.playcheck.puremodel.Organizer;
 import com.example.playcheck.puremodel.Team;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;

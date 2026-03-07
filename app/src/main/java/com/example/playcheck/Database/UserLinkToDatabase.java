@@ -1,4 +1,4 @@
-package com.example.playcheck.dataBaseLinkFiles;
+package com.example.playcheck.Database;
 
 import androidx.annotation.NonNull;
 
@@ -125,6 +125,16 @@ public class UserLinkToDatabase {
         }
 
         return future;
+    }
+
+    /**
+     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
+     */
+    private void deleteAuthUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.delete();
+        }
     }
 
     //-------------------------------------------------------------------------------------------
@@ -372,13 +382,5 @@ public class UserLinkToDatabase {
         return user;
     }
 
-    /**
-     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
-     */
-    private void deleteAuthUser() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            user.delete();
-        }
-    }
+
 }
