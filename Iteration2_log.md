@@ -103,9 +103,18 @@ Iteration 2: Reallocating Tasks
 - Development Tasks Completed:
   - Update Game List so that it when game is clicked, it leads to the Game Details Page
     - Estimated Time: 2 days
-    - Actual Time: 2 days 
+    - Actual Time: 2 days
 
-#### 2. Detailed User Story (PC 6.1): As an organizer, I want to create games or tournaments so that events can be scheduled.
+#### 2. Detailed User Story (PC 5.4): As a player, I want the ability to create teams and add players to my team. 
+- Development Tasks Completed: 
+  - Implemented Create Team UI 
+      - Estimated Time: 6 hours
+      - Actual Time: 5 hours
+  - Added Create Team Functionality so Teams are created and shown in database
+      - Estimated Time: 2 days
+      - Actual Time: 2 days 
+
+#### 3. Detailed User Story (PC 6.1): As an organizer, I want to create games or tournaments so that events can be scheduled.
 - Development Tasks Completed:
   - Created Create Game page UI
     - Estimated Time: 4 hours
@@ -116,11 +125,8 @@ Iteration 2: Reallocating Tasks
   - Created Database method which will be used to schedule game
     - Estimated Time: 2 days
     - Actual Time: 3 days
-  - Implemented Create Team feature so players can create teams
-    - Estimated Time: 3 days
-    - Actual Time: 2 days
 
-#### 3. Detailed User Story (PC 6.2): As an organizer, I want to invite teams and referees so that participation is coordinated.
+#### 4. Detailed User Story (PC 6.2): As an organizer, I want to invite teams and referees so that participation is coordinated.
 - Development Tasks Completed:
   - Created Player, Referee, Organizer database categories
     - Estimated Time: 3 days 
