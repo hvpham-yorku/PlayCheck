@@ -103,7 +103,7 @@ Iteration 2: Reallocating Tasks
 #### 4. Zaid
   - Organizer options for league and tournament creation
   - Cleaned up Organizer Activity page 
-#### 5. Tony
+#### 5. Anthony
   - Homepage, with connections accessing league pages, user pages, and so on.
   - Create a design foundation for the visuals of the app for everyone to adapt their own pages.
 
