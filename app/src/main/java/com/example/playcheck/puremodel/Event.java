@@ -8,10 +8,16 @@ public class Event {
     private String eventDescription;
 
 
-    Event(){
+    public Event(){
         this.eventId = "";
         this.eventTitle = "";
         this.eventDescription = "";
+    }
+
+    public Event(String eventId, String eventTitle, String eventDescription){
+        this.eventId = eventId;
+        this.eventTitle = eventTitle;
+        this.eventDescription = eventDescription;
     }
 
     // TODO: 2026-03-05  Work on this as it is used in the OgranizerLinkToDatabase class
@@ -30,4 +36,6 @@ public class Event {
     public String getEventDescription() {
         return this.eventDescription;
     }
+
+
 }
