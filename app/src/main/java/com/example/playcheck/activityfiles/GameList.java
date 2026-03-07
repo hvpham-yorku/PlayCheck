@@ -45,7 +45,7 @@ public class GameList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterGameList(this, games); //creating a new adapter for this activity using data from 'games'
         recyclerView.setAdapter(adapter); //set the adapter that will be used to add data to games list
-        GameLinkToDatabaseHelper.getGameData(gamedetails, games, adapter);
+        GameLinkToDatabase.getGameData(gamedetails, games, adapter);
 
         optionsList = new ArrayList<String>();
         optionsList.add("All Games");
@@ -65,15 +65,15 @@ public class GameList extends AppCompatActivity {
                 String clickedItem = (String) adapterView.getItemAtPosition(i); //gets the item stored in the adapter at index i
                 long current_dateTime = getCurrentDateTimeAsLong();
                 if (clickedItem.equals("Past Games")){
-                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
+                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
                 } else if (clickedItem.equals("Upcoming Games")){
-                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
+                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
                 } else if (clickedItem.equals("Game Venue (Alphabetical)")){
-                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
+                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
                 } else if (clickedItem.equals("Game Type (Alphabetical)")){
-                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
+                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
                 } else {
-                    GameLinkToDatabaseHelper.getGameData(gamedetails, games, adapter); //show all games
+                    GameLinkToDatabase.getGameData(gamedetails, games, adapter); //show all games
                 }
             }
             @Override
