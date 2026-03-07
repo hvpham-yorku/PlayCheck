@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class GameLinkToDatabase {
+public class GameLinkToDatabaseHelper {
     /* Reusable method that gets game data from the database based on a Query object*/
     public static void getGameData(Query gamedata, ArrayList<Game> games, AdapterGameList adapter){ //DatabaseReference is a child class of Query so this is ok to do
         gamedata.addValueEventListener(new ValueEventListener() {
