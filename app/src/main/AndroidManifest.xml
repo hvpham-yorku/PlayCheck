@@ -45,7 +45,7 @@
             android:name=".activityfiles.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.GameListPlayer"
+            android:name=".activityfiles.GameList"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
@@ -71,6 +71,15 @@
             android:name=".activityfiles.RefereeGamesActivity"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.CreateTeam"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.MyTeams"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+
         <activity android:name=".activityfiles.OrganizerDashboardActivity"/>
         <activity android:name=".activityfiles.CreateGameActivity"/>
         <activity android:name=".activityfiles.RefereeReportActivity"/>

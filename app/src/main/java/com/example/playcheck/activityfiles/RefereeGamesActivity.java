@@ -20,7 +20,7 @@ public class RefereeGamesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<Game> games;
-    AdapterGameListPlayer adapter;
+    AdapterGameList adapter;
     DatabaseReference gamesRef;
 
     @Override
@@ -32,7 +32,7 @@ public class RefereeGamesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         games = new ArrayList<>();
-        adapter = new AdapterGameListPlayer(this, games);
+        adapter = new AdapterGameList(this, games);
         recyclerView.setAdapter(adapter);
 
         gamesRef = FirebaseDatabase.getInstance().getReference("games");

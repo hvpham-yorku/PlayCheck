@@ -3,6 +3,7 @@ package com.example.playcheck.puremodel;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.playcheck.puremodel.User;
 
 
 public class Organizer extends User {
