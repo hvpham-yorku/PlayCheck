@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 This class defines the information that each Game has.
  */
 public class Game {
-    private String gameName;
+    private String teamA;
+    private String teamB;
     private long gameDate;
     private String gameVenue;
 
@@ -17,25 +18,42 @@ public class Game {
 
     public Game(){}
 
-    public Game(String gameName, long gameDate, String gameVenue, String gameType) {
-        this.gameName = gameName;
+
+
+
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType) {
+        this.teamA = teamA;
+        this.teamB = teamB;
         this.gameDate = gameDate;
         this.gameVenue = gameVenue;
         this.gameType = gameType;
     }
 
-    public String getGameName() {
-        return gameName;
-    }
 
+    public String getTeamA() {
+        return teamA;
+    }
+    public String getTeamB() {
+        return teamB;
+    }
     public long getGameDate() { //return date as a long int
         return gameDate;
     }
 
-    public String getGameDateLongtoString(long gameDate){ //converts game date from long (datetime in milliseconds)-> LocalDateTime -> String
-        LocalDateTime dateAsString = LocalDateTime.ofInstant(Instant.ofEpochMilli(gameDate), ZoneId.systemDefault()); //convert to LocalDateTime (EST) by timestamping an instance on the timeline
-        DateTimeFormatter gameDateFormat = DateTimeFormatter.ofPattern("h:mm a - MMM dd yyy");
-        return dateAsString.format(gameDateFormat);
+
+    public String getGameDateLongtoString(long gameDate){
+        try {
+            LocalDateTime dateAsString = LocalDateTime.ofInstant(
+                    Instant.ofEpochMilli(gameDate),
+                    ZoneId.systemDefault());
+
+            DateTimeFormatter format =
+                    DateTimeFormatter.ofPattern("h:mm a - MMM dd yyyy");
+
+            return dateAsString.format(format);
+        } catch (Exception e) {
+            return "Invalid Date";
+        }
     }
 
     public String getGameVenue() {
@@ -46,10 +64,12 @@ public class Game {
         return gameType;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    public void setTeamA(String teamA) {
+        this.teamA = teamA;
     }
-
+    public void setTeamB(String teamB) {
+        this.teamB = teamB;
+    }
     public void setGameDate(long gameDate) {
         this.gameDate = gameDate;
     }

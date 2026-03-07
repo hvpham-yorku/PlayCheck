@@ -13,18 +13,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.playcheck.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class Registration extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
     Button registrationButton;
     FirebaseAuth mAuth;
+    DatabaseReference user;
     ProgressBar progressBar;
     TextView loginLink;
     AutoCompleteTextView dropdown;
@@ -103,38 +110,43 @@ public class Registration extends AppCompatActivity {
 
             progressBar.setVisibility(View.GONE);
 
+            //create the user
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign up success, go to profile setup
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent nextIntent;
+                                nextIntent = new Intent(Registration.this, ProfileSetup.class);
+                                nextIntent.putExtra("email", email);
+                                nextIntent.putExtra("password", password);
+                                nextIntent.putExtra("accountType", accountType);
+                                progressBar.setVisibility(ProgressBar.GONE);
+
+                                startActivity(nextIntent);
+                                finish();
+
+                            } else {
+                                // If sign up fails, display a message to the user.
+                                Toast.makeText(Registration.this,
+                                        task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
             // Navigate BASED ON ACCOUNT TYPEà
-            Intent nextIntent;
+            //Intent nextIntent;
 
-            switch (accountType) {
+            //after registeration, go to profile setup so that user is saved in database
+            //nextIntent = new Intent(this, ProfileSetup.class);
 
-                case "Referee":
-                    Log.d("Registration", "Referee selected");
-                    nextIntent = new Intent(this, RefereeActivity.class);
-                    break;
-
-                case "Player":
-                    Log.d("Registration", "Player selected");
-                    nextIntent = new Intent(this, PlayerHomeActivity.class);
-                    break;
-
-                case "Organizer":
-                    Log.d("Registration", "Organizer selected");
-                    nextIntent = new Intent(this, OrganizerActivity.class);
-                    break;
-
-                default:
-                    nextIntent = new Intent(this, Registration.class);
-            }
+            /*  */
 
 
-            nextIntent.putExtra("email", email);
-            nextIntent.putExtra("password", password);
-            nextIntent.putExtra("accountType", accountType);
-            progressBar.setVisibility(ProgressBar.GONE);
-
-            startActivity(nextIntent);
-            finish();
 
 
 

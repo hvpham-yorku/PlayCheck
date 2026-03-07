@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.Light">
+        android:theme="@style/Theme.Material3.Light.NoActionBar" >
         <activity
             android:name=".activityfiles.Login"
             android:exported="true"
@@ -25,9 +25,10 @@
         </activity>
         <activity
             android:name=".activityfiles.PlayerHomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
-            android:name=".GameDetailsActivity"
+            android:name=".activityfiles.GameDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Registration"
@@ -44,7 +45,7 @@
             android:name=".activityfiles.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.GameListPlayer"
+            android:name=".activityfiles.GameList"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
@@ -66,6 +67,19 @@
         <activity
             android:name=".activityfiles.RefereeHomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".activityfiles.RefereeGamesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.CreateTeam"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+
+        <activity android:name=".activityfiles.OrganizerDashboardActivity"/>
+        <activity android:name=".activityfiles.CreateGameActivity"/>
+        <activity android:name=".activityfiles.RefereeReportActivity"/>
+
 
     </application>
 

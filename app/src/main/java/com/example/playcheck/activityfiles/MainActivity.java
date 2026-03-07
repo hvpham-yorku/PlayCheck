@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     TextView textView;
     FirebaseUser user;
+
+    // TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the UserLinkToDataBase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

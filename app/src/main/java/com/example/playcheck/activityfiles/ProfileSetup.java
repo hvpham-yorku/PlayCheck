@@ -34,7 +34,7 @@ public class ProfileSetup extends AppCompatActivity {
         setContentView(R.layout.activity_profile_setup);
 
         auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference();
 
         firstNameEdit = findViewById(R.id.firstName);
         lastNameEdit = findViewById(R.id.lastName);
@@ -75,10 +75,10 @@ public class ProfileSetup extends AppCompatActivity {
                 return;
             }
 
-            if (auth.getCurrentUser() == null) {
+            /* if (auth.getCurrentUser() == null) {
                 Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
                 return;
-            }
+            } */
 
 
             String uid = auth.getCurrentUser().getUid();
@@ -104,8 +104,17 @@ public class ProfileSetup extends AppCompatActivity {
                     .setValue(profile)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
-                        // Will connect to a home screen that specifically is for players
-                        startActivity(new Intent(this, PlayerHomeActivity.class));
+                        // Will connect to a home screen that specifically is for that account type
+                        if (accountType.equals("Organizer")) {
+                            startActivity(new Intent(this, OrganizerDashboardActivity.class));
+                        }
+                        else if (accountType.equals("Player")) {
+                            startActivity(new Intent(this, PlayerHomeActivity.class));
+                        }
+                        else if (accountType.equals("Referee")) {
+                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                        }
+
                         finish();
                     })
                     .addOnFailureListener(e ->
