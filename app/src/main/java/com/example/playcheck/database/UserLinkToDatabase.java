@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +43,7 @@ public class UserLinkToDatabase {
 
     //The entity that updates/deletion are going to base on in the database
     User theUser;
-    public UserLinkToDatabase(User theUser){
+    UserLinkToDatabase(User theUser){
 
         this.theUser = theUser;
         uAuth = FirebaseAuth.getInstance();
