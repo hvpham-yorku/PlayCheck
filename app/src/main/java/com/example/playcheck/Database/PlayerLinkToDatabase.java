@@ -1,11 +1,9 @@
-package com.example.playcheck.dataBaseLinkFiles;
+package com.example.playcheck.Database;
 
 import com.example.playcheck.puremodel.Game;
-import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Team;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import com.example.playcheck.puremodel.User;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

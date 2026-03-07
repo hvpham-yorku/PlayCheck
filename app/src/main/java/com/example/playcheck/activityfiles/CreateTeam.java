@@ -1,6 +1,5 @@
 package com.example.playcheck.activityfiles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playcheck.R;
-import com.example.playcheck.dataBaseLinkFiles.OrganizerLinkToDatabase;
+import com.example.playcheck.Database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
