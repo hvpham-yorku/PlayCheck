@@ -54,7 +54,19 @@ The primary focus of the meeting shifted to the planning of Iteration 2.
 
 - Sprint Initialization: Trinity Shiloh  was designated to initialize the new sprint for Iteration 2 in Jira. This individual is responsible for populating the backlog with the required tasks necessary to complete the sprint successfully. Subtask creation and completion  is the responsibility of the person assigned to the main tasks.
 
-<br> 
+<br>
+
+### ***Date: Feb 28th - Time: 10:00 am***
+- Deliverable 1:
+The team got together and prepared the deliverable 1 presentation. Most of the slides were completed as well as who will present which slide.
+
+- Demo:
+For the demo, the team worked together to merge the work completed into a newly created and up to date demo branch. There were initial problems at first, but the conflicts were resolved later on.
+
+- Iteration 1 Completed:
+Iteration 1 was completed and the code was tested by using the demo branch after resolving conflicts. All of the desired features worked as intended.
+
+<br>
 
 ### ***Date: Mar 3th - Time: 10:30 pm*** 
 Iteration 2: Reallocating Tasks 
