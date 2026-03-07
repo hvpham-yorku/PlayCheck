@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Team;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import com.example.playcheck.puremodel.User;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

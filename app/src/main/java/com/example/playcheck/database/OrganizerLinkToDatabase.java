@@ -1,10 +1,9 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.playcheck.puremodel.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,11 +14,7 @@ import java.util.ArrayList;
 import com.example.playcheck.puremodel.Event;
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Team;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

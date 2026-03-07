@@ -1,35 +1,27 @@
 package com.example.playcheck.activityfiles;
 
-import static com.example.playcheck.dataBaseLinkFiles.GameLinkToDatabase.getGameData;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playcheck.R;
+import com.example.playcheck.database.GameLinkToDatabaseHelper;
 import com.example.playcheck.puremodel.Game;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import com.example.playcheck.dataBaseLinkFiles.GameLinkToDatabase;
 
 /*
 The GameListPlayer class creates the Game List page.
  */
-// TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the GameLinkToDatabase
+// TODO: 2026-03-03 Improve your code structure and move all implementations of the database functions to the GameLinkToDatabaseHelper
 public class GameList extends AppCompatActivity {
 
 
@@ -53,7 +45,7 @@ public class GameList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterGameList(this, games); //creating a new adapter for this activity using data from 'games'
         recyclerView.setAdapter(adapter); //set the adapter that will be used to add data to games list
-        GameLinkToDatabase.getGameData(gamedetails, games, adapter);
+        GameLinkToDatabaseHelper.getGameData(gamedetails, games, adapter);
 
         optionsList = new ArrayList<String>();
         optionsList.add("All Games");
@@ -73,15 +65,15 @@ public class GameList extends AppCompatActivity {
                 String clickedItem = (String) adapterView.getItemAtPosition(i); //gets the item stored in the adapter at index i
                 long current_dateTime = getCurrentDateTimeAsLong();
                 if (clickedItem.equals("Past Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
+                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
                 } else if (clickedItem.equals("Upcoming Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
+                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
                 } else if (clickedItem.equals("Game Venue (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
+                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
                 } else if (clickedItem.equals("Game Type (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
+                    GameLinkToDatabaseHelper.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
                 } else {
-                    GameLinkToDatabase.getGameData(gamedetails, games, adapter); //show all games
+                    GameLinkToDatabaseHelper.getGameData(gamedetails, games, adapter); //show all games
                 }
             }
             @Override
