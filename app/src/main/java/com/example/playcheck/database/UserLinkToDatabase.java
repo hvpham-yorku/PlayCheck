@@ -43,7 +43,7 @@ public class UserLinkToDatabase {
 
     //The entity that updates/deletion are going to base on in the database
     User theUser;
-    UserLinkToDatabase(User theUser){
+    public UserLinkToDatabase(User theUser){
 
         this.theUser = theUser;
         uAuth = FirebaseAuth.getInstance();
@@ -194,16 +194,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
-     */
-    private void deleteAuthUser() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            user.delete();
-        }
-    }
-
     //-------------------------------------------------------------------------------------------
     // Database Operations
     //-------------------------------------------------------------------------------------------
@@ -347,10 +337,8 @@ public class UserLinkToDatabase {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            // Use createUserFromSnapshot to properly set all fields including username
-                            User user = createUserFromSnapshot(userSnapshot);
-                            if (user instanceof Player) {
-                                Player player = (Player) user;
+                            Player player = userSnapshot.getValue(Player.class);
+                            if (player != null) {
                                 player.setUid(userSnapshot.getKey());
                                 players.add(player);
                             }
@@ -411,10 +399,7 @@ public class UserLinkToDatabase {
 
     /**
      * Reconstructs a User (or subclass) object from a DataSnapshot.
-     * Now includes the username field.
-     *
-     * @param snapshot The DataSnapshot containing user data
-     * @return A User object of the appropriate subclass, or null if parsing fails
+     * Expects the snapshot to contain fields: classType, firstName, lastName, email, dateOfBirth, gender.
      */
     private User createUserFromSnapshot(DataSnapshot snapshot) {
         String classType = snapshot.child("classType").getValue(String.class);
@@ -423,31 +408,28 @@ public class UserLinkToDatabase {
         String email = snapshot.child("email").getValue(String.class);
         String dob = snapshot.child("dateOfBirth").getValue(String.class);
         String gender = snapshot.child("gender").getValue(String.class);
-        String username = snapshot.child("username").getValue(String.class);  // NEW: read username
 
         if (classType == null) return null;
 
-        User user;
         switch (classType) {
             case "Referee":
-                user = new Referee(firstName, lastName, email, dob, gender);
-                break;
+                return new Referee(firstName, lastName, email, dob, gender);
             case "Player":
-                user = new Player(firstName, lastName, email, dob, gender);
-                break;
+                return new Player(firstName, lastName, email, dob, gender);
             case "Organizer":
-                user = new Organizer(firstName, lastName, email, dob, gender);
-                break;
+                return new Organizer(firstName, lastName, email, dob, gender);
             default:
                 return null;
         }
-
-        // Set the username (and any other fields not in constructors)
-        if (user != null) {
-            user.setUsername(username);
-        }
-        return user;
     }
 
-
+    /**
+     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
+     */
+    private void deleteAuthUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.delete();
+        }
+    }
 }
