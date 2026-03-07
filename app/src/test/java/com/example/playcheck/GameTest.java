@@ -7,6 +7,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+import com.example.playcheck.puremodel.Game;
+
 public class GameTest {
 
     @Test

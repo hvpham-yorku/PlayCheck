@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import com.example.playcheck.Database.GameLinkToDatabaseHelper;
+import com.example.playcheck.database.GameLinkToDatabase;
 
 /*
 The GameListPlayer class creates the Game List page.
