@@ -1,6 +1,7 @@
 package com.example.playcheck.activityfiles;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class CreateGameActivity extends AppCompatActivity {
 
     EditText teamA, teamB, venue, type, date;
-    Button saveGame;
+    Button saveGame, backBtn;
 
     DatabaseReference gamesRef;
 
@@ -25,6 +26,15 @@ public class CreateGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+
+        //back to previous page button
+        backBtn = findViewById(R.id.backBtnCreateGame);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         gamesRef = FirebaseDatabase.getInstance()
                 .getReference("games");
