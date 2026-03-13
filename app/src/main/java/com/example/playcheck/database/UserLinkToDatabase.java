@@ -92,7 +92,7 @@ public class UserLinkToDatabase {
         });
     }
     //-------------------------------------------------------------------------------------------
-  /*  1. Core CRUD Operations
+  /**  1. Core CRUD Operations
     These are the fundamental building blocks of any persistence class.
 
     create(entity) / save(entity) / insert(entity)
@@ -105,7 +105,7 @@ public class UserLinkToDatabase {
      * Creates a new user with email and password.
      * Saves the user profile to the database after successful authentication.
      *
-     * @param user     The user object (must contain email)
+     * @param user The user object (must contain email)
      * @param password The password for the new account
      * @return CompletableFuture with the new user's UID
      */
