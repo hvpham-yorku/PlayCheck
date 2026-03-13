@@ -31,6 +31,17 @@ public class Referee extends User {
         this.refereeDbService = new RefereeLinkToDatabase();
     }
 
+    public Referee(String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+        super();
+        setFirstName(firstName);
+        setLastName(lastName);
+        setGender(gender);
+        setDateOfBirth(dateOfBirth);
+        this.gameDateAvailabilityDates = new ArrayList<>();
+        this.schedule = new ArrayList<>();
+        this.refereeDbService = new RefereeLinkToDatabase();
+    }
+
 
     public List<LocalDate> getGameDatesAvailability() {
         return gameDateAvailabilityDates;

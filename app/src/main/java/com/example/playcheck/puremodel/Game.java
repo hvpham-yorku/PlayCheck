@@ -2,10 +2,10 @@ package com.example.playcheck.puremodel;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /*
 This class defines the information that each Game has.
@@ -19,6 +19,12 @@ public class Game {
     private String gameType;
     private String gameName; // Added to match Firebase data if present
     private String gameId;
+
+    private String date;
+    private String location;
+    private String score;
+    private List<String> teamAPlayers;
+    private List<String> teamBPlayers;
 
     private Event event;
     private Referee referee;
@@ -37,6 +43,16 @@ public class Game {
         this.event = null;
         this.referee = null;
 
+    }
+
+    public Game(String teamA, String teamB, String date, String location, String score, List<String> teamAPlayers, List<String> teamBPlayers) {
+        this.teamA = teamA;
+        this.teamB = teamB;
+        this.date = date;
+        this.location = location;
+        this.score = score;
+        this.teamAPlayers = teamAPlayers;
+        this.teamBPlayers = teamBPlayers;
     }
 
     public String getTeamA() {
@@ -107,7 +123,7 @@ public class Game {
     }
 
     public String getGameId() {
-        return "";
+        return gameId != null ? gameId : "";
     }
 
     public void setGameId(String gameId) {
@@ -115,11 +131,13 @@ public class Game {
     }
 
     public String getEventId() {
-        return this.event.getEventId();
+        return this.event != null ? this.event.getEventId() : null;
     }
 
     public void setEventId(String eventId) {
-        this.event.setEventId(eventId);
+        if (this.event != null) {
+            this.event.setEventId(eventId);
+        }
     }
 
     public Event getEvent() {
@@ -142,9 +160,47 @@ public class Game {
     }
 
     public String getRefereeId() {
-        return this.referee.getRefereeId();
+        return this.referee != null ? this.referee.getRefereeId() : null;
 
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public List<String> getTeamAPlayers() {
+        return teamAPlayers;
+    }
+
+    public void setTeamAPlayers(List<String> teamAPlayers) {
+        this.teamAPlayers = teamAPlayers;
+    }
+
+    public List<String> getTeamBPlayers() {
+        return teamBPlayers;
+    }
+
+    public void setTeamBPlayers(List<String> teamBPlayers) {
+        this.teamBPlayers = teamBPlayers;
+    }
 }

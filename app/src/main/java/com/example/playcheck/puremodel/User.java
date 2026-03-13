@@ -291,4 +291,9 @@ public abstract class User {
     public String getUsername() {
         return username;
     }
+
+    public static void setDatabaseService(UserLinkToDatabase service) {
+        databaseService = service;
+    }
+
 }
