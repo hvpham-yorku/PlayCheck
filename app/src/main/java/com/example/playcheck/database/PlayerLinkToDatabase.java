@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Team;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class PlayerLinkToDatabase extends UserLinkToDatabase {
+public class PlayerLinkToDatabase extends com.example.playcheck.Database.UserLinkToDatabase {
 
     public PlayerLinkToDatabase() {
         super();

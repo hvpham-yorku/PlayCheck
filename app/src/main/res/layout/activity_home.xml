@@ -320,6 +320,7 @@
                         android:focusable="true">
 
                         <TextView
+                            android:id="@+id/btnViewMatchDetails"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="View Match Details"
@@ -479,12 +480,13 @@
 
                                 <TextView
                                     android:id="@+id/txtLastMatchTeamB"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="67dp"
                                     android:layout_height="wrap_content"
                                     android:text="Thunder Bolts"
+                                    android:textColor="#2C3E50"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
-                                    android:textColor="#2C3E50" />
+                                    android:gravity="end" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -548,8 +550,32 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="1dp"
                 app:cardBackgroundColor="#FFFFFF">
-
                 <include layout="@layout/standings_list" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- View Full Schedule Button -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="80dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#7EADDB"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/btnViewSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View Full Schedule"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>

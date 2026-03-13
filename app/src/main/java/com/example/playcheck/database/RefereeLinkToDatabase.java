@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import com.example.playcheck.puremodel.Game;
 import com.google.firebase.database.DataSnapshot;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class RefereeLinkToDatabase extends UserLinkToDatabase {
+public class RefereeLinkToDatabase extends com.example.playcheck.Database.UserLinkToDatabase {
 
         public RefereeLinkToDatabase() {
                 super();
