@@ -31,6 +31,11 @@ public class UserLinkToDatabase {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
+    public UserLinkToDatabase(FirebaseAuth mAuth, DatabaseReference databaseRef) {
+        this.mAuth = mAuth;
+        this.databaseRef = databaseRef;
+    }
+
 
     FirebaseAuth uAuth;
 
