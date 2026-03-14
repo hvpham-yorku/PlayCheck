@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import androidx.annotation.NonNull;
 

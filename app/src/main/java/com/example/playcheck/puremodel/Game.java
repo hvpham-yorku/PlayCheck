@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /*
 This class defines the information that each Game has.
@@ -37,6 +38,9 @@ public class Game {
         this.event = null;
         this.referee = null;
 
+    }
+
+    public Game(String teamA, String teamB, String s, String arena, String s1, List<String> teamAPlayers, List<String> teamBPlayers) {
     }
 
     public String getTeamA() {

@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -48,6 +50,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.google.firebase.database)
     implementation(libs.play.services.games)
+    implementation(libs.monitor)
+    implementation(libs.ext.junit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
