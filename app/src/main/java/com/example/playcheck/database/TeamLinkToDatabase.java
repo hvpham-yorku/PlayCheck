@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 public class TeamLinkToDatabase {
 }
