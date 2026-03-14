@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import androidx.annotation.NonNull;
 
@@ -26,17 +26,9 @@ public class UserLinkToDatabase {
     protected FirebaseAuth mAuth;
     protected DatabaseReference databaseRef;
 
-    protected FirebaseUser currentUser;
-    public UserLinkToDatabase(FirebaseUser currentUser) {
-        mAuth = FirebaseAuth.getInstance();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        this.currentUser = currentUser;
-    }
-
     public UserLinkToDatabase() {
         mAuth = FirebaseAuth.getInstance();
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        currentUser = mAuth.getCurrentUser();
     }
 
 
@@ -49,9 +41,16 @@ public class UserLinkToDatabase {
     DatabaseReference rootOrganizerRef = userRef.child("Organizer");
 //-----------------------------------------------------------------------------------------------
 
+    //The entity that updates/deletion are going to base on in the database
+    User theUser;
+    UserLinkToDatabase(User theUser){
 
-    /* Gets the user's account type */
-    public Task<String> getUserAccountType() {
+        this.theUser = theUser;
+        uAuth = FirebaseAuth.getInstance();
+    }
+
+
+    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String uid = currentUser.getUid();
 

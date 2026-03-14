@@ -44,6 +44,7 @@ public class Login extends AppCompatActivity {
 
         if(currentUser != null){
             //get account type
+            new UserLinkToDatabase().getUserAccountType(currentUser).addOnCompleteListener(task -> {
             userLink.getUserAccountType().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();

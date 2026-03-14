@@ -1,6 +1,6 @@
 package com.example.playcheck.puremodel;
 
-import com.example.playcheck.Database.RefereeLinkToDatabase;
+import com.example.playcheck.database.RefereeLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,7 +31,15 @@ public class Referee extends User {
         this.refereeDbService = new RefereeLinkToDatabase();
     }
 
-    public Referee(String john, String doe, String male, LocalDate of) {
+    public Referee(String firstName, String lastName, String gender, LocalDate dateOfBirth) {
+        super();
+        setFirstName(firstName);
+        setLastName(lastName);
+        setGender(gender);
+        setDateOfBirth(dateOfBirth);
+        this.gameDateAvailabilityDates = new ArrayList<>();
+        this.schedule = new ArrayList<>();
+        this.refereeDbService = new RefereeLinkToDatabase();
     }
 
 
