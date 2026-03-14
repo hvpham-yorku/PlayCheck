@@ -22,6 +22,8 @@ public class Organizer extends User {
 
     public Organizer(String firstName,String lastName, String email, String dob, String gender){
         super(firstName,lastName,email,dob, gender);
+        this.schedule = new ArrayList<>();
+        this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
     }
 
     public Organizer(String userId, String firstName, String lastName, String gender, LocalDate dateOfBirth) {
@@ -29,6 +31,8 @@ public class Organizer extends User {
         super.setName(firstName, lastName);
         super.setGender(gender);
         super.setDateOfBirth(dateOfBirth);
+        this.schedule = new ArrayList<>();
+        this.gameDateAvailabilityDates = new ArrayList<LocalDate>();
     }
 
     public List<LocalDate> getGameDatesAvailability() {

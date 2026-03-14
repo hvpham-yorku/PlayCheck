@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.play.services.tasks)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.junit.jupiter)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
