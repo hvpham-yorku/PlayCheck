@@ -1,6 +1,6 @@
 package com.example.playcheck.puremodel;
 
-import com.example.playcheck.Database.PlayerLinkToDatabase;
+import com.example.playcheck.database.PlayerLinkToDatabase;
 
 import java.util.List;
 import java.util.Map;

@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,12 +40,10 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in already (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        UserLinkToDatabase userLink = new UserLinkToDatabase(currentUser);
 
         if(currentUser != null){
             //get account type
-            new UserLinkToDatabase().getUserAccountType(currentUser).addOnCompleteListener(task -> {
-            userLink.getUserAccountType().addOnCompleteListener(task -> {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
 
@@ -69,10 +67,8 @@ public class Login extends AppCompatActivity {
                         startActivity(nextIntent);
                         finish();
                     }
-
                 }
             });
-
         }
     }
 

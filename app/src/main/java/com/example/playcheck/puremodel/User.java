@@ -2,7 +2,7 @@ package com.example.playcheck.puremodel;
 
 import android.os.Build;
 
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
