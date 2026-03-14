@@ -24,7 +24,7 @@ public abstract class User {
     private String classType; // Stores the concrete class name for deserialization
 
     // Static database service shared by all User instances
-    protected static UserLinkToDatabase databaseService = new UserLinkToDatabase();
+    protected static UserLinkToDatabase databaseService = null;
 
     // Firebase instances (can be removed if not needed elsewhere)
     private FirebaseUser uAuth;
@@ -59,7 +59,7 @@ public abstract class User {
      * @return CompletableFuture with the new user's UID
      */
     public CompletableFuture<String> register() {
-        return databaseService.createUser(this, this.password);
+        return getDatabaseService().createUser(this, this.password);
     }
 
     /**
@@ -67,14 +67,14 @@ public abstract class User {
      * @return CompletableFuture with the logged-in User object (subclass instance)
      */
     public static CompletableFuture<User> login(String email, String password) {
-        return databaseService.loginUser(email, password);
+        return getDatabaseService().loginUser(email, password);
     }
 
     /**
      * Logs out the current user.
      */
     public static void logout() {
-        databaseService.logout();
+        getDatabaseService().logout();
     }
 
     /**
@@ -82,7 +82,7 @@ public abstract class User {
      * @return CompletableFuture with the current User object, or exceptionally if no user is logged in
      */
     public static CompletableFuture<User> getCurrentUser() {
-        return databaseService.getCurrentUser();
+        return getDatabaseService().getCurrentUser();
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class User {
                 );
             }
         }
-        return databaseService.updateUser(this);
+        return getDatabaseService().updateUser(this);
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class User {
                 );
             }
         }
-        return databaseService.updateUserFields(this.uid, fields)
+        return getDatabaseService().updateUserFields(this.uid, fields)
                 .thenAccept(v -> updateLocalFields(fields));
     }
 
@@ -160,7 +160,7 @@ public abstract class User {
                 return CompletableFuture.failedFuture(new Exception("No user UID"));
             }
         }
-        return databaseService.updateEmail(newEmail)
+        return getDatabaseService().updateEmail(newEmail)
                 .thenCompose(v -> {
                     Map<String, Object> emailUpdate = new HashMap<>();
                     emailUpdate.put("email", newEmail);
@@ -178,7 +178,7 @@ public abstract class User {
                 return CompletableFuture.failedFuture(new Exception("No user UID"));
             }
         }
-        return databaseService.deleteUser(this.uid);
+        return getDatabaseService().deleteUser(this.uid);
     }
 
     /**
@@ -191,7 +191,7 @@ public abstract class User {
                 return CompletableFuture.failedFuture(new Exception("No user UID"));
             }
         }
-        return databaseService.fetchUserByUid(this.uid)
+        return getDatabaseService().fetchUserByUid(this.uid)
                 .thenApply(refreshedUser -> {
                     // Copy fields from refreshed user to this instance
                     this.firstName = refreshedUser.firstName;
@@ -294,6 +294,13 @@ public abstract class User {
 
     public static void setDatabaseService(UserLinkToDatabase service) {
         databaseService = service;
+    }
+
+    private static UserLinkToDatabase getDatabaseService() {
+        if (databaseService == null) {
+            databaseService = new UserLinkToDatabase();
+        }
+        return databaseService;
     }
 
 }

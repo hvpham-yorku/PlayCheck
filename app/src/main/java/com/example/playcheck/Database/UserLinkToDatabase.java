@@ -25,48 +25,62 @@ public class UserLinkToDatabase {
 
     protected FirebaseAuth mAuth;
     protected DatabaseReference databaseRef;
+    protected FirebaseDatabase db;
 
+    // Production constructor
     public UserLinkToDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        this(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance());
+    }
+
+    // Testable constructor
+    public UserLinkToDatabase(FirebaseAuth auth, FirebaseDatabase db) {
+        this.mAuth = auth;
+        this.db = db;
+
+        if (db != null) {
+            this.databaseRef = db.getReference();
+        }
+    }
+
+    // Constructor used when testing with fake database
+    public UserLinkToDatabase(FirebaseAuth auth, DatabaseReference ref) {
+        this.mAuth = auth;
+        this.databaseRef = ref;
+        this.db = null;
     }
 
 
-    FirebaseAuth uAuth;
-
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference rootRef = userRef.child("Referee");
-    DatabaseReference rootPlayerRef = userRef.child("Player");
-
-    DatabaseReference rootOrganizerRef = userRef.child("Organizer");
 //-----------------------------------------------------------------------------------------------
 
     //The entity that updates/deletion are going to base on in the database
     User theUser;
     UserLinkToDatabase(User theUser){
 
+        this();
         this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
     }
 
 
-    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public Task<String> getUserAccountType(FirebaseUser currentUser) {
+
         String uid = currentUser.getUid();
 
-        DatabaseReference playerRef = database.getReference("users")
+        DatabaseReference playerRef = databaseRef
+                .child("users")
                 .child("Player")
                 .child(uid)
                 .child("profile")
                 .child("accountType");
 
-        DatabaseReference organizerRef = database.getReference("users")
+        DatabaseReference organizerRef = databaseRef
+                .child("users")
                 .child("Organizer")
                 .child(uid)
                 .child("profile")
                 .child("accountType");
 
-        DatabaseReference refereeRef = database.getReference("users")
+        DatabaseReference refereeRef = databaseRef
+                .child("users")
                 .child("Referee")
                 .child(uid)
                 .child("profile")
@@ -91,6 +105,7 @@ public class UserLinkToDatabase {
             });
         });
     }
+
     //-------------------------------------------------------------------------------------------
   /*  1. Core CRUD Operations
     These are the fundamental building blocks of any persistence class.
