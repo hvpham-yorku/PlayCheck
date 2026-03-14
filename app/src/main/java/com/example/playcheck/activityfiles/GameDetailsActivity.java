@@ -1,4 +1,5 @@
 package com.example.playcheck.activityfiles;
+import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -37,6 +38,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
         TextView refereeText = findViewById(R.id.refereeText);
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
+        Button backButton = findViewById(R.id.backBtnGameDetails);
 
         refereeReportButton.setOnClickListener(v -> {
 
@@ -44,9 +46,15 @@ public class GameDetailsActivity extends AppCompatActivity {
 
             reportIntent.putExtra("gameId", getIntent().getLongExtra("gameId",0));
             reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
-
             startActivity(reportIntent);
 
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
         });
 
 // Get data from Intent

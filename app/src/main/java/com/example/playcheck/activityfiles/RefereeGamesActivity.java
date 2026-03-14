@@ -1,6 +1,8 @@
 package com.example.playcheck.activityfiles;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,15 @@ public class RefereeGamesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_referee_games);
+
+        //back to previous page button
+        Button backBtn = findViewById(R.id.backBtnGameListRef);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         recyclerView = findViewById(R.id.recyclerRefGames);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

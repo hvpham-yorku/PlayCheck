@@ -1,0 +1,65 @@
+[33m5eefa83[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32miteration2[m[33m, [m[1;31morigin/iteration2[m[33m)[m HEAD@{0}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m1c54761[m HEAD@{1}: reset: moving to HEAD
+[33m1c54761[m HEAD@{2}: commit: Changed .GameLinkToDatabase to GameLinkToDatabaseHelper
+[33mc6eba8e[m HEAD@{3}: pull --ff --recurse-submodules --progress origin: updating HEAD
+[33mc6eba8e[m HEAD@{4}: commit: Changed name of dataBaseLinkFiles folder to 'Database'
+[33md0a169f[m HEAD@{5}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m12d75a2[m HEAD@{6}: checkout: moving from Trinity-iteration2 to Marwan-iteration-2
+[33m0f3446c[m[33m ([m[1;31morigin/Trinity-iteration2[m[33m, [m[1;32mTrinity-iteration2[m[33m)[m HEAD@{7}: checkout: moving from iteration2 to Trinity-iteration2
+[33md0a169f[m HEAD@{8}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m9b18a54[m HEAD@{9}: checkout: moving from iteration2 to Marwan-iteration-2
+[33md0a169f[m HEAD@{10}: commit: Merged Trinity iteration 2 branch into iteration 2 branch
+[33m43f1f74[m HEAD@{11}: commit (merge): Merge branch 'Trinity-iteration2' into iteration2
+[33mad337ac[m HEAD@{12}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m666c38d[m HEAD@{13}: checkout: moving from Trinity-iteration2 to iteration2
+[33m0f3446c[m[33m ([m[1;31morigin/Trinity-iteration2[m[33m, [m[1;32mTrinity-iteration2[m[33m)[m HEAD@{14}: checkout: moving from iteration2 to Trinity-iteration2
+[33m666c38d[m HEAD@{15}: checkout: moving from Trinity-iteration2 to iteration2
+[33m0f3446c[m[33m ([m[1;31morigin/Trinity-iteration2[m[33m, [m[1;32mTrinity-iteration2[m[33m)[m HEAD@{16}: checkout: moving from iteration2 to Trinity-iteration2
+[33m666c38d[m HEAD@{17}: checkout: moving from Trinity-iteration2 to iteration2
+[33m0f3446c[m[33m ([m[1;31morigin/Trinity-iteration2[m[33m, [m[1;32mTrinity-iteration2[m[33m)[m HEAD@{18}: checkout: moving from iteration2 to Trinity-iteration2
+[33m666c38d[m HEAD@{19}: checkout: moving from Trinity-iteration2 to iteration2
+[33m0f3446c[m[33m ([m[1;31morigin/Trinity-iteration2[m[33m, [m[1;32mTrinity-iteration2[m[33m)[m HEAD@{20}: commit: Created the My Teams UI
+[33m588af00[m HEAD@{21}: commit: Added Team Creation
+[33m9b18a54[m HEAD@{22}: checkout: moving from Marwan-iteration-2 to Trinity-iteration2
+[33m9b18a54[m HEAD@{23}: checkout: moving from iteration2 to Marwan-iteration-2
+[33m666c38d[m HEAD@{24}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m9b18a54[m HEAD@{25}: checkout: moving from iteration2 to Marwan-iteration-2
+[33m2ef27e1[m HEAD@{26}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m9b18a54[m HEAD@{27}: checkout: moving from iteration2 to Marwan-iteration-2
+[33m2ef27e1[m HEAD@{28}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m9b18a54[m HEAD@{29}: checkout: moving from iteration2 to Marwan-iteration-2
+[33m2ef27e1[m HEAD@{30}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m9b18a54[m HEAD@{31}: commit: Added Create Team (Partial Functionality)
+[33mfbed706[m HEAD@{32}: commit (merge): Merge branch 'iteration2' into Marwan-iteration-2
+[33m8f753e1[m HEAD@{33}: checkout: moving from iteration2 to Marwan-iteration-2
+[33m2ef27e1[m HEAD@{34}: checkout: moving from Marwan-iteration-2 to iteration2
+[33m8f753e1[m HEAD@{35}: commit: Merged my Changes with Marwan's (errors fixed)
+[33m5231e00[m HEAD@{36}: commit: Fixed flow of app + Merged my changes with Marwan's
+[33m8165c95[m HEAD@{37}: checkout: moving from DemoBranch to Marwan-iteration-2
+[33m667c126[m[33m ([m[1;31morigin/DemoBranch_iteration_1[m[33m, [m[1;32mDemoBranch[m[33m)[m HEAD@{38}: reset: moving to HEAD
+[33m667c126[m[33m ([m[1;31morigin/DemoBranch_iteration_1[m[33m, [m[1;32mDemoBranch[m[33m)[m HEAD@{39}: checkout: moving from Marwan-iteration-2 to DemoBranch
+[33m8165c95[m HEAD@{40}: checkout: moving from DemoBranch to Marwan-iteration-2
+[33m667c126[m[33m ([m[1;31morigin/DemoBranch_iteration_1[m[33m, [m[1;32mDemoBranch[m[33m)[m HEAD@{41}: checkout: moving from Marwan-iteration-2 to DemoBranch
+[33m8165c95[m HEAD@{42}: reset: moving to HEAD
+[33m8165c95[m HEAD@{43}: checkout: moving from DemoBranch to Marwan-iteration-2
+[33m667c126[m[33m ([m[1;31morigin/DemoBranch_iteration_1[m[33m, [m[1;32mDemoBranch[m[33m)[m HEAD@{44}: reset: moving to HEAD
+[33m667c126[m[33m ([m[1;31morigin/DemoBranch_iteration_1[m[33m, [m[1;32mDemoBranch[m[33m)[m HEAD@{45}: checkout: moving from main to DemoBranch
+[33m2792bdc[m HEAD@{46}: reset: moving to HEAD
+[33m2792bdc[m HEAD@{47}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m6070166[m[33m ([m[1;33mtag: [m[1;33mIteration0&1[m[33m)[m HEAD@{48}: checkout: moving from DemoBranch to main
+[33mec2e807[m HEAD@{49}: reset: moving to HEAD
+[33mec2e807[m HEAD@{50}: checkout: moving from main to DemoBranch
+[33m6070166[m[33m ([m[1;33mtag: [m[1;33mIteration0&1[m[33m)[m HEAD@{51}: reset: moving to HEAD
+[33m6070166[m[33m ([m[1;33mtag: [m[1;33mIteration0&1[m[33m)[m HEAD@{52}: checkout: moving from Trinity-GameList to main
+[33mc0d9b6b[m HEAD@{53}: reset: moving to HEAD
+[33mc0d9b6b[m HEAD@{54}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m3386ddf[m HEAD@{55}: commit: Added a Filter for Game List
+[33m7934bad[m HEAD@{56}: reset: moving to 7934bad1556065349570c3d5d686f846c4078e9f
+[33m029a237[m HEAD@{57}: commit: Added a Filter for Game List
+[33m7934bad[m HEAD@{58}: commit: TC - Updated the Game Class
+[33mc0c9fdb[m HEAD@{59}: reset: moving to c0c9fdb46c031724cdc692e229b10ad0f9eb905f
+[33m2f1a831[m HEAD@{60}: commit: Updated the Game Class
+[33mc0c9fdb[m HEAD@{61}: commit: Trinity - Changed Class Name and Added Game Info
+[33mdaebaa5[m HEAD@{62}: checkout: moving from main to Trinity-GameList
+[33mdaebaa5[m HEAD@{63}: commit: TC - Initial Game List for Player
+[33mf0143a3[m HEAD@{64}: clone: from https://github.com/hvpham-yorku/PlayCheck.git

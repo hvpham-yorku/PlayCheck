@@ -9,13 +9,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/createTeamCard"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="20dp"
         app:cardCornerRadius="15dp"
         app:cardElevation="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,52 +27,52 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="Create Team"
                 android:textSize="24sp"
-                android:padding="10dp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/teamName"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:layout_margin="10dp"
                 android:hint="Enter Team Name..."
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
             <AutoCompleteTextView
                 android:id="@+id/searchPlayer"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:layout_margin="10dp"
                 android:hint="Search player name..."
-                app:layout_constraintTop_toBottomOf="@id/teamName"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/teamName" />
 
             <Button
                 android:id="@+id/btnAddPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="Add Player"
-                app:layout_constraintTop_toBottomOf="@id/searchPlayer"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchPlayer" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/AddedPlayers"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/btnAddPlayer"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAddPlayer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,6 +87,17 @@
         app:layout_constraintTop_toBottomOf="@id/createTeamCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/backBtnCreateTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Back"
+        app:layout_constraintBottom_toTopOf="@+id/createTeamCard"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/createTeamCard"
+        tools:layout_editor_absoluteX="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
