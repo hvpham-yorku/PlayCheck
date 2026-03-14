@@ -1,5 +1,6 @@
 package com.example.playcheck.activityfiles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playcheck.R;
-import com.example.playcheck.database.OrganizerLinkToDatabase;
+import com.example.playcheck.Database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -28,12 +29,13 @@ public class CreateTeam extends AppCompatActivity {
 
     EditText teamNameEditText;
     AutoCompleteTextView playerSearchBar;
-    Button addPlayerButton, createTeamButton;
+    Button addPlayerButton, createTeamButton, backButton;
     RecyclerView addedPlayersRecyclerView;
     ArrayList<String> playerIds = new ArrayList<>();
     ArrayList<String> currentAddedPlayerIds = new ArrayList<>();
     ArrayList<String> currentAddedPlayerNames = new ArrayList<>();
     ArrayList<String> playerNames = new ArrayList<>();
+
 
     @Override
     public void onStart() {super.onStart();}
@@ -49,6 +51,7 @@ public class CreateTeam extends AppCompatActivity {
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
         createTeamButton = findViewById(R.id.btnCreateTeam);
+        backButton = findViewById(R.id.backBtnCreateTeam);
         addedPlayersRecyclerView = findViewById(R.id.AddedPlayers);
 
         //recycleview for added players so far
@@ -75,6 +78,13 @@ public class CreateTeam extends AppCompatActivity {
                 playerSearchBar.setThreshold(1); //start searching from first character
                 playerSearchBar.setAdapter(adapter);
 
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

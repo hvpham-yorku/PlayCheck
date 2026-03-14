@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -55,6 +57,8 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.junit.jupiter)
+    implementation(libs.monitor)
+    implementation(libs.ext.junit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -138,13 +138,7 @@ public class Registration extends AppCompatActivity {
                         }
                     });
 
-            // Navigate BASED ON ACCOUNT TYPEà
-            //Intent nextIntent;
 
-            //after registeration, go to profile setup so that user is saved in database
-            //nextIntent = new Intent(this, ProfileSetup.class);
-
-            /*  */
 
 
 

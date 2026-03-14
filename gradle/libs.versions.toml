@@ -18,8 +18,11 @@ playServicesGames = "24.0.0"
 playServicesTasks = "18.4.1"
 mockitoCore = "5.18.0"
 mockitoInline = "5.2.0"
+monitor = "1.6.1"
 
 [libraries]
+test-runner = { group = "androidx.test", name = "runner", version.ref = "monitor" }
+test-rules = { group = "androidx.test", name = "rules", version.ref = "monitor" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 google-firebase-database = { module = "com.google.firebase:firebase-database" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +42,7 @@ play-services-tasks = { group = "com.google.android.gms", name = "play-services-
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
 mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockitoCore" }
+monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/backBtnCreateGame"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:text="Back" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Game"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/teamA"
         android:hint="Team A"

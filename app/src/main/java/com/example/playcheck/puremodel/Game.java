@@ -55,6 +55,9 @@ public class Game {
         this.teamBPlayers = teamBPlayers;
     }
 
+    public Game(String teamA, String teamB, String s, String arena, String s1, List<String> teamAPlayers, List<String> teamBPlayers) {
+    }
+
     public String getTeamA() {
         return teamA;
     }
