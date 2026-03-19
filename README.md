@@ -32,3 +32,4 @@ The system will be considered successful if:
 6. Events and tournaments can be organized entirely within the system.
 
 Overall, PlayCheck aims to improve fairness, consistency, and enjoyment in amateur sports by making video review, league management, and event coordination simple, affordable, and accessible.
+
