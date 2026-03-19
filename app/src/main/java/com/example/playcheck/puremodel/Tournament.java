@@ -21,6 +21,11 @@ public class Tournament extends Event{
     private String tournamentFormat;
     private String sportType;
 
+    private int numberOfTeams;
+    private int numberOfGames;
+
+
+
     Tournament(){
 
     }
