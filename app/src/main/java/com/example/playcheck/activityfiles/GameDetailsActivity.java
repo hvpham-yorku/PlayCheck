@@ -1,4 +1,5 @@
-package com.example.playcheck;
+package com.example.playcheck.activityfiles;
+import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -11,6 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.Toast;
+import com.example.playcheck.R;
+
+import com.example.playcheck.activityfiles.RefereeReportActivity;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
 
 public class GameDetailsActivity extends AppCompatActivity {
 
@@ -20,12 +29,33 @@ public class GameDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_game_details);
 
-        TextView teamText = findViewById(R.id.teamText);
+        TextView teamAText = findViewById(R.id.teamA);
+        TextView teamBText = findViewById(R.id.teamB);
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
         TextView teamAPlayersText = findViewById(R.id.teamAPlayersText);
         TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
+        TextView refereeText = findViewById(R.id.refereeText);
+        Button refereeReportButton = findViewById(R.id.refereeReportButton);
+        Button backButton = findViewById(R.id.backBtnGameDetails);
+
+        refereeReportButton.setOnClickListener(v -> {
+
+            Intent reportIntent = new Intent(this, RefereeReportActivity.class);
+
+            reportIntent.putExtra("gameId", getIntent().getLongExtra("gameId",0));
+            reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
+            startActivity(reportIntent);
+
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 // Get data from Intent
         Intent intent = getIntent();
@@ -37,14 +67,17 @@ public class GameDetailsActivity extends AppCompatActivity {
         String score = intent.getStringExtra("score");
         String teamAPlayers = intent.getStringExtra("teamAPlayers");
         String teamBPlayers = intent.getStringExtra("teamBPlayers");
+        String referee = intent.getStringExtra("referee");
 
 // Set UI
-        teamText.setText(teamA + " vs " + teamB);
+        teamAText.setText(teamA);
+        teamBText.setText(teamB);
         dateText.setText("Date: " + date);
         locationText.setText("Location: " + location);
         scoreText.setText("Score: " + score);
         teamAPlayersText.setText(teamAPlayers);
         teamBPlayersText.setText(teamBPlayers);
+        refereeText.setText("Referee: " + referee);
 
     }
 }

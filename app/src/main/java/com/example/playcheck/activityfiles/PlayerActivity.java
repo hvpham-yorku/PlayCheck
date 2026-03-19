@@ -12,6 +12,7 @@ import com.example.playcheck.R;
 
 public class PlayerActivity extends AppCompatActivity {
 
+    // TODO: 2026-03-03 Work on layout reelated to this class (activity_player.xml) and work on the database link class PlayerLinkToDatabase
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

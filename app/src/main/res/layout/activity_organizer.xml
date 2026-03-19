@@ -1,30 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#F5F5F5">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activityfiles.OrganizerActivity">
+
+    <!-- Title -->
+    <TextView
+            android:id="@+id/OrganizerProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Organizer Profile"
+            android:textSize="26sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Image -->
+    <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:contentDescription="Organizer profile image"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintTop_toBottomOf="@+id/OrganizerProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/organizerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Organizer Dashboard"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/orgFormInstruct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Fill_User_Instructions"
+            android:textSize="18sp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGames"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/organizerTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+    <!-- First Name label -->
+    <TextView
+            android:id="@+id/firstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/first_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orgFormInstruct" />
+
+    <!-- First Name input -->
+    <EditText
+            android:id="@+id/firstNameInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/enter_text_here"
+            app:layout_constraintBottom_toBottomOf="@+id/firstName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/firstName"
+            app:layout_constraintTop_toTopOf="@+id/firstName" />
+
+    <!-- Last Name label -->
+    <TextView
+            android:id="@+id/lastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/last_name"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/firstName"
+            app:layout_constraintTop_toBottomOf="@id/firstName" />
+
+    <!-- Last Name input -->
+    <EditText
+            android:id="@+id/lastNameInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/EnterTextHere"
+            app:layout_constraintBottom_toBottomOf="@+id/lastName"
+            app:layout_constraintEnd_toEndOf="@id/firstNameInput"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/firstNameInput"
+            app:layout_constraintTop_toTopOf="@id/lastName" />
+
+    <!-- DOB label -->
+    <TextView
+            android:id="@+id/dateOfBirth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="@string/date_of_birth"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintStart_toStartOf="@id/firstName"
+            app:layout_constraintTop_toBottomOf="@id/lastName" />
+
+    <!-- DOB input -->
+    <EditText
+            android:id="@+id/dateOfBirthInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/format_yyyy_mm_dd"
+            app:layout_constraintBottom_toBottomOf="@+id/dateOfBirth"
+            app:layout_constraintEnd_toEndOf="@id/firstNameInput"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/firstNameInput"
+            app:layout_constraintTop_toTopOf="@+id/dateOfBirth" />
+
+    <!-- Gender label -->
+    <TextView
+            android:id="@+id/gender"
+            android:layout_width="53dp"
+            android:layout_height="17dp"
+            android:text="@string/gender"
+            app:layout_constraintBottom_toBottomOf="@+id/genderRadioGroup"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/firstName"
+            app:layout_constraintTop_toTopOf="@+id/genderRadioGroup"
+            app:layout_constraintVertical_bias="0.677" />
+
+    <!-- FIXED: RadioGroup with RadioButtons nested inside -->
+    <RadioGroup
+            android:id="@+id/genderRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/firstNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/dateOfBirthInput"
+            app:layout_constraintVertical_bias="1.0">
+
+        <RadioButton
+                android:id="@+id/maleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/male" />
+
+        <RadioButton
+                android:id="@+id/femaleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female" />
+    </RadioGroup>
+
+    <!-- Username label -->
+    <TextView
+            android:id="@+id/userName"
+            android:layout_width="80dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/user_name"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/dateOfBirth"
+            app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup" />
+
+    <!-- Username input -->
+    <EditText
+            android:id="@+id/userNameTextField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:hint="@string/EnterYourUserNameHint"
+            app:layout_constraintBottom_toBottomOf="@+id/userName"
+            app:layout_constraintEnd_toEndOf="@+id/orgFormInstruct"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/userName"
+            app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
+            app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Team Name label (NEW) -->
+    <TextView
+            android:id="@+id/teamName"
+            android:layout_width="80dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="20dp"
+            android:text="Team Name"
+            app:layout_constraintStart_toStartOf="@+id/dateOfBirth"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintTop_toBottomOf="@+id/userNameTextField" />
+
+    <!-- Team Name input (NEW) -->
+    <EditText
+            android:id="@+id/teamNameInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:hint="Enter team name"
+            app:layout_constraintBottom_toBottomOf="@+id/teamName"
+            app:layout_constraintEnd_toEndOf="@+id/orgFormInstruct"
+            app:layout_constraintStart_toEndOf="@+id/teamName"
+            app:layout_constraintTop_toTopOf="@+id/teamName" />
+
+    <!-- League Name label (NEW) -->
+    <TextView
+            android:id="@+id/leagueName"
+            android:layout_width="90dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="20dp"
+            android:text="League Name"
+            app:layout_constraintStart_toStartOf="@+id/dateOfBirth"
+            app:layout_constraintEnd_toEndOf="@+id/firstName"
+            app:layout_constraintTop_toBottomOf="@+id/teamNameInput" />
+
+    <!-- League Name input (NEW) -->
+    <EditText
+            android:id="@+id/leagueNameInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:hint="Enter league name"
+            app:layout_constraintBottom_toBottomOf="@+id/leagueName"
+            app:layout_constraintEnd_toEndOf="@+id/orgFormInstruct"
+            app:layout_constraintStart_toEndOf="@+id/leagueName"
+            app:layout_constraintTop_toTopOf="@+id/leagueName" />
+
+    <!-- Submit button -->
+    <Button
+            android:id="@+id/orgProfileSubmitButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/leagueNameInput"
+            app:layout_constraintVertical_bias="0.385" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

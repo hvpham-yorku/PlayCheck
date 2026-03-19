@@ -9,6 +9,12 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <Button
+            android:id="@+id/backBtnGameDetails"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -17,13 +23,35 @@
             android:textSize="26sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/teamText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team A vs Team B"
-            android:textSize="20sp"
-            android:layout_marginTop="24dp" />
+            android:orientation="horizontal"
+            android:paddingTop="24dp">
+
+            <TextView
+                android:id="@+id/teamA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Team A"
+                android:textSize="20sp"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" vs. "
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/teamB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Team B"
+                android:textSize="20sp"
+                />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/dateText"
@@ -59,6 +87,21 @@
             android:layout_height="wrap_content"
             android:text="Team B Players"
             android:layout_marginTop="12dp" />
+
+        <TextView
+            android:id="@+id/refereeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Referee"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp"/>
+
+        <Button
+            android:id="@+id/refereeReportButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Submit Referee Report"
+            android:layout_marginTop="20dp"/>
 
 
     </LinearLayout>

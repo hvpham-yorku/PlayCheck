@@ -5,13 +5,11 @@ plugins {
 
 android {
     namespace = "com.example.playcheck"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.playcheck"
-        minSdk = 26 //changed this from 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -32,9 +30,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -42,12 +48,17 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.recyclerview)
     implementation(libs.cardview)
-    implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.google.firebase.database)
     implementation(libs.play.services.games)
+    implementation(libs.play.services.tasks)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.junit.jupiter)
+    implementation(libs.monitor)
+    implementation(libs.ext.junit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
