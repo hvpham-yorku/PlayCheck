@@ -1,6 +1,7 @@
 package com.example.playcheck.Database;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -16,6 +17,7 @@ public class TeamLinkToDatabase {
     public void createTeam(ArrayList<String> playerIds, ArrayList<String> playerNames, String captainId, String captainName ,String teamName, OnCompleteListener<Void> listener){
         //create team id
         String teamId = teamsRef.push().getKey();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //add players to team
         Map<String, String> playersMap = new HashMap<>();
@@ -35,6 +37,7 @@ public class TeamLinkToDatabase {
         teamData.put("teamName", teamName);
         teamData.put("players", playersMap);
         teamData.put("Captain", captainMap);
+        teamData.put("teamCreator", uid);
 
 
         teamsRef.child(teamId).setValue(teamData).addOnCompleteListener(listener);

@@ -39,7 +39,14 @@ public class UserLinkToDatabase {
     }
 
 
-    FirebaseAuth uAuth;
+    /*FirebaseAuth uAuth;
+    //The entity that updates/deletion are going to base on in the database
+     User theUser;
+    UserLinkToDatabase(User theUser){
+
+        this.theUser = theUser;
+        uAuth = FirebaseAuth.getInstance();
+    } */
 
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference rootRef = userRef.child("Referee");
@@ -48,13 +55,6 @@ public class UserLinkToDatabase {
     DatabaseReference rootOrganizerRef = userRef.child("Organizer");
 //-----------------------------------------------------------------------------------------------
 
-    //The entity that updates/deletion are going to base on in the database
-    User theUser;
-    UserLinkToDatabase(User theUser){
-
-        this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
-    }
 
     /* Interfaces used for callbacks*/
     public interface PlayerIdCallback {
