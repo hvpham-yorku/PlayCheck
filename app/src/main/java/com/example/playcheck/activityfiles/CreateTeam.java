@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.playcheck.Database.TeamLinkToDatabase;
 import com.example.playcheck.R;
-import com.example.playcheck.database.OrganizerLinkToDatabase;
+import com.example.playcheck.Database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -28,13 +29,19 @@ public class CreateTeam extends AppCompatActivity {
     private DatabaseReference databaseRef;
 
     EditText teamNameEditText;
-    AutoCompleteTextView playerSearchBar;
+    AutoCompleteTextView playerSearchBar, captainSeachBar;
     Button addPlayerButton, createTeamButton, backButton;
     RecyclerView addedPlayersRecyclerView;
     ArrayList<String> playerIds = new ArrayList<>();
     ArrayList<String> currentAddedPlayerIds = new ArrayList<>();
     ArrayList<String> currentAddedPlayerNames = new ArrayList<>();
     ArrayList<String> playerNames = new ArrayList<>();
+
+    String CaptainName;
+
+    String CaptainID;
+
+    TeamLinkToDatabase team;
 
 
     @Override
@@ -48,11 +55,14 @@ public class CreateTeam extends AppCompatActivity {
 
         databaseRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("users");
 
+        team = new TeamLinkToDatabase();
+
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
         createTeamButton = findViewById(R.id.btnCreateTeam);
         backButton = findViewById(R.id.backBtnCreateTeam);
         addedPlayersRecyclerView = findViewById(R.id.AddedPlayers);
+        captainSeachBar = (AutoCompleteTextView)findViewById(R.id.searchCaptain);
 
         //recycleview for added players so far
         AddedPlayersAdapter adapter = new AddedPlayersAdapter(currentAddedPlayerNames);
@@ -64,22 +74,35 @@ public class CreateTeam extends AppCompatActivity {
             public void onCallback(ArrayList<String> ids) {
                 playerIds = ids;
 
+                OrganizerLinkToDatabase.getPlayerNames(new OrganizerLinkToDatabase.PlayerNameCallback() {//get player names
+                    @Override
+                    public void onCallback(ArrayList<String> names) {
+                        playerNames = names;
+
+                        //add player creating the team to team first
+                        String uid = currentUser.getUid();
+                        currentAddedPlayerIds.add(uid);
+                        int indexOfCurrentUserID = playerIds.indexOf(uid);
+                        String currentUserName = playerNames.get(indexOfCurrentUserID);
+                        currentAddedPlayerNames.add(currentUserName);
+
+                        adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1);
+
+                        //create search bar for adding players
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, playerNames);
+                        playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
+                        playerSearchBar.setThreshold(1); //start searching from first character
+                        playerSearchBar.setAdapter(adapter);
+
+
+
+                    }
+                });
+
             }
         });
 
-        OrganizerLinkToDatabase.getPlayerNames(new OrganizerLinkToDatabase.PlayerNameCallback() {//get player names
-            @Override
-            public void onCallback(ArrayList<String> names) {
-                playerNames = names;
 
-                //create search bar
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, playerNames);
-                playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
-                playerSearchBar.setThreshold(1); //start searching from first character
-                playerSearchBar.setAdapter(adapter);
-
-            }
-        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +134,11 @@ public class CreateTeam extends AppCompatActivity {
                     Toast.makeText(CreateTeam.this, "Player is already added to Team", Toast.LENGTH_SHORT).show();
                 }
 
+                //create search bar for adding captain (gets updated when player is added to team)
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
+                captainSeachBar.setThreshold(1);
+                captainSeachBar.setAdapter(adapter);
+
             }
         });
 
@@ -119,34 +147,28 @@ public class CreateTeam extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String teamName = teamNameEditText.getText().toString().trim();
+                String captainName = captainSeachBar.getText().toString().trim();
+
+                int indexOfCaptainId = currentAddedPlayerNames.indexOf(captainName);
+
+                if (indexOfCaptainId < 0){
+                    Toast.makeText(CreateTeam.this, "Player need to be in team before assigning it to captain", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String captainId = currentAddedPlayerIds.get(indexOfCaptainId);
+
 
                 if (teamName.isEmpty()) {
                     Toast.makeText(CreateTeam.this, "Enter a team name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                //create team id
-                DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference("teams");
-                String teamId = teamsRef.push().getKey();
-
-                //add current player id to the team
-                String uid = currentUser.getUid();
-                currentAddedPlayerIds.add(uid);
-
-                //add players to team
-                Map<String, String> playersMap = new HashMap<>();
-                int nop = 1;
-                for (String playerId : currentAddedPlayerIds) {
-                    playersMap.put(playerId, "player" + nop);
-                    nop++;
+                if (captainName.isEmpty()) {
+                    Toast.makeText(CreateTeam.this, "Team needs a captain", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                //add team data to team name
-                Map<String, Object> teamData = new HashMap<>();
-                teamData.put("teamName", teamName);
-                teamData.put("players", playersMap);
-
-                teamsRef.child(teamId).setValue(teamData).addOnCompleteListener(task -> {
+                team.createTeam(currentAddedPlayerIds, currentAddedPlayerNames, captainId, captainName, teamName, task -> {
                     if(task.isSuccessful()){
                         Toast.makeText(CreateTeam.this, "Team Created", Toast.LENGTH_SHORT).show();
                         finish();
