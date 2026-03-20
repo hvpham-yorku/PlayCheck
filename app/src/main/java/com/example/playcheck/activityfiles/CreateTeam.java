@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.playcheck.Database.TeamLinkToDatabase;
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
-import com.example.playcheck.Database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +41,7 @@ public class CreateTeam extends AppCompatActivity {
 
     String CaptainID;
 
+    UserLinkToDatabase user;
     TeamLinkToDatabase team;
 
 
@@ -69,12 +70,12 @@ public class CreateTeam extends AppCompatActivity {
         addedPlayersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         addedPlayersRecyclerView.setAdapter(adapter);
 
-        OrganizerLinkToDatabase.getPlayerIDs(new OrganizerLinkToDatabase.PlayerIdCallback() { //get player ids
+        user.getPlayerIDs(new UserLinkToDatabase.PlayerIdCallback() { //get player ids
             @Override
             public void onCallback(ArrayList<String> ids) {
                 playerIds = ids;
 
-                OrganizerLinkToDatabase.getPlayerNames(new OrganizerLinkToDatabase.PlayerNameCallback() {//get player names
+                user.getPlayerNames(new UserLinkToDatabase.PlayerNameCallback() {//get player names
                     @Override
                     public void onCallback(ArrayList<String> names) {
                         playerNames = names;
