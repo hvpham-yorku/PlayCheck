@@ -19,6 +19,7 @@ playServicesTasks = "18.4.1"
 mockitoCore = "5.18.0"
 mockitoInline = "5.2.0"
 monitor = "1.6.1"
+fragment = "1.8.9"
 
 [libraries]
 test-runner = { group = "androidx.test", name = "runner", version.ref = "monitor" }
@@ -43,6 +44,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
 mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockitoCore" }
 monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
+fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -33,7 +33,10 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="or">or</string>
     <string name="google">Google</string>
-
+    <string name="linkedin">LinkedIn</string>
+    <string name="instagram">Instagram</string>
+    <string name="sign_up_request">Don\'t have an account yet? Sign Up</string>
+    <string name="Sign_Up">Sign Up</string>
 
 
     <string-array name="account_type_choices">
