@@ -110,7 +110,7 @@ public class UserLinkToDatabase {
     }
 
     /* Method that returns all ids for players in the database */
-    public static void getPlayerIDs(final PlayerIdCallback callback) {
+    public void getPlayerIDs(final PlayerIdCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
         ArrayList<String> playerIds = new ArrayList<>();
 
@@ -136,7 +136,7 @@ public class UserLinkToDatabase {
     }
 
     /* Method that returns all player names in the database */
-    public static void getPlayerNames(PlayerNameCallback callback) {
+    public void getPlayerNames(PlayerNameCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
 
         ArrayList<String> playerNames = new ArrayList<>();

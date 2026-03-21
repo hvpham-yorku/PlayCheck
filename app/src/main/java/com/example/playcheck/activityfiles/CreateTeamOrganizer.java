@@ -51,6 +51,7 @@ public class CreateTeamOrganizer extends AppCompatActivity{
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         team = new TeamLinkToDatabase();
+        user = new UserLinkToDatabase();
 
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);

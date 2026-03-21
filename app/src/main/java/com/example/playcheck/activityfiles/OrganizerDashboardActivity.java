@@ -27,7 +27,7 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
         viewGames.setOnClickListener(v ->
                 startActivity(new Intent(this, GameList.class)));
 
-        createGame.setOnClickListener(v ->
+        createTeam.setOnClickListener(v ->
                 startActivity(new Intent(this, CreateTeamOrganizer.class)));
     }
 }
