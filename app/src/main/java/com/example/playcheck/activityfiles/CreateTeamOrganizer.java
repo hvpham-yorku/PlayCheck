@@ -48,7 +48,7 @@ public class CreateTeamOrganizer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
 
         team = new TeamLinkToDatabase();
         user = new UserLinkToDatabase();

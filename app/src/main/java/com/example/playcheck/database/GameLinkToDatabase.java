@@ -1,9 +1,14 @@
 package com.example.playcheck.Database;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.example.playcheck.activityfiles.AdapterGameList;
+import com.example.playcheck.activityfiles.CreateGameActivity;
 import com.example.playcheck.puremodel.Game;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +17,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameLinkToDatabase {
 
@@ -35,5 +42,27 @@ public class GameLinkToDatabase {
             }
         });
     }
+
+    /* Create a game in the games folder */
+    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, OnCompleteListener<Void> listener){
+        String gameId = gamesRef.push().getKey();
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Map<String,Object> game = new HashMap<>();
+
+        game.put("teamA", teamA);
+        game.put("teamB", teamB);
+        game.put("teamAid", teamAid);
+        game.put("teamBid", teamBid);
+        game.put("gameVenue", gameVenue);
+        game.put("gameType", sport);
+        game.put("gameDate", gameDateTime);
+        game.put("gameCreator", uid);
+
+        gamesRef.child(gameId).setValue(game).addOnCompleteListener(listener);
+
+    }
+
 
 }
