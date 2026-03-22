@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +35,7 @@ public class PlayerHomeActivity extends AppCompatActivity {
         Button btnSchedule = findViewById(R.id.btnPlayerSchedule);
         Button btnCreateTeam = findViewById(R.id.btnMakeTeam);
         Button btnMyTeams = findViewById(R.id.btnPlayerTeams);
+        Button btnLogout = findViewById(R.id.btnLogoutPlayer);
 
 
         recyclerPreview = findViewById(R.id.recyclerPreview);
@@ -57,6 +59,14 @@ public class PlayerHomeActivity extends AppCompatActivity {
         btnCreateTeam.setOnClickListener(v -> {
             startActivity(new Intent(this, CreateTeam.class));
         });
+
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, Login.class));
+                finish();
+            });
+        }
 
         // Button opens my teams page
 //        btnMyTeams.setOnClickListener(v -> {

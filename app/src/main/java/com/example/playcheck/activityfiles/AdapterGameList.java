@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 
 /*
-The AdapterGameListPlayer class is used to bind game information called from the Games class ArrayList to single_game_view layout.
+The AdapterGameList class is used to bind game information called from the Games class ArrayList to single_game_view layout.
  */
 
 public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHolder> {
@@ -72,7 +72,7 @@ public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHo
                 intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
                 intent.putExtra("location", game.getGameVenue());
                 intent.putExtra("gameType", game.getGameType());
-                intent.putExtra("gameId", game.getGameDate());
+                intent.putExtra("gameId", game.getGameId()); // Fixed: passing gameId string instead of gameDate long
 
 // temporary demo data
                 intent.putExtra("score", "3 - 2");

@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#F5F5F5">
 
     <TextView
-        android:layout_width="204dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="Welcome Organizer"
@@ -25,12 +27,21 @@
         android:id="@+id/btnCreateGame"
         android:text="Create Game"
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:layout_marginBottom="12dp"/>
 
     <Button
         android:id="@+id/btnViewGames"
-        android:layout_width="362dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="12dp"
         android:text="View Games" />
+
+    <Button
+        android:id="@+id/btnLogoutOrg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Logout"
+        android:backgroundTint="#FF5252"
+        android:textColor="#FFFFFF"/>
 </LinearLayout>
