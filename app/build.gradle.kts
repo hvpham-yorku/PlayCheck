@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.fragment)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)
