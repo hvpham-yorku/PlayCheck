@@ -37,6 +37,19 @@
     <string name="instagram">Instagram</string>
     <string name="sign_up_request">Don\'t have an account yet? Sign Up</string>
     <string name="Sign_Up">Sign Up</string>
+    <string name="Sign_In">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="nav_home">nav_home</string>
+    <string name="nav_news">nav_news</string>
+    <string name="nav_clipboard">nav_clipboard</string>
+    <string name="nav_back">nav_back</string>
+    <string name="nav_profile">nav_profile</string>
+    <string name="statistics">statistics</string>
+    <string name="my_schedule">my_schedule</string>
+    <string name="all_teams">all_teams</string>
+    <string name="all_games">all_games</string>
+    <string name="create_event">create_event</string>
 
 
     <string-array name="account_type_choices">
