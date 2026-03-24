@@ -1,4 +1,6 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
+
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -54,7 +56,17 @@ public class UserLinkToDatabase {
         uAuth = FirebaseAuth.getInstance();
     }
 
+    /* Interfaces used for callbacks*/
+    public interface PlayerIdCallback {
+        void onCallback(ArrayList<String> playerIds);
+    }
 
+    public interface PlayerNameCallback {
+        void onCallback(ArrayList<String> names);
+    }
+
+
+    /*method that returns the user account type as a string */
     public static Task<String> getUserAccountType(FirebaseUser currentUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String uid = currentUser.getUid();
@@ -94,6 +106,61 @@ public class UserLinkToDatabase {
                     return null;
                 });
             });
+        });
+    }
+
+    /* Method that returns all ids for players in the database */
+    public static void getPlayerIDs(final PlayerIdCallback callback) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
+        ArrayList<String> playerIds = new ArrayList<>();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                playerIds.clear();
+
+                for (DataSnapshot idSnapshot : snapshot.getChildren()) {
+                    String playerId = idSnapshot.getKey();
+                    playerIds.add(playerId);
+                }
+
+                callback.onCallback(playerIds); //return data
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", error.getMessage());
+            }
+        });
+
+    }
+
+    /* Method that returns all player names in the database */
+    public static void getPlayerNames(PlayerNameCallback callback) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
+
+        ArrayList<String> playerNames = new ArrayList<>();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                playerNames.clear();
+
+                for (DataSnapshot playerSnapshot : snapshot.getChildren()) {
+                    String firstName = playerSnapshot.child("profile").child("firstName").getValue(String.class);
+                    String lastName = playerSnapshot.child("profile").child("lastName").getValue(String.class);
+                    playerNames.add(firstName + " " + lastName);
+                    Log.d("FirebaseTest", firstName + " " + lastName);
+                }
+
+                callback.onCallback(playerNames);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("Firebase", error.getMessage());
+            }
         });
     }
     //-------------------------------------------------------------------------------------------

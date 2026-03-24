@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import com.example.playcheck.database.UserLinkToDatabase;
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.User;
 import com.google.firebase.auth.FirebaseAuth;

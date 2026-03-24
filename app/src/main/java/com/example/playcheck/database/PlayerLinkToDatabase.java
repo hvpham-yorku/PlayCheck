@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Team;

@@ -64,6 +64,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/searchPlayer" />
 
+            <AutoCompleteTextView
+                android:id="@+id/searchCaptain"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:hint="Enter Team Captain name..."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/AddedPlayers" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/AddedPlayers"
                 android:layout_width="0dp"
