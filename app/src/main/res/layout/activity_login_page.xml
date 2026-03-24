@@ -31,7 +31,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_playcheck_logo_foreground"
-            android:contentDescription="PlayCheck Logo" />
+            android:contentDescription="@string/playcheck_logo" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Your sports Management App"
+        android:text="@string/your_sports_management_app"
         android:textColor="#333333"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -72,7 +72,7 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your email address"
+            android:hint="@string/enter_your_email_address"
             android:inputType="textEmailAddress"
             android:padding="16dp"
             android:textColorHint="#CED4DA" />
@@ -101,7 +101,7 @@
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your password"
+            android:hint="@string/enter_your_password"
             android:inputType="textPassword"
             android:padding="16dp"
             android:textColorHint="#CED4DA" />
@@ -112,7 +112,7 @@
         android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot your password?"
+        android:text="@string/forgot_your_password"
         android:textColor="#333333"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -128,7 +128,7 @@
         android:backgroundTint="#0062BD"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
-        android:text="Login >"
+        android:text="@string/login_word"
         android:textAllCaps="false"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:text="or"
+            android:text="@string/or_word"
             android:textColor="#333333" />
 
         <View
@@ -174,7 +174,7 @@
         android:layout_height="54dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#0D1B2A"
-        android:text="Google"
+        android:text="@string/google_word"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
@@ -194,7 +194,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="6dp"
         android:backgroundTint="#0D1B2A"
-        android:text="LinkedIn"
+        android:text="@string/linkedin_word"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
@@ -213,7 +213,7 @@
         android:layout_height="54dp"
         android:layout_marginStart="6dp"
         android:backgroundTint="#0062BD"
-        android:text="Instagram"
+        android:text="@string/instagram_word"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
@@ -240,7 +240,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dont have an account yet? "
+            android:text="@string/dont_have_an_account_yet_word"
             android:textColor="#333333"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -249,7 +249,7 @@
             android:id="@+id/textViewSignUpLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="@string/sign_up_word"
             android:textColor="#333333"
             android:textSize="14sp"
             android:textStyle="bold" />

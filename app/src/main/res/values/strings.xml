@@ -50,6 +50,18 @@
     <string name="all_teams">all_teams</string>
     <string name="all_games">all_games</string>
     <string name="create_event">create_event</string>
+    <string name="playcheck_logo">PlayCheck Logo</string>
+    <string name="your_sports_management_app">Your sports Management App</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="login_word"><![CDATA[Login >]]></string>
+    <string name="or_word">or</string>
+    <string name="google_word">Google</string>
+    <string name="linkedin_word">LinkedIn</string>
+    <string name="instagram_word">Instagram</string>
+    <string name="dont_have_an_account_yet_word">Dont have an account yet?</string>
+    <string name="sign_up_word">Sign Up</string>
 
 
     <string-array name="account_type_choices">
