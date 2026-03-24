@@ -10,11 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,16 +24,14 @@ public class ProfileSetup extends AppCompatActivity {
     AutoCompleteTextView genderDropdown;
     Button saveBtn;
 
-    FirebaseAuth auth;
-    DatabaseReference dbRef;
+    private UserLinkToDatabase userDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setup);
 
-        auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference();
+        userDb = new UserLinkToDatabase();
 
         firstNameEdit = findViewById(R.id.firstName);
         lastNameEdit = findViewById(R.id.lastName);
@@ -75,14 +72,14 @@ public class ProfileSetup extends AppCompatActivity {
                 return;
             }
 
-            /* if (auth.getCurrentUser() == null) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
                 return;
-            } */
+            }
 
 
-            String uid = auth.getCurrentUser().getUid();
-            String email = auth.getCurrentUser().getEmail();
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             String accountType = getIntent().getStringExtra("accountType");
             if (TextUtils.isEmpty(accountType)){
                 Toast.makeText(this, "Error: No Account Type", Toast.LENGTH_LONG).show();
@@ -97,25 +94,25 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("email", email);
             profile.put("accountType", accountType);
 
-            dbRef.child("users")
-                    .child(accountType)
-                    .child(uid)
-                    .child("profile")
-                    .setValue(profile)
+            userDb.saveUserProfile(uid, accountType, profile)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for that account type
+                        Intent nextIntent = null;
                         if (accountType.equals("Organizer")) {
-                            startActivity(new Intent(this, OrganizerDashboardActivity.class));
+                            nextIntent = new Intent(this, OrganizerDashboardActivity.class);
                         }
                         else if (accountType.equals("Player")) {
-                            startActivity(new Intent(this, PlayerHomeActivity.class));
+                            nextIntent = new Intent(this, PlayerHomeActivity.class);
                         }
                         else if (accountType.equals("Referee")) {
-                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                            nextIntent = new Intent(this, RefereeHomeActivity.class);
                         }
 
-                        finish();
+                        if (nextIntent != null) {
+                            startActivity(nextIntent);
+                            finish();
+                        }
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show()

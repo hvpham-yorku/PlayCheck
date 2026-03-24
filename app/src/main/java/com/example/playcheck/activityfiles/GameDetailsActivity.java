@@ -38,13 +38,26 @@ public class GameDetailsActivity extends AppCompatActivity {
         TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
         TextView refereeText = findViewById(R.id.refereeText);
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
+        Button btnViewClips = findViewById(R.id.btnViewClips);
         Button backButton = findViewById(R.id.backBtnGameDetails);
+
+        btnViewClips.setOnClickListener(v -> {
+
+            Intent intent = new Intent(this, MatchClipListActivity.class);
+
+            intent.putExtra("gameId", getIntent().getStringExtra("gameId"));
+            intent.putExtra("gameName", getIntent().getStringExtra("gameName"));
+
+            startActivity(intent);
+
+        });
+
 
         refereeReportButton.setOnClickListener(v -> {
 
             Intent reportIntent = new Intent(this, RefereeReportActivity.class);
 
-            reportIntent.putExtra("gameId", getIntent().getLongExtra("gameId",0));
+            reportIntent.putExtra("gameId", getIntent().getStringExtra("gameId")); // Fixed: passing gameId string
             reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
             startActivity(reportIntent);
 

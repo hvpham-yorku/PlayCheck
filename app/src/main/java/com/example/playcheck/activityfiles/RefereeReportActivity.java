@@ -31,20 +31,22 @@ public class RefereeReportActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(v -> {
 
-            long gameId = getIntent().getLongExtra("gameId",0);
+            String gameId = getIntent().getStringExtra("gameId"); // Fixed: gameId is now a String (Firebase key)
 
             String score = inputScore.getText().toString();
             String notes = inputNotes.getText().toString();
 
-            if(gameId != 0){
+            if(gameId != null && !gameId.isEmpty()){
 
-                DatabaseReference reportRef = gamesRef.child(String.valueOf(gameId)).child("matchReport");
+                DatabaseReference reportRef = gamesRef.child(gameId).child("matchReport");
 
                 reportRef.child("score").setValue(score);
                 reportRef.child("notes").setValue(notes);
 
                 Toast.makeText(this,"Report Submitted",Toast.LENGTH_SHORT).show();
                 finish();
+            } else {
+                Toast.makeText(this, "Error: Invalid Game ID", Toast.LENGTH_SHORT).show();
             }
 
         });

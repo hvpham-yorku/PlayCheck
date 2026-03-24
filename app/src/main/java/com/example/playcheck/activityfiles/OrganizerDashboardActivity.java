@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.activityfiles.CreateGameActivity;
 import com.example.playcheck.activityfiles.GameList;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OrganizerDashboardActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
 
         Button createGame = findViewById(R.id.btnCreateGame);
         Button viewGames = findViewById(R.id.btnViewGames);
+        Button btnLogout = findViewById(R.id.btnLogoutOrg);
         Button createTeam = findViewById(R.id.btnCreateTeam);
 
         createGame.setOnClickListener(v ->
@@ -27,7 +29,12 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
         viewGames.setOnClickListener(v ->
                 startActivity(new Intent(this, GameList.class)));
 
-        createTeam.setOnClickListener(v ->
-                startActivity(new Intent(this, CreateTeamOrganizer.class)));
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, Login.class));
+                finish();
+            });
+        }
     }
 }

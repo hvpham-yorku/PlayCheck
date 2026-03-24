@@ -10,6 +10,7 @@ import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -107,6 +108,24 @@ public class UserLinkToDatabase {
                 });
             });
         });
+    }
+
+    /**
+     * Registers a new user with Firebase Authentication.
+     */
+    public Task<AuthResult> registerUser(String email, String password) {
+        return mAuth.createUserWithEmailAndPassword(email, password);
+    }
+
+    /**
+     * Saves user profile information to the database.
+     */
+    public Task<Void> saveUserProfile(String uid, String accountType, Map<String, Object> profile) {
+        return databaseRef.child("users")
+                .child(accountType)
+                .child(uid)
+                .child("profile")
+                .setValue(profile);
     }
 
     /* Method that returns all ids for players in the database */

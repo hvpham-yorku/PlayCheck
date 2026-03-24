@@ -173,4 +173,61 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase {
 
                 return future;
         }
+
+        /**
+         * Save a video clip for a specific game
+         */
+        public CompletableFuture<Void> saveMatchClip(String gameId, String clipTitle, String clipUri) {
+                CompletableFuture<Void> future = new CompletableFuture<>();
+                
+                String clipId = databaseRef.child("matchClips").child(gameId).push().getKey();
+                
+                java.util.Map<String, String> clipData = new java.util.HashMap<>();
+                clipData.put("title", clipTitle);
+                clipData.put("uri", clipUri);
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .child(clipId)
+                        .setValue(clipData)
+                        .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                        future.complete(null);
+                                } else {
+                                        future.completeExceptionally(task.getException());
+                                }
+                        });
+
+                return future;
+        }
+
+        /**
+         * Get all video clips for a specific game
+         */
+        public CompletableFuture<List<java.util.Map<String, String>>> getMatchClips(String gameId) {
+                CompletableFuture<List<java.util.Map<String, String>>> future = new CompletableFuture<>();
+                List<java.util.Map<String, String>> clips = new ArrayList<>();
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                        for (DataSnapshot clipSnapshot : snapshot.getChildren()) {
+                                                java.util.Map<String, String> clip = (java.util.Map<String, String>) clipSnapshot.getValue();
+                                                if (clip != null) {
+                                                        clips.add(clip);
+                                                }
+                                        }
+                                        future.complete(clips);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                        future.completeExceptionally(error.toException());
+                                }
+                        });
+
+                return future;
+        }
 }
