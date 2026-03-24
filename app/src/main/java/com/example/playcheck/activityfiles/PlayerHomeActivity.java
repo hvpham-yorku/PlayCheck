@@ -57,7 +57,7 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
         // Button opens create game page
         btnCreateTeam.setOnClickListener(v -> {
-            startActivity(new Intent(this, CreateTeam.class));
+            startActivity(new Intent(this, CreateTeamPlayer.class));
         });
 
         if (btnLogout != null) {

@@ -21,6 +21,7 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
         Button createGame = findViewById(R.id.btnCreateGame);
         Button viewGames = findViewById(R.id.btnViewGames);
         Button btnLogout = findViewById(R.id.btnLogoutOrg);
+        Button createTeam = findViewById(R.id.btnCreateTeam);
 
         createGame.setOnClickListener(v ->
                 startActivity(new Intent(this, CreateGameActivity.class)));

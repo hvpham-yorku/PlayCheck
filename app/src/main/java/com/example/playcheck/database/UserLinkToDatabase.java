@@ -40,7 +40,14 @@ public class UserLinkToDatabase {
     }
 
 
-    FirebaseAuth uAuth;
+    /*FirebaseAuth uAuth;
+    //The entity that updates/deletion are going to base on in the database
+     User theUser;
+    UserLinkToDatabase(User theUser){
+
+        this.theUser = theUser;
+        uAuth = FirebaseAuth.getInstance();
+    } */
 
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference rootRef = userRef.child("Referee");
@@ -49,13 +56,6 @@ public class UserLinkToDatabase {
     DatabaseReference rootOrganizerRef = userRef.child("Organizer");
 //-----------------------------------------------------------------------------------------------
 
-    //The entity that updates/deletion are going to base on in the database
-    User theUser;
-    UserLinkToDatabase(User theUser){
-
-        this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
-    }
 
     /* Interfaces used for callbacks*/
     public interface PlayerIdCallback {
@@ -129,7 +129,7 @@ public class UserLinkToDatabase {
     }
 
     /* Method that returns all ids for players in the database */
-    public static void getPlayerIDs(final PlayerIdCallback callback) {
+    public void getPlayerIDs(final PlayerIdCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
         ArrayList<String> playerIds = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class UserLinkToDatabase {
     }
 
     /* Method that returns all player names in the database */
-    public static void getPlayerNames(PlayerNameCallback callback) {
+    public void getPlayerNames(PlayerNameCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
 
         ArrayList<String> playerNames = new ArrayList<>();
@@ -182,6 +182,8 @@ public class UserLinkToDatabase {
             }
         });
     }
+
+
     //-------------------------------------------------------------------------------------------
   /*  1. Core CRUD Operations
     These are the fundamental building blocks of any persistence class.

@@ -14,39 +14,86 @@
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="Create Game"
         android:textSize="26sp"
         android:textStyle="bold" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/teamA"
         android:hint="Team A"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/teamB"
         android:hint="Team B"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/gameVenue"
         android:hint="Venue"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/gameType"
         android:hint="Game Type"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/gameDate"
-        android:hint="Game Date (dd/mm/yyyy)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:hint="Select Date:"/>
+
+        <Button
+            android:id="@+id/gameDateBtn"
+            android:hint="Click to Select Date"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:spinnerStyle"
+            android:onClick="expandDatePicker"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:hint="Select Time:"/>
+
+        <Button
+            android:id="@+id/gameTimeBtn"
+            android:hint="Click to Select Time"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:spinnerStyle"
+            android:onClick="expandTimePicker"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/saveGame"

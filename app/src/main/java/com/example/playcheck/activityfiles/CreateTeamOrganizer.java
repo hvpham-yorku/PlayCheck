@@ -1,6 +1,5 @@
 package com.example.playcheck.activityfiles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,13 +18,10 @@ import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class CreateTeam extends AppCompatActivity {
+public class CreateTeamOrganizer extends AppCompatActivity{
     private DatabaseReference databaseRef;
 
     EditText teamNameEditText;
@@ -44,7 +40,6 @@ public class CreateTeam extends AppCompatActivity {
     UserLinkToDatabase user;
     TeamLinkToDatabase team;
 
-
     @Override
     public void onStart() {super.onStart();}
 
@@ -52,18 +47,18 @@ public class CreateTeam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        databaseRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("users");
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid(); //get current user
 
         team = new TeamLinkToDatabase();
+        user = new UserLinkToDatabase();
 
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
         createTeamButton = findViewById(R.id.btnCreateTeam);
         backButton = findViewById(R.id.backBtnCreateTeam);
         addedPlayersRecyclerView = findViewById(R.id.AddedPlayers);
-        captainSeachBar = (AutoCompleteTextView)findViewById(R.id.searchCaptain);
+        captainSeachBar = (AutoCompleteTextView) findViewById(R.id.searchCaptain);
 
         //recycleview for added players so far
         AddedPlayersAdapter adapter = new AddedPlayersAdapter(currentAddedPlayerNames);
@@ -80,21 +75,13 @@ public class CreateTeam extends AppCompatActivity {
                     public void onCallback(ArrayList<String> names) {
                         playerNames = names;
 
-                        //add player creating the team to team first
-                        String uid = currentUser.getUid();
-                        currentAddedPlayerIds.add(uid);
-                        int indexOfCurrentUserID = playerIds.indexOf(uid);
-                        String currentUserName = playerNames.get(indexOfCurrentUserID);
-                        currentAddedPlayerNames.add(currentUserName);
-
-                        adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1);
+                        //since this is an organizer creating a team, they are not added to the team
 
                         //create search bar for adding players
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, playerNames);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeamOrganizer.this,android.R.layout.simple_dropdown_item_1line, playerNames);
                         playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
                         playerSearchBar.setThreshold(1); //start searching from first character
                         playerSearchBar.setAdapter(adapter);
-
 
 
                     }
@@ -102,8 +89,6 @@ public class CreateTeam extends AppCompatActivity {
 
             }
         });
-
-
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +104,7 @@ public class CreateTeam extends AppCompatActivity {
                 String selectedPlayerName = playerSearchBar.getText().toString();
 
                 if (!playerNames.contains(selectedPlayerName)) {
-                    Toast.makeText(CreateTeam.this, "Player not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTeamOrganizer.this, "Player not found", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -132,11 +117,11 @@ public class CreateTeam extends AppCompatActivity {
                     adapter.notifyItemInserted(currentAddedPlayerIds.size() - 1); //change recycle view since player is added
                     playerSearchBar.setText("");
                 } else {
-                    Toast.makeText(CreateTeam.this, "Player is already added to Team", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTeamOrganizer.this, "Player is already added to Team", Toast.LENGTH_SHORT).show();
                 }
 
                 //create search bar for adding captain (gets updated when player is added to team)
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeamOrganizer.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
                 captainSeachBar.setThreshold(1);
                 captainSeachBar.setAdapter(adapter);
 
@@ -153,28 +138,28 @@ public class CreateTeam extends AppCompatActivity {
                 int indexOfCaptainId = currentAddedPlayerNames.indexOf(captainName);
 
                 if (indexOfCaptainId < 0){
-                    Toast.makeText(CreateTeam.this, "Player need to be in team before assigning it to captain", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTeamOrganizer.this, "Player need to be in team before assigning it to captain", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String captainId = currentAddedPlayerIds.get(indexOfCaptainId);
 
 
                 if (teamName.isEmpty()) {
-                    Toast.makeText(CreateTeam.this, "Enter a team name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTeamOrganizer.this, "Enter a team name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (captainName.isEmpty()) {
-                    Toast.makeText(CreateTeam.this, "Team needs a captain", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateTeamOrganizer.this, "Team needs a captain", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 team.createTeam(currentAddedPlayerIds, currentAddedPlayerNames, captainId, captainName, teamName, task -> {
                     if(task.isSuccessful()){
-                        Toast.makeText(CreateTeam.this, "Team Created", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateTeamOrganizer.this, "Team Created", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(CreateTeam.this, "Cannot Create Team: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateTeamOrganizer.this, "Cannot Create Team: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -185,8 +170,7 @@ public class CreateTeam extends AppCompatActivity {
             }
         });
 
-
-
     }
+
 
 }
