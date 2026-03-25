@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.room.common.jvm)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)

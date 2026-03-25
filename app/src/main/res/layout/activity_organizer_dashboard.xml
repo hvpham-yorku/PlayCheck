@@ -41,9 +41,6 @@
         android:id="@+id/btnViewGames"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginBottom="12dp"
-        android:layout_width="362dp"
-        android:layout_height="63dp"
         android:layout_marginTop="10dp"
         android:text="View Games" />
 

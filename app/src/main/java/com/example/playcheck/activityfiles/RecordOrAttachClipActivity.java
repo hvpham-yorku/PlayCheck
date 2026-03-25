@@ -29,6 +29,15 @@ public class RecordOrAttachClipActivity extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
+                        // Request persistable permission to access the URI even after app restarts
+                        try {
+                            getContentResolver().takePersistableUriPermission(uri, 
+                                    Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        } catch (SecurityException e) {
+                            // Some providers don't support persistable permissions, 
+                            // but we proceed anyway as it might still work in the current session
+                        }
+
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("clipUri", uri.toString());
                         setResult(RESULT_OK, resultIntent);

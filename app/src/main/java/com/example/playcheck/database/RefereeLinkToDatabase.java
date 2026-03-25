@@ -185,6 +185,7 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase {
                 java.util.Map<String, String> clipData = new java.util.HashMap<>();
                 clipData.put("title", clipTitle);
                 clipData.put("uri", clipUri);
+                clipData.put("id", clipId); // Store ID for deletion
 
                 databaseRef.child("matchClips")
                         .child(gameId)
@@ -216,6 +217,10 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase {
                                         for (DataSnapshot clipSnapshot : snapshot.getChildren()) {
                                                 java.util.Map<String, String> clip = (java.util.Map<String, String>) clipSnapshot.getValue();
                                                 if (clip != null) {
+                                                        // Ensure the 'id' field is present by using the Firebase Key as a fallback
+                                                        if (!clip.containsKey("id")) {
+                                                                clip.put("id", clipSnapshot.getKey());
+                                                        }
                                                         clips.add(clip);
                                                 }
                                         }
@@ -225,6 +230,32 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase {
                                 @Override
                                 public void onCancelled(DatabaseError error) {
                                         future.completeExceptionally(error.toException());
+                                }
+                        });
+
+                return future;
+        }
+
+        /**
+         * Delete a specific video clip
+         */
+        public CompletableFuture<Void> deleteMatchClip(String gameId, String clipId) {
+                CompletableFuture<Void> future = new CompletableFuture<>();
+
+                if (clipId == null) {
+                        future.completeExceptionally(new Exception("Clip ID is null"));
+                        return future;
+                }
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .child(clipId)
+                        .removeValue()
+                        .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                        future.complete(null);
+                                } else {
+                                        future.completeExceptionally(task.getException());
                                 }
                         });
 
