@@ -57,6 +57,8 @@ public class GameList extends AppCompatActivity {
         optionsList.add("Game Venue (Alphabetical)");
         optionsList.add("Game Type (Alphabetical)");
 
+        GameLinkToDatabase gamesDB = new GameLinkToDatabase();
+
         //connect dropdown adapter, optionsList data and dropdown UI together
         Spinner spinnerDropDown = findViewById(R.id.gameListSpinner);
         dropDownAdapter = new GameListDropDownAdapter(this, optionsList);

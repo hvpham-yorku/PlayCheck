@@ -51,6 +51,7 @@ public class CreateTeamPlayer extends AppCompatActivity {
 
 
         team = new TeamLinkToDatabase();
+        user = new UserLinkToDatabase();
 
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);

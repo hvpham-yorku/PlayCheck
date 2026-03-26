@@ -184,7 +184,7 @@ public class CreateGameActivity extends AppCompatActivity {
         }
 
         String teamAid = teamIDs.get(indexTeamA);
-        String teamBid = teamIDs.get(indexTeamA);
+        String teamBid = teamIDs.get(indexTeamB);
 
 
         long dateTimeInt = (new Game()).getEpochTime(selectedYear, selectedMonth, selectedDay, hour, minute); //date and time as a long int
