@@ -1,25 +1,18 @@
 package com.example.playcheck.activityfiles;
-import android.view.View;
-import android.widget.TextView;
+
 import android.content.Intent;
-
-
-
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.widget.EditText;
-import android.widget.Button;
-import android.widget.Toast;
-import com.example.playcheck.R;
 
-import com.example.playcheck.activityfiles.RefereeReportActivity;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
+import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class GameDetailsActivity extends AppCompatActivity {
 
@@ -37,42 +30,47 @@ public class GameDetailsActivity extends AppCompatActivity {
         TextView teamAPlayersText = findViewById(R.id.teamAPlayersText);
         TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
         TextView refereeText = findViewById(R.id.refereeText);
+        
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
         Button btnViewClips = findViewById(R.id.btnViewClips);
         Button backButton = findViewById(R.id.backBtnGameDetails);
 
+        // Hide referee buttons by default
+        refereeReportButton.setVisibility(View.GONE);
+        btnViewClips.setVisibility(View.GONE);
+
+        // Only show buttons if the user is a Referee
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String accountType = task.getResult();
+                    if ("Referee".equals(accountType)) {
+                        refereeReportButton.setVisibility(View.VISIBLE);
+                        btnViewClips.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+
         btnViewClips.setOnClickListener(v -> {
-
             Intent intent = new Intent(this, MatchClipListActivity.class);
-
             intent.putExtra("gameId", getIntent().getStringExtra("gameId"));
             intent.putExtra("gameName", getIntent().getStringExtra("gameName"));
-
             startActivity(intent);
-
         });
-
 
         refereeReportButton.setOnClickListener(v -> {
-
             Intent reportIntent = new Intent(this, RefereeReportActivity.class);
-
-            reportIntent.putExtra("gameId", getIntent().getStringExtra("gameId")); // Fixed: passing gameId string
+            reportIntent.putExtra("gameId", getIntent().getStringExtra("gameId"));
             reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
             startActivity(reportIntent);
-
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        backButton.setOnClickListener(view -> finish());
 
-// Get data from Intent
+        // Get data from Intent
         Intent intent = getIntent();
-
         String teamA = intent.getStringExtra("teamA");
         String teamB = intent.getStringExtra("teamB");
         String date = intent.getStringExtra("date");
@@ -82,7 +80,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         String teamBPlayers = intent.getStringExtra("teamBPlayers");
         String referee = intent.getStringExtra("referee");
 
-// Set UI
+        // Set UI
         teamAText.setText(teamA);
         teamBText.setText(teamB);
         dateText.setText("Date: " + date);
@@ -91,6 +89,5 @@ public class GameDetailsActivity extends AppCompatActivity {
         teamAPlayersText.setText(teamAPlayers);
         teamBPlayersText.setText(teamBPlayers);
         refereeText.setText("Referee: " + referee);
-
     }
 }

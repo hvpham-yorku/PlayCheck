@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
 
+// This screen shows a live camera feed using CameraX
 public class LiveFeedActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -35,9 +36,9 @@ public class LiveFeedActivity extends AppCompatActivity {
 
         txtFeedStatus = findViewById(R.id.txtFeedStatus);
         btnCloseLiveFeed = findViewById(R.id.btnCloseLiveFeed);
-        previewView = new PreviewView(this);
         
-        // Add PreviewView to the container if it exists
+        // Setup the camera view
+        previewView = new PreviewView(this);
         android.view.ViewGroup container = findViewById(R.id.cameraPreviewContainer);
         if (container != null) {
             container.addView(previewView);
@@ -45,6 +46,7 @@ public class LiveFeedActivity extends AppCompatActivity {
 
         btnCloseLiveFeed.setOnClickListener(v -> finish());
 
+        // Ask for permission before starting
         checkCameraPermission();
     }
 
@@ -61,6 +63,7 @@ public class LiveFeedActivity extends AppCompatActivity {
         }
     }
 
+    // Boilerplate for starting CameraX
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = 
                 ProcessCameraProvider.getInstance(this);
@@ -71,7 +74,7 @@ public class LiveFeedActivity extends AppCompatActivity {
                 bindPreview(cameraProvider);
                 txtFeedStatus.setText("Live camera feed active");
             } catch (ExecutionException | InterruptedException e) {
-                txtFeedStatus.setText("Error starting camera: " + e.getMessage());
+                txtFeedStatus.setText("Error starting camera");
             }
         }, ContextCompat.getMainExecutor(this));
     }
@@ -79,6 +82,7 @@ public class LiveFeedActivity extends AppCompatActivity {
     private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
 
+        // Use back camera by default
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
@@ -92,14 +96,11 @@ public class LiveFeedActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCamera();
-                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
             } else {
                 txtFeedStatus.setText("Camera permission denied");
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
