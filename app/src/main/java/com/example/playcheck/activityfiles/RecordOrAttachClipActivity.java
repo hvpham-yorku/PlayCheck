@@ -12,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
 
+// This activity is for choosing a video from the phone
 public class RecordOrAttachClipActivity extends AppCompatActivity {
 
     Button btnPickVideo;
-
-    ActivityResultLauncher<String> pickVideoLauncher;
+    ActivityResultLauncher<String[]> pickVideoLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,20 @@ public class RecordOrAttachClipActivity extends AppCompatActivity {
 
         btnPickVideo = findViewById(R.id.btnPickVideo);
 
+        // Open the file picker for videos
         pickVideoLauncher = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
+                new ActivityResultContracts.OpenDocument(),
                 uri -> {
                     if (uri != null) {
-                        // Request persistable permission to access the URI even after app restarts
+                        // Keep access to the video even if app closes
                         try {
-                            getContentResolver().takePersistableUriPermission(uri, 
-                                    Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                            getContentResolver().takePersistableUriPermission(uri, takeFlags);
                         } catch (SecurityException e) {
-                            // Some providers don't support persistable permissions, 
-                            // but we proceed anyway as it might still work in the current session
+                            // ignore error if not supported
                         }
 
+                        // Send uri back to the list screen
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("clipUri", uri.toString());
                         setResult(RESULT_OK, resultIntent);
@@ -47,6 +48,6 @@ public class RecordOrAttachClipActivity extends AppCompatActivity {
                 }
         );
 
-        btnPickVideo.setOnClickListener(v -> pickVideoLauncher.launch("video/*"));
+        btnPickVideo.setOnClickListener(v -> pickVideoLauncher.launch(new String[]{"video/*"}));
     }
 }

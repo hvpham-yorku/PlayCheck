@@ -21,12 +21,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.Database.RefereeLinkToDatabase;
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+// This screen shows all the clips for a specific game
 public class MatchClipListActivity extends AppCompatActivity {
 
     TextView txtTitle;
@@ -38,6 +42,7 @@ public class MatchClipListActivity extends AppCompatActivity {
 
     String gameId;
     String gameName;
+    boolean isReferee = false;
 
     private RefereeLinkToDatabase dbService;
 
@@ -55,6 +60,11 @@ public class MatchClipListActivity extends AppCompatActivity {
         btnLiveFeed = findViewById(R.id.btnLiveFeed);
         listClips = findViewById(R.id.listClips);
 
+        // Hide referee buttons by default
+        btnAddClip.setVisibility(View.GONE);
+        btnLiveFeed.setVisibility(View.GONE);
+
+        // Get game info from previous screen
         gameId = getIntent().getStringExtra("gameId");
         gameName = getIntent().getStringExtra("gameName");
 
@@ -71,8 +81,26 @@ public class MatchClipListActivity extends AppCompatActivity {
         adapter = new ClipAdapter(this, clipList);
         listClips.setAdapter(adapter);
 
+        // Check if user is a referee to show/hide buttons
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String accountType = task.getResult();
+                    if ("Referee".equals(accountType)) {
+                        isReferee = true;
+                        btnAddClip.setVisibility(View.VISIBLE);
+                        btnLiveFeed.setVisibility(View.VISIBLE);
+                        adapter.notifyDataSetChanged(); // Refresh to show delete buttons
+                    }
+                }
+            });
+        }
+
+        // Pull clips from firebase
         loadClips();
 
+        // This handles getting the video back from the picker
         attachClipLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -97,6 +125,7 @@ public class MatchClipListActivity extends AppCompatActivity {
         });
     }
 
+    // Refresh the list from the database
     private void loadClips() {
         dbService.getMatchClips(gameId).thenAccept(clips -> {
             runOnUiThread(() -> {
@@ -115,6 +144,7 @@ public class MatchClipListActivity extends AppCompatActivity {
         });
     }
 
+    // Save a new clip link to firebase
     private void saveClipToDatabase(String title, String uri) {
         dbService.saveMatchClip(gameId, title, uri).thenAccept(v -> {
             runOnUiThread(() -> {
@@ -127,6 +157,7 @@ public class MatchClipListActivity extends AppCompatActivity {
         });
     }
 
+    // Popup to make sure user really wants to delete
     private void confirmDelete(Map<String, String> clip) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Clip")
@@ -146,7 +177,7 @@ public class MatchClipListActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Inner class for custom adapter with delete button
+    // Custom adapter for the list view rows
     private class ClipAdapter extends ArrayAdapter<Map<String, String>> {
         public ClipAdapter(Context context, List<Map<String, String>> clips) {
             super(context, 0, clips);
@@ -166,15 +197,19 @@ public class MatchClipListActivity extends AppCompatActivity {
             if (clip != null) {
                 txtName.setText(clip.get("title"));
                 
-                // Clicking the text plays the video
+                // Only show delete button if user is a referee
+                btnDelete.setVisibility(isReferee ? View.VISIBLE : View.GONE);
+
+                // Play video when clicking the row
                 convertView.setOnClickListener(v -> {
                     Intent intent = new Intent(MatchClipListActivity.this, ClipPlayerActivity.class);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
                     intent.putExtra("clipTitle", clip.get("title"));
                     intent.putExtra("clipUri", clip.get("uri"));
                     startActivity(intent);
                 });
 
-                // Clicking the trash icon deletes the video
+                // Delete when clicking the trash can
                 btnDelete.setOnClickListener(v -> confirmDelete(clip));
             }
 

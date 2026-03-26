@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
 
+// This screen just plays a video clip
 public class ClipPlayerActivity extends AppCompatActivity {
 
-    private static final String TAG = "ClipPlayerActivity";
     TextView txtClipTitle;
     VideoView videoView;
 
@@ -26,6 +26,7 @@ public class ClipPlayerActivity extends AppCompatActivity {
         txtClipTitle = findViewById(R.id.txtClipTitle);
         videoView = findViewById(R.id.videoViewClip);
 
+        // Get title and uri from the intent
         String clipTitle = getIntent().getStringExtra("clipTitle");
         String clipUri = getIntent().getStringExtra("clipUri");
 
@@ -34,31 +35,27 @@ public class ClipPlayerActivity extends AppCompatActivity {
         if (clipUri != null && !clipUri.isEmpty()) {
             try {
                 Uri uri = Uri.parse(clipUri);
-                Log.d(TAG, "Attempting to play URI: " + uri.toString());
                 
+                // Load the video
                 videoView.setVideoURI(uri);
 
+                // Add play/pause buttons
                 MediaController mediaController = new MediaController(this);
                 mediaController.setAnchorView(videoView);
                 videoView.setMediaController(mediaController);
 
-                videoView.setOnPreparedListener(mp -> {
-                    Log.d(TAG, "Video prepared, starting playback");
-                    videoView.start();
-                });
+                // Start when ready
+                videoView.setOnPreparedListener(mp -> videoView.start());
 
+                // Show error message if it fails
                 videoView.setOnErrorListener((mp, what, extra) -> {
-                    Log.e(TAG, "VideoView Error: what=" + what + " extra=" + extra);
-                    Toast.makeText(this, "Cannot play this video. Format might be unsupported or permission expired.", Toast.LENGTH_LONG).show();
-                    return true; // true means we handled the error
+                    Toast.makeText(this, "Can't play this video", Toast.LENGTH_LONG).show();
+                    return true;
                 });
 
             } catch (Exception e) {
-                Log.e(TAG, "Error parsing URI or setting up VideoView", e);
-                Toast.makeText(this, "Error playing video: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "No video URI provided", Toast.LENGTH_SHORT).show();
         }
     }
 }
