@@ -1,6 +1,6 @@
 package com.example.playcheck.puremodel;
 
-import com.example.playcheck.Database.PlayerLinkToDatabase;
+import com.example.playcheck.database.PlayerLinkToDatabase;
 
 import java.util.List;
 import java.util.Map;
@@ -45,11 +45,9 @@ public class Player extends User {
             return playerDbService.addPlayerToTeam(getUid(), teamId)
                     .thenCompose(v -> {
                         // Second: Save the updated player profile (with new teamId)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful - you could add logging here
                         System.out.println("Player successfully joined team: " + teamId);
                     });
         }
@@ -58,7 +56,6 @@ public class Player extends User {
 
     /**
      * Leave team - removes team relationship and updates profile
-     * This is where you saw the saveProfile() call
      */
     public CompletableFuture<Void> leaveTeam() {
         String oldTeamId = this.teamId;
@@ -66,15 +63,11 @@ public class Player extends User {
         this.teamId = null;
 
         if (getUid() != null && oldTeamId != null) {
-            // First: Remove from team in database
             return playerDbService.removePlayerFromTeam(getUid(), oldTeamId)
                     .thenCompose(v -> {
-                        // Second: Save the updated player profile (with teamId = null)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful
                         System.out.println("Player successfully left team: " + oldTeamId);
                     });
         }
@@ -93,7 +86,6 @@ public class Player extends User {
             stats.put("goalsScored", goalsScored);
             stats.put("matchesPlayed", matchesPlayed);
 
-            // Use saveProfileFields (more efficient than saveProfile)
             return saveProfileFields(stats);
         }
         return CompletableFuture.completedFuture(null);

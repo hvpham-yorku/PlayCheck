@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.playcheck.Database.TeamLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +57,7 @@ public class CreateTeam extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("users");
 
         team = new TeamLinkToDatabase();
+        user = new UserLinkToDatabase(); // Added initialization for 'user' to avoid NullPointerException
 
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
@@ -70,12 +71,12 @@ public class CreateTeam extends AppCompatActivity {
         addedPlayersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         addedPlayersRecyclerView.setAdapter(adapter);
 
-        user.getPlayerIDs(new UserLinkToDatabase.PlayerIdCallback() { //get player ids
+        UserLinkToDatabase.getPlayerIDs(new UserLinkToDatabase.PlayerIdCallback() { //get player ids
             @Override
             public void onCallback(ArrayList<String> ids) {
                 playerIds = ids;
 
-                user.getPlayerNames(new UserLinkToDatabase.PlayerNameCallback() {//get player names
+                UserLinkToDatabase.getPlayerNames(new UserLinkToDatabase.PlayerNameCallback() {//get player names
                     @Override
                     public void onCallback(ArrayList<String> names) {
                         playerNames = names;
