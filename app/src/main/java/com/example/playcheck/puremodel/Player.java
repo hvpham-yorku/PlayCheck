@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
-public class Player extends User implements UserStats {
+public class Player extends User {
 
     private Team team;
     private String teamId;
@@ -45,11 +45,9 @@ public class Player extends User implements UserStats {
             return playerDbService.addPlayerToTeam(getUid(), teamId)
                     .thenCompose(v -> {
                         // Second: Save the updated player profile (with new teamId)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful - you could add logging here
                         System.out.println("Player successfully joined team: " + teamId);
                     });
         }
@@ -58,7 +56,6 @@ public class Player extends User implements UserStats {
 
     /**
      * Leave team - removes team relationship and updates profile
-     * This is where you saw the saveProfile() call
      */
     public CompletableFuture<Void> leaveTeam() {
         String oldTeamId = this.teamId;
@@ -66,15 +63,11 @@ public class Player extends User implements UserStats {
         this.teamId = null;
 
         if (getUid() != null && oldTeamId != null) {
-            // First: Remove from team in database
             return playerDbService.removePlayerFromTeam(getUid(), oldTeamId)
                     .thenCompose(v -> {
-                        // Second: Save the updated player profile (with teamId = null)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful
                         System.out.println("Player successfully left team: " + oldTeamId);
                     });
         }
@@ -93,7 +86,6 @@ public class Player extends User implements UserStats {
             stats.put("goalsScored", goalsScored);
             stats.put("matchesPlayed", matchesPlayed);
 
-            // Use saveProfileFields (more efficient than saveProfile)
             return saveProfileFields(stats);
         }
         return CompletableFuture.completedFuture(null);
@@ -179,21 +171,4 @@ public class Player extends User implements UserStats {
     public void setMatchesPlayed(int matchesPlayed) {
         this.matchesPlayed = matchesPlayed;
     }
-
-    @Override
-    public int gettotallikes() {
-        return 0;
-    }
-
-    @Override
-    public int gettotaldislikes() {
-        return 0;
-    }
-
-    @Override
-    public int gettotalSavings() {
-        return 0;
-    }
-
-
 }

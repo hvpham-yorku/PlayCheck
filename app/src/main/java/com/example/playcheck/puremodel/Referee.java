@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class Referee extends User implements UserStats{
+public class Referee extends User {
 
     private List<LocalDate> gameDateAvailabilityDates;
     private List<Game> schedule;
@@ -72,27 +72,11 @@ public class Referee extends User implements UserStats{
         return this.gameDateAvailabilityDates.contains(date);
     }
 
-    @Override
-    public int gettotallikes() {
-        return 0;
-    }
-
-    @Override
-    public int gettotaldislikes() {
-        return 0;
-    }
-
-    @Override
-    public int gettotalSavings() {
-        return 0;
-    }
-
 
     //-------------------------------------------------------------------------------------------
     // Referee-specific Business Logic using specialized service
     //-------------------------------------------------------------------------------------------
 
-    // TODO: 2026-03-05 work on this part
     @Override
     public CompletableFuture<String> register() {
         return super.register().thenCompose(uid -> {
