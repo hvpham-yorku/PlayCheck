@@ -69,10 +69,12 @@ public class Homepage_Controller extends AppCompatActivity {
             finish();
         });
 
+
+
         // 5. Bottom Navigation
         findViewById(R.id.navHome).setOnClickListener(v -> handleNavClick("Home"));
         findViewById(R.id.navNews).setOnClickListener(v -> handleNavClick("Notifications"));
-        findViewById(R.id.navClipboard).setOnClickListener(v -> handleNavClick("Video_PlayBack_Plus_Stats"));
+        findViewById(R.id.navClipboard).setOnClickListener(v -> navigateTo(Video_Review_Page_Plus_Stats_controller.class));
         findViewById(R.id.navBack).setOnClickListener(v -> finish());
         findViewById(R.id.navProfile).setOnClickListener(v -> handleNavClick("Profile"));
 

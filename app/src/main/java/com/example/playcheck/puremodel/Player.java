@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
-public class Player extends User {
+public class Player extends User implements UserStats {
 
     private Team team;
     private String teamId;
@@ -179,4 +179,21 @@ public class Player extends User {
     public void setMatchesPlayed(int matchesPlayed) {
         this.matchesPlayed = matchesPlayed;
     }
+
+    @Override
+    public int gettotallikes() {
+        return 0;
+    }
+
+    @Override
+    public int gettotaldislikes() {
+        return 0;
+    }
+
+    @Override
+    public int gettotalSavings() {
+        return 0;
+    }
+
+
 }

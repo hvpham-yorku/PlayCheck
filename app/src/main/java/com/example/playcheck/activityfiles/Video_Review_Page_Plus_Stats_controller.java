@@ -1,9 +1,11 @@
 package com.example.playcheck.activityfiles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +21,7 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
 
     private AutoCompleteTextView sportTypeSpinner;
     private MaterialButtonToggleGroup toggleGroup;
-    private TextView tvScore, tvSteps, tvCalories;
+    private TextView tvLikes, tvDislikes, tvSaved;
     private MaterialButton btnDaily, btnWeekly, btnMonthly, btnAllTime;
 
     @Override
@@ -37,14 +39,15 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
         initViews();
         setupSportTypeSpinner();
         setupToggleGroup();
+        setupClickListeners();
     }
 
     private void initViews() {
         sportTypeSpinner = findViewById(R.id.sport_type_spinner);
         toggleGroup = findViewById(R.id.toggleGroup);
-        tvScore = findViewById(R.id.tv_score);
-        tvSteps = findViewById(R.id.tv_steps);
-        tvCalories = findViewById(R.id.tv_calories);
+        tvLikes = findViewById(R.id.tv_score);
+        tvDislikes = findViewById(R.id.tv_steps);
+        tvSaved = findViewById(R.id.tv_calories);
         
         btnDaily = findViewById(R.id.btn_daily);
         btnWeekly = findViewById(R.id.btn_weekly);
@@ -79,21 +82,46 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
 
     private void updateStats(int checkedId) {
         if (checkedId == R.id.btn_daily) {
-            tvScore.setText("1,200 / 2,000");
-            tvSteps.setText("8,000 / 10,000");
-            tvCalories.setText("450 / 600");
+            tvLikes.setText("1,200 / 2,000");
+            tvDislikes.setText("8,000 / 10,000");
+            tvSaved.setText("450 / 600");
         } else if (checkedId == R.id.btn_weekly) {
-            tvScore.setText("5,615 / 7,699");
-            tvSteps.setText("5,615 / 7,699");
-            tvCalories.setText("5,615 / 7,699");
+            tvLikes.setText("5,615 / 7,699");
+            tvDislikes.setText("5,615 / 7,699");
+            tvSaved.setText("5,615 / 7,699");
         } else if (checkedId == R.id.btn_monthly) {
-            tvScore.setText("22,400 / 30,000");
-            tvSteps.setText("150,000 / 200,000");
-            tvCalories.setText("12,000 / 15,000");
+            tvLikes.setText("22,400 / 30,000");
+            tvDislikes.setText("150,000 / 200,000");
+            tvSaved.setText("12,000 / 15,000");
         } else if (checkedId == R.id.btn_all_time) {
-            tvScore.setText("120,500 / 150,000");
-            tvSteps.setText("1,200,000 / 1,500,000");
-            tvCalories.setText("85,000 / 100,000");
+            tvLikes.setText("120,500 / 150,000");
+            tvDislikes.setText("1,200,000 / 1,500,000");
+            tvSaved.setText("85,000 / 100,000");
         }
     }
+
+    private void setupClickListeners() {
+
+        //Bottom Navigation
+        findViewById(R.id.navHome).setOnClickListener(v -> navigateTo(Homepage_Controller.class));
+        findViewById(R.id.navNews).setOnClickListener(v -> handleNavClick("Notifications"));
+        findViewById(R.id.navClipboard).setOnClickListener(v -> navigateTo(Video_Review_Page_Plus_Stats_controller.class));
+        findViewById(R.id.navBack).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        findViewById(R.id.navProfile).setOnClickListener(v -> handleNavClick("Profile"));
+
+    }
+
+    private void navigateTo(Class<?> targetActivity) {
+        try {
+            Intent intent = new Intent(this, targetActivity);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Activity not yet implemented", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleNavClick(String navItem) {
+        Toast.makeText(this, "You are already on " + navItem, Toast.LENGTH_SHORT).show();
+    }
+
 }

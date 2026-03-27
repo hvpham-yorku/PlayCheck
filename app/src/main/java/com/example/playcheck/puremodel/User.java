@@ -23,6 +23,11 @@ public abstract class User {
     private String uid;
     private String classType; // Stores the concrete class name for deserialization
 
+    // NEW: Stats
+    private int totallikes;
+    private int totaldislikes;
+    private int totalSavings;
+
     // Static database service shared by all User instances
     protected static UserLinkToDatabase databaseService = null;
 

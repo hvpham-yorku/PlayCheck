@@ -175,7 +175,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="★ Source"
+                            android:text="★ Likes"
                             android:textColor="#333333" />
 
                         <TextView
@@ -198,7 +198,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="👣 Steps"
+                            android:text="👣 Dislikes"
                             android:textColor="#333333" />
 
                         <TextView
@@ -221,7 +221,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔥 Calories"
+                            android:text="🔥 Saved"
                             android:textColor="#333333" />
 
                         <TextView

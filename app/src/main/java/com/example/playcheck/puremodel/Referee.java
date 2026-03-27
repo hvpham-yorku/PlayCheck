@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class Referee extends User {
+public class Referee extends User implements UserStats{
 
     private List<LocalDate> gameDateAvailabilityDates;
     private List<Game> schedule;
@@ -70,6 +70,21 @@ public class Referee extends User {
 
     public boolean isAvailableOnDate(LocalDate date) {
         return this.gameDateAvailabilityDates.contains(date);
+    }
+
+    @Override
+    public int gettotallikes() {
+        return 0;
+    }
+
+    @Override
+    public int gettotaldislikes() {
+        return 0;
+    }
+
+    @Override
+    public int gettotalSavings() {
+        return 0;
     }
 
 
@@ -156,4 +171,6 @@ public class Referee extends User {
         }
         return null;
     }
+
+
 }
