@@ -53,7 +53,7 @@
                             android:layout_height="match_parent"
                             android:contentDescription="@string/suggestion"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/frame_43957" />
+                            android:src="@drawable/frame_43953" />
 
 
                     </com.google.android.material.card.MaterialCardView>
@@ -193,6 +193,44 @@
                                 android:contentDescription="@string/statistics"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/frame_43958" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- All Users Button (NEW) -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardCalistenia"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="All Users"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_8" /> <!-- Replace with your SVG -->
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Create Team Button (NEW) -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardPingPong"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="Create-Team"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43959" /> <!-- Replace with your SVG -->
                         </com.google.android.material.card.MaterialCardView>
                     </GridLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
