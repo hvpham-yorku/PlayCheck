@@ -24,7 +24,7 @@ public class GameLinkToDatabase {
 
     DatabaseReference gamesRef = FirebaseDatabase.getInstance().getReference("games");
     /* Reusable method that gets game data from the database based on a Query object*/
-    public static void getGameData(Query gamedata, ArrayList<Game> games, AdapterGameList adapter){ //DatabaseReference is a child class of Query so this is ok to do
+    public void getGameData(Query gamedata, ArrayList<Game> games, AdapterGameList adapter){ //DatabaseReference is a child class of Query so this is ok to do
         gamedata.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated

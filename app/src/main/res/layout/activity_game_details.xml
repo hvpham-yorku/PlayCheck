@@ -75,18 +75,32 @@
             android:layout_marginTop="12dp" />
 
         <TextView
-            android:id="@+id/teamAPlayersText"
+            android:id="@+id/teamATeamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team A Players"
+            android:text="Team A Roster:"
+            android:textStyle="bold"
             android:layout_marginTop="16dp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleviewTeamAPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
         <TextView
-            android:id="@+id/teamBPlayersText"
+            android:id="@+id/teamBTeamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team B Players"
-            android:layout_marginTop="12dp" />
+            android:text="Team B Roster:"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewTeamBPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:id="@+id/refereeText"

@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    UserLinkToDatabase user = new UserLinkToDatabase();
 
     @Override
     public void onStart() {
@@ -44,7 +45,7 @@ public class Login extends AppCompatActivity {
         if(currentUser != null){
             progressBar.setVisibility(View.VISIBLE);
             //get account type
-            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
@@ -115,8 +116,8 @@ public class Login extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            UserLinkToDatabase.getUserAccountType(user).addOnCompleteListener(typeTask -> {
+                            FirebaseUser userFB = mAuth.getCurrentUser();
+                            user.getUserAccountType(userFB).addOnCompleteListener(typeTask -> {
                                 progressBar.setVisibility(View.GONE);
                                 if (typeTask.isSuccessful()) {
                                     String accountType = typeTask.getResult();

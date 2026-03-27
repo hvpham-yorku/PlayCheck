@@ -32,6 +32,8 @@ public class GameList extends AppCompatActivity {
     AdapterGameList adapter;
     private ArrayList<String> optionsList; //the options/filters that will be used for dropdown menu
 
+   GameLinkToDatabase gamesDB = new GameLinkToDatabase();
+
     private GameListDropDownAdapter dropDownAdapter;
 
 
@@ -46,7 +48,7 @@ public class GameList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterGameList(this, games); //creating a new adapter for this activity using data from 'games'
         recyclerView.setAdapter(adapter); //set the adapter that will be used to add data to games list
-        GameLinkToDatabase.getGameData(gamedetails, games, adapter);
+        gamesDB.getGameData(gamedetails, games, adapter);
 
         optionsList = new ArrayList<String>();
         optionsList.add("All Games");
@@ -55,7 +57,6 @@ public class GameList extends AppCompatActivity {
         optionsList.add("Game Venue (Alphabetical)");
         optionsList.add("Game Type (Alphabetical)");
 
-        GameLinkToDatabase gamesDB = new GameLinkToDatabase();
 
         //connect dropdown adapter, optionsList data and dropdown UI together
         Spinner spinnerDropDown = findViewById(R.id.gameListSpinner);
@@ -69,15 +70,15 @@ public class GameList extends AppCompatActivity {
                 String clickedItem = (String) adapterView.getItemAtPosition(i); //gets the item stored in the adapter at index i
                 long current_dateTime = getCurrentDateTimeAsLong();
                 if (clickedItem.equals("Past Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
+                    gamesDB.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
                 } else if (clickedItem.equals("Upcoming Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
+                    gamesDB.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
                 } else if (clickedItem.equals("Game Venue (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
+                    gamesDB.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
                 } else if (clickedItem.equals("Game Type (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
+                    gamesDB.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
                 } else {
-                    GameLinkToDatabase.getGameData(gamedetails, games, adapter); //show all games
+                    gamesDB.getGameData(gamedetails, games, adapter); //show all games
                 }
             }
             @Override

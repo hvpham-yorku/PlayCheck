@@ -15,9 +15,11 @@ import java.util.ArrayList;
 public class AddedPlayersAdapter extends RecyclerView.Adapter<AddedPlayersAdapter.ViewHolder> {
 
     private ArrayList<String> currentPlayers;
+    private boolean isDeletable; //this will be used later when adding the 'remove player from team' feature
 
-    public AddedPlayersAdapter(ArrayList<String> players) {
+    public AddedPlayersAdapter(ArrayList<String> players, boolean isDeletable) {
         this.currentPlayers = players;
+        this.isDeletable = isDeletable;
     }
 
     @Override

@@ -42,6 +42,7 @@ public class MatchClipListActivity extends AppCompatActivity {
 
     String gameId;
     String gameName;
+    UserLinkToDatabase user;
     boolean isReferee = false;
 
     private RefereeLinkToDatabase dbService;
@@ -54,6 +55,8 @@ public class MatchClipListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_match_clip_list);
 
         dbService = new RefereeLinkToDatabase();
+
+        user = new UserLinkToDatabase();
 
         txtTitle = findViewById(R.id.txtTitle);
         btnAddClip = findViewById(R.id.btnAddClip);
@@ -84,7 +87,7 @@ public class MatchClipListActivity extends AppCompatActivity {
         // Check if user is a referee to show/hide buttons
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
                     if ("Referee".equals(accountType)) {

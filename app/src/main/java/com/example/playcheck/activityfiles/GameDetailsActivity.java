@@ -8,11 +8,15 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 public class GameDetailsActivity extends AppCompatActivity {
 
@@ -24,15 +28,22 @@ public class GameDetailsActivity extends AppCompatActivity {
 
         TextView teamAText = findViewById(R.id.teamA);
         TextView teamBText = findViewById(R.id.teamB);
+        TextView teamBNameText = findViewById(R.id.teamBTeamName);
+        TextView teamANameText = findViewById(R.id.teamATeamName);
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
-        TextView teamAPlayersText = findViewById(R.id.teamAPlayersText);
-        TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
+        //recycleviews for team players
+        RecyclerView rvTeamA = findViewById(R.id.recycleviewTeamAPlayers);
+        RecyclerView rvTeamB = findViewById(R.id.recycleViewTeamBPlayers);
         TextView refereeText = findViewById(R.id.refereeText);
         
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
         Button btnViewClips = findViewById(R.id.btnViewClips);
+
+        //layout manager for recycleviews
+        rvTeamA.setLayoutManager(new LinearLayoutManager(this));
+        rvTeamB.setLayoutManager(new LinearLayoutManager(this));
 
         // Hide referee buttons by default
         refereeReportButton.setVisibility(View.GONE);
@@ -40,8 +51,9 @@ public class GameDetailsActivity extends AppCompatActivity {
 
         // Only show buttons if the user is a Referee
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        UserLinkToDatabase user = new UserLinkToDatabase();
         if (currentUser != null) {
-            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
                     if ("Referee".equals(accountType)) {
@@ -74,8 +86,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         String date = intent.getStringExtra("date");
         String location = intent.getStringExtra("location");
         String score = intent.getStringExtra("score");
-        String teamAPlayers = intent.getStringExtra("teamAPlayers");
-        String teamBPlayers = intent.getStringExtra("teamBPlayers");
+        ArrayList<String> teamAPlayers = intent.getStringArrayListExtra("teamAPlayers");
+        ArrayList<String> teamBPlayers = intent.getStringArrayListExtra("teamBPlayers");
         String referee = intent.getStringExtra("referee");
 
         // Set UI
@@ -84,8 +96,13 @@ public class GameDetailsActivity extends AppCompatActivity {
         dateText.setText("Date: " + date);
         locationText.setText("Location: " + location);
         scoreText.setText("Score: " + score);
-        teamAPlayersText.setText(teamAPlayers);
-        teamBPlayersText.setText(teamBPlayers);
         refereeText.setText("Referee: " + referee);
+        teamANameText.setText(teamA);
+        teamBNameText.setText(teamB);
+
+        //using the PlayerAdapter to display players
+        rvTeamA.setAdapter(new AddedPlayersAdapter(teamAPlayers, false));
+        rvTeamB.setAdapter(new AddedPlayersAdapter(teamBPlayers, false));
+
     }
 }

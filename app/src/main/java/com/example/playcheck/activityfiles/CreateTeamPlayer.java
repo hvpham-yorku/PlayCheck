@@ -56,7 +56,7 @@ public class CreateTeamPlayer extends AppCompatActivity {
         captainSeachBar = (AutoCompleteTextView)findViewById(R.id.searchCaptain);
 
         //recycleview for added players so far
-        AddedPlayersAdapter adapter = new AddedPlayersAdapter(currentAddedPlayerNames);
+        AddedPlayersAdapter adapter = new AddedPlayersAdapter(currentAddedPlayerNames, true);
         addedPlayersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         addedPlayersRecyclerView.setAdapter(adapter);
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.playcheck.Database.TeamLinkToDatabase;
 import com.example.playcheck.activityfiles.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
@@ -24,6 +25,8 @@ The AdapterGameList class is used to bind game information called from the Games
 
 public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHolder> {
     Context context;
+
+    TeamLinkToDatabase teamsDB = new TeamLinkToDatabase();
     ArrayList<Game> list; //contains information about all the games from Firebase
 
 
@@ -67,21 +70,27 @@ public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHo
 
                 Intent intent = new Intent(v.getContext(), GameDetailsActivity.class);
 
-                intent.putExtra("teamA", game.getTeamA());
-                intent.putExtra("teamB", game.getTeamB());
-                intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
-                intent.putExtra("location", game.getGameVenue());
-                intent.putExtra("gameType", game.getGameType());
-                intent.putExtra("gameId", game.getGameId()); // Fixed: passing gameId string instead of gameDate long
+                //send info for games details page
+                teamsDB.getPlayersFromTeam(game.getTeamAid(), (playerIdsA, playerNamesA) -> {
+                    teamsDB.getPlayersFromTeam(game.getTeamBid(), (playerIdsB, playerNamesB) -> {
+                        intent.putExtra("teamA", game.getTeamA());
+                        intent.putExtra("teamB", game.getTeamB());
+                        intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
+                        intent.putExtra("location", game.getGameVenue());
+                        intent.putExtra("gameType", game.getGameType());
+                        intent.putExtra("gameId", game.getGameId()); // Fixed: passing gameId string instead of gameDate long
+                        intent.putExtra("teamAPlayers", playerNamesA);
+                        intent.putExtra("teamBPlayers", playerNamesB);
 
-// temporary demo data
-                intent.putExtra("score", "3 - 2");
-                intent.putExtra("teamAPlayers", "Mike\nTom\nSam");
-                intent.putExtra("teamBPlayers", "Alex\nJake\nChris");
-                intent.putExtra("referee", "John Smith");
-                intent.putExtra("sportsmanship", "Team A: 4.5 | Team B: 4.2");
+                        // temporary demo data
+                        intent.putExtra("score", "3 - 2");
+                        intent.putExtra("referee", "John Smith");
+                        intent.putExtra("sportsmanship", "Team A: 4.5 | Team B: 4.2");
 
-                v.getContext().startActivity(intent);
+                        v.getContext().startActivity(intent);
+                    });
+                });
+
             });
         }
 

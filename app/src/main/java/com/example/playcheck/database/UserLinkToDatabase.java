@@ -68,7 +68,7 @@ public class UserLinkToDatabase {
 
 
     /*method that returns the user account type as a string */
-    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
+    public Task<String> getUserAccountType(FirebaseUser currentUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String uid = currentUser.getUid();
 

@@ -27,9 +27,10 @@ public class Game {
     private String date;
     private String location;
     private String score;
-    private List<String> teamAPlayers;
-    private List<String> teamBPlayers;
-
+    private List<String> teamAPlayers; //used for tests
+    private List<String> teamBPlayers; //used for tests
+    private String teamAid;
+    private String teamBid;
     private Event event;
     private Referee referee;
 
@@ -37,7 +38,7 @@ public class Game {
 
     public Game(){}
 
-    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator) {
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.gameDate = gameDate;
@@ -45,6 +46,8 @@ public class Game {
         this.gameType = gameType;
         this.players = players;
         this.gameCreator = gameCreator;
+        this.teamAid = teamAid;
+        this.teamBid = teamBid;
 
         this.gameId = "";
         this.event = null;
@@ -159,6 +162,26 @@ public class Game {
 
     public void setGameId(String gameId) {
         this.gameId = gameId;
+    }
+
+    public void setGameCreator(String gameCreator) {
+        this.gameCreator = gameCreator;
+    }
+
+    public String getTeamAid() {
+        return teamAid;
+    }
+
+    public void setTeamAid(String teamAid) {
+        this.teamAid = teamAid;
+    }
+
+    public String getTeamBid() {
+        return teamBid;
+    }
+
+    public void setTeamBid(String teamBid) {
+        this.teamBid = teamBid;
     }
 
     public String getEventId() {
