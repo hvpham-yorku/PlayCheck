@@ -15,8 +15,14 @@ cardview = "1.0.0"
 firebaseFirestore = "26.1.0"
 firebaseDatabase = "22.0.1"
 playServicesGames = "24.0.0"
+playServicesTasks = "18.4.1"
+mockitoCore = "5.18.0"
+mockitoInline = "5.2.0"
+monitor = "1.6.1"
 
 [libraries]
+test-runner = { group = "androidx.test", name = "runner", version.ref = "monitor" }
+test-rules = { group = "androidx.test", name = "rules", version.ref = "monitor" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 google-firebase-database = { module = "com.google.firebase:firebase-database" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -32,8 +38,12 @@ cardview = { group = "androidx.cardview", name = "cardview", version.ref = "card
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 play-services-games = { group = "com.google.android.gms", name = "play-services-games", version.ref = "playServicesGames" }
+play-services-tasks = { group = "com.google.android.gms", name = "play-services-tasks", version.ref = "playServicesTasks" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
+mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockitoCore" }
+monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-

@@ -9,6 +9,12 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+        <Button
+            android:id="@+id/backBtnGameDetails"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"

@@ -63,14 +63,12 @@ public class Login extends AppCompatActivity {
                         startActivity(nextIntent);
                         finish();
                     } else if (accountType.equals("Organizer")){
-                        nextIntent = new Intent(this, OrganizerActivity.class);
+                        nextIntent = new Intent(this, OrganizerDashboardActivity.class);
                         startActivity(nextIntent);
                         finish();
                     }
-
                 }
             });
-
         }
     }
 

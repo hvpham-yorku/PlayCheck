@@ -58,10 +58,10 @@ public class PlayerHomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, CreateTeam.class));
         });
 
-        // Button opens create game page
-        btnMyTeams.setOnClickListener(v -> {
-            startActivity(new Intent(this, MyTeams.class));
-        });
+        // Button opens my teams page
+//        btnMyTeams.setOnClickListener(v -> {
+//            startActivity(new Intent(this, MyTeams.class));
+//        });
 
         // Load preview: upcoming games only (limit to like 3)
         gamesRef = FirebaseDatabase.getInstance().getReference("games");
