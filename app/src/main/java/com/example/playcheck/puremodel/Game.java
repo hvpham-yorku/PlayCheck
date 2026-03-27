@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 /*
 This class defines the information that each Game has.
@@ -20,6 +21,8 @@ public class Game {
     private String gameType;
     private String gameName; // Added to match Firebase data if present
     private String gameId;
+    private Map<String, String> players;
+    private String gameCreator;
 
     private String date;
     private String location;
@@ -34,12 +37,15 @@ public class Game {
 
     public Game(){}
 
-    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType) {
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.gameDate = gameDate;
         this.gameVenue = gameVenue;
         this.gameType = gameType;
+        this.players = players;
+        this.gameCreator = gameCreator;
+
         this.gameId = "";
         this.event = null;
         this.referee = null;
@@ -64,6 +70,10 @@ public class Game {
     }
     public long getGameDate() { //return date as a long int
         return gameDate;
+    }
+
+    public Map<String, String> getPlayers() {
+        return players;
     }
 
     public String getGameDateLongtoString(long gameDate){
@@ -111,6 +121,10 @@ public class Game {
 
     public String getGameType(){
         return gameType;
+    }
+
+    public void setPlayers(Map<String, String> players) {
+        this.players = players;
     }
 
     public void setTeamA(String teamA) {
@@ -219,5 +233,9 @@ public class Game {
 
     public void setTeamBPlayers(List<String> teamBPlayers) {
         this.teamBPlayers = teamBPlayers;
+    }
+
+    public String getGameCreator() {
+        return gameCreator;
     }
 }

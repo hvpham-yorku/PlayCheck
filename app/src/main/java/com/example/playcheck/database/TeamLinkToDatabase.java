@@ -27,6 +27,9 @@ public class TeamLinkToDatabase {
     public interface TeamIdCallback {
         void onCallback(ArrayList<String> teamIds);
     }
+    public interface TeamPlayersCallback {
+        void onCallback(ArrayList<String> playerIds, ArrayList<String> playerNames);
+    }
 
     /*Create a team in the teams folder. Listener return if task is sucessful or not */
     public void createTeam(ArrayList<String> playerIds, ArrayList<String> playerNames, String captainId, String captainName ,String teamName, OnCompleteListener<Void> listener){
@@ -110,6 +113,40 @@ public class TeamLinkToDatabase {
                 Log.e("Firebase", error.getMessage());
             }
         });
+    }
+
+    /*Given a team id, return all the players in that team */
+    public void getPlayersFromTeam(String teamId, TeamPlayersCallback callback) {
+
+        ArrayList<String> playerIds = new ArrayList<>();
+        ArrayList<String> playerNames = new ArrayList<>();
+
+        teamsRef.child(teamId).child("players")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        playerIds.clear();
+                        playerNames.clear();
+
+                        for (DataSnapshot playerSnap : snapshot.getChildren()) {
+
+                            String playerId = playerSnap.getKey(); // uid
+                            String playerName = playerSnap.getValue(String.class); // name
+
+                            playerIds.add(playerId);
+                            playerNames.add(playerName);
+                        }
+
+                        callback.onCallback(playerIds, playerNames);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", error.getMessage());
+                    }
+                });
     }
 
 

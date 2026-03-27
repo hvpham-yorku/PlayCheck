@@ -189,13 +189,27 @@ public class CreateGameActivity extends AppCompatActivity {
 
         long dateTimeInt = (new Game()).getEpochTime(selectedYear, selectedMonth, selectedDay, hour, minute); //date and time as a long int
 
-        gameToDB.createGame(teamAid, teamBid, teamAVal, teamBVal, venueVal, typeVal, dateTimeInt, task -> {
-            if(task.isSuccessful()){
-                Toast.makeText(CreateGameActivity.this, "Game Created", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(CreateGameActivity.this, "Cannot Create Game: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
+        //Create Game in DB
+        teamsDB.getPlayersFromTeam(teamAid, (idsA, namesA) -> {
+            teamsDB.getPlayersFromTeam(teamBid, (idsB, namesB) -> {
+
+                // Merge lists together; all players names and ids are now in A
+                idsA.addAll(idsB);
+                namesA.addAll(namesB);
+
+                gameToDB.createGame(teamAid, teamBid, teamAVal, teamBVal, venueVal, typeVal, dateTimeInt, idsA, namesA,
+                        task -> {
+                            if(task.isSuccessful()){
+                                Toast.makeText(CreateGameActivity.this, "Game Created", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(CreateGameActivity.this, "Cannot Create Game: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+
+            });
+
         });
     }
 

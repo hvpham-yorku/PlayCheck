@@ -3,6 +3,8 @@ package com.example.playcheck.puremodel;
 public class Team {
     private String teamName;
 
+
+
     public Team(String teamName) {
         this.teamName = teamName;
     }

@@ -29,9 +29,14 @@ public class GameLinkToDatabase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated
                 games.clear(); //clear list before updating it again
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Game info = dataSnapshot.getValue(Game.class);
-                    games.add(info);
+                    boolean isCreator = uid.equals(info.getGameCreator());
+                    boolean isParticipant = info.getPlayers() != null && info.getPlayers().containsKey(uid);
+                    if (isCreator || isParticipant) {
+                        games.add(info);
+                    }
                 }
                 adapter.notifyDataSetChanged(); //Tells the recycler view to update with new game list
             }
@@ -44,12 +49,17 @@ public class GameLinkToDatabase {
     }
 
     /* Create a game in the games folder */
-    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, OnCompleteListener<Void> listener){
+    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, ArrayList<String> playerIds, ArrayList<String> playerNames,OnCompleteListener<Void> listener){
         String gameId = gamesRef.push().getKey();
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Map<String,Object> game = new HashMap<>();
+
+        Map<String, String> playersMap = new HashMap<>();
+        for (int i = 0; i < playerIds.size(); i++) {
+            playersMap.put(playerIds.get(i), playerNames.get(i));
+        }
 
         game.put("teamA", teamA);
         game.put("teamB", teamB);
@@ -59,6 +69,7 @@ public class GameLinkToDatabase {
         game.put("gameType", sport);
         game.put("gameDate", gameDateTime);
         game.put("gameCreator", uid);
+        game.put("players", playersMap);
 
         gamesRef.child(gameId).setValue(game).addOnCompleteListener(listener);
 

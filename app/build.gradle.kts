@@ -70,4 +70,6 @@ dependencies {
     implementation(libs.camera.camera2)
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
+
+    implementation("androidx.annotation:annotation:1.7.0")
 }
