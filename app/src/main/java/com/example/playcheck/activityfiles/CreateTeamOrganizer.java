@@ -26,7 +26,7 @@ public class CreateTeamOrganizer extends AppCompatActivity{
 
     EditText teamNameEditText;
     AutoCompleteTextView playerSearchBar, captainSeachBar;
-    Button addPlayerButton, createTeamButton, backButton;
+    Button addPlayerButton, createTeamButton;
     RecyclerView addedPlayersRecyclerView;
     ArrayList<String> playerIds = new ArrayList<>();
     ArrayList<String> currentAddedPlayerIds = new ArrayList<>();
@@ -56,7 +56,6 @@ public class CreateTeamOrganizer extends AppCompatActivity{
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
         createTeamButton = findViewById(R.id.btnCreateTeam);
-        backButton = findViewById(R.id.backBtnCreateTeam);
         addedPlayersRecyclerView = findViewById(R.id.AddedPlayers);
         captainSeachBar = (AutoCompleteTextView) findViewById(R.id.searchCaptain);
 
@@ -90,12 +89,6 @@ public class CreateTeamOrganizer extends AppCompatActivity{
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         //add player to team and update recycleview
         addPlayerButton.setOnClickListener(new View.OnClickListener() {

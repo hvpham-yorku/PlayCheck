@@ -30,7 +30,6 @@ public class GameList extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Game> games;
     AdapterGameList adapter;
-    Button backBtn;
     private ArrayList<String> optionsList; //the options/filters that will be used for dropdown menu
 
     private GameListDropDownAdapter dropDownAdapter;
@@ -42,7 +41,6 @@ public class GameList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
         recyclerView = findViewById(R.id.gamelist);
-        backBtn = findViewById(R.id.backBtnGameList);
         gamedetails = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("games"); //points to the "games" folder in database
         games = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,12 +62,6 @@ public class GameList extends AppCompatActivity {
         dropDownAdapter = new GameListDropDownAdapter(this, optionsList);
         spinnerDropDown.setAdapter(dropDownAdapter);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         spinnerDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

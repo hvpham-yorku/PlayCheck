@@ -52,7 +52,10 @@
                 android:hint="Search player name..."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/teamName" />
+                app:layout_constraintTop_toBottomOf="@id/teamName"
+                android:paddingStart="12dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="8dp"/>
 
             <Button
                 android:id="@+id/btnAddPlayer"

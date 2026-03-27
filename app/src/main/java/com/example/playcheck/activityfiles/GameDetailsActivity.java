@@ -33,7 +33,6 @@ public class GameDetailsActivity extends AppCompatActivity {
         
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
         Button btnViewClips = findViewById(R.id.btnViewClips);
-        Button backButton = findViewById(R.id.backBtnGameDetails);
 
         // Hide referee buttons by default
         refereeReportButton.setVisibility(View.GONE);
@@ -67,7 +66,6 @@ public class GameDetailsActivity extends AppCompatActivity {
             startActivity(reportIntent);
         });
 
-        backButton.setOnClickListener(view -> finish());
 
         // Get data from Intent
         Intent intent = getIntent();

@@ -35,13 +35,12 @@ public class CreateGameActivity extends AppCompatActivity {
 
     AutoCompleteTextView teamA, teamB;
     EditText venue, type;
-    Button saveGame, backBtn, dateBtn, timeBtn;
+    Button saveGame, dateBtn, timeBtn;
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
 
     TeamLinkToDatabase teamsDB;
     GameLinkToDatabase gameToDB;
-    DatabaseReference gamesRef;
     int selectedYear, selectedMonth, selectedDay;
     int hour, minute;
 
@@ -92,14 +91,6 @@ public class CreateGameActivity extends AppCompatActivity {
             }
         });
 
-        //back to previous page button
-        backBtn = findViewById(R.id.backBtnCreateGame);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         saveGame.setOnClickListener(v -> saveGame());
     }
