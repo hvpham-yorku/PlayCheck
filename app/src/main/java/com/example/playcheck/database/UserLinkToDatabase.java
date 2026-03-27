@@ -25,48 +25,37 @@ public class UserLinkToDatabase {
 
     protected FirebaseAuth mAuth;
     protected DatabaseReference databaseRef;
+    protected User theUser;
 
     public UserLinkToDatabase() {
         mAuth = FirebaseAuth.getInstance();
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
-
-    FirebaseAuth uAuth;
-
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference rootRef = userRef.child("Referee");
-    DatabaseReference rootPlayerRef = userRef.child("Player");
-
-    DatabaseReference rootOrganizerRef = userRef.child("Organizer");
-//-----------------------------------------------------------------------------------------------
-
-    //The entity that updates/deletion are going to base on in the database
-    User theUser;
     public UserLinkToDatabase(User theUser){
-
+        this();
         this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
     }
-
 
     public static Task<String> getUserAccountType(FirebaseUser currentUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String uid = currentUser.getUid();
 
-        DatabaseReference playerRef = database.getReference("users")
+        DatabaseReference userNodeRef = database.getReference("users");
+
+        DatabaseReference playerRef = userNodeRef
                 .child("Player")
                 .child(uid)
                 .child("profile")
                 .child("accountType");
 
-        DatabaseReference organizerRef = database.getReference("users")
+        DatabaseReference organizerRef = userNodeRef
                 .child("Organizer")
                 .child(uid)
                 .child("profile")
                 .child("accountType");
 
-        DatabaseReference refereeRef = database.getReference("users")
+        DatabaseReference refereeRef = userNodeRef
                 .child("Referee")
                 .child(uid)
                 .child("profile")
@@ -91,24 +80,7 @@ public class UserLinkToDatabase {
             });
         });
     }
-    //-------------------------------------------------------------------------------------------
-  /*  1. Core CRUD Operations
-    These are the fundamental building blocks of any persistence class.
 
-    create(entity) / save(entity) / insert(entity)
-
-    Function: Persists a new record to the database.
-
-    Returns: Often returns the saved entity with its generated ID.
-
-    /**
-     * Creates a new user with email and password.
-     * Saves the user profile to the database after successful authentication.
-     *
-     * @param user     The user object (must contain email)
-     * @param password The password for the new account
-     * @return CompletableFuture with the new user's UID
-     */
     public CompletableFuture<String> createUser(User user, String password) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
@@ -137,14 +109,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Logs in an existing user with email and password.
-     * Fetches the user profile from the database after successful authentication.
-     *
-     * @param email    User's email
-     * @param password User's password
-     * @return CompletableFuture with the fully populated User object
-     */
     public CompletableFuture<User> loginUser(String email, String password) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
@@ -165,18 +129,10 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Logs out the current user.
-     */
     public void logout() {
         mAuth.signOut();
     }
 
-    /**
-     * Retrieves the currently authenticated user's profile.
-     *
-     * @return CompletableFuture with the current User object, or exceptionally if no user is logged in
-     */
     public CompletableFuture<User> getCurrentUser() {
         CompletableFuture<User> future = new CompletableFuture<>();
 
@@ -194,23 +150,10 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    //-------------------------------------------------------------------------------------------
-    // Database Operations
-    //-------------------------------------------------------------------------------------------
-
-    /**
-     * Saves a user object to the Realtime Database under "users/{uid}".
-     */
     private Task<Void> saveUserToDatabase(User user) {
         return databaseRef.child("users").child(user.getUid()).setValue(user);
     }
 
-    /**
-     * Fetches a user by their UID from the "users" node.
-     *
-     * @param uid The user's unique identifier
-     * @return CompletableFuture with the reconstructed User object (subclass instance)
-     */
     public CompletableFuture<User> fetchUserByUid(String uid) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
@@ -239,12 +182,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Updates an entire user object in the database.
-     *
-     * @param user The user object with updated fields
-     * @return CompletableFuture indicating completion
-     */
     public CompletableFuture<Void> updateUser(User user) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
@@ -261,14 +198,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Updates only specific fields of a user in the database.
-     * More efficient than updating the entire object.
-     *
-     * @param uid    The user's UID
-     * @param fields A map of field names to new values
-     * @return CompletableFuture indicating completion
-     */
     public CompletableFuture<Void> updateUserFields(String uid, Map<String, Object> fields) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
@@ -285,20 +214,12 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Deletes a user completely: removes from database and (if current user) from Authentication.
-     *
-     * @param uid The UID of the user to delete
-     * @return CompletableFuture indicating completion
-     */
     public CompletableFuture<Void> deleteUser(String uid) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        // Delete from database first
         databaseRef.child("users").child(uid).removeValue()
                 .addOnCompleteListener(dbTask -> {
                     if (dbTask.isSuccessful()) {
-                        // If the deleted user is the currently authenticated one, also delete from Auth
                         FirebaseUser currentUser = mAuth.getCurrentUser();
                         if (currentUser != null && currentUser.getUid().equals(uid)) {
                             currentUser.delete()
@@ -310,7 +231,6 @@ public class UserLinkToDatabase {
                                         }
                                     });
                         } else {
-                            // Either no current user or it's a different user – just complete
                             future.complete(null);
                         }
                     } else {
@@ -321,11 +241,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Retrieves all players from the database (users with classType = "Player").
-     *
-     * @return CompletableFuture with a list of Player objects
-     */
     public CompletableFuture<List<Player>> getAllPlayers() {
         CompletableFuture<List<Player>> future = new CompletableFuture<>();
         List<Player> players = new ArrayList<>();
@@ -355,13 +270,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Sends a verification email to update the user's email address in Firebase Authentication.
-     * (The actual email change requires the user to click the verification link.)
-     *
-     * @param newEmail The new email address
-     * @return CompletableFuture indicating that the verification email was sent
-     */
     public CompletableFuture<Void> updateEmail(String newEmail) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
@@ -382,14 +290,6 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    //-------------------------------------------------------------------------------------------
-    // Helper Methods
-    //-------------------------------------------------------------------------------------------
-
-    /**
-     * Determines the role string from a User object (used for database path, but not strictly needed
-     * if we use a flat "users" node).
-     */
     private String getRoleFromUser(User user) {
         if (user instanceof Referee) return "Referee";
         if (user instanceof Player) return "Player";
@@ -397,10 +297,6 @@ public class UserLinkToDatabase {
         return "User";
     }
 
-    /**
-     * Reconstructs a User (or subclass) object from a DataSnapshot.
-     * Expects the snapshot to contain fields: classType, firstName, lastName, email, dateOfBirth, gender.
-     */
     private User createUserFromSnapshot(DataSnapshot snapshot) {
         String classType = snapshot.child("classType").getValue(String.class);
         String firstName = snapshot.child("firstName").getValue(String.class);
@@ -423,9 +319,6 @@ public class UserLinkToDatabase {
         }
     }
 
-    /**
-     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
-     */
     private void deleteAuthUser() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
