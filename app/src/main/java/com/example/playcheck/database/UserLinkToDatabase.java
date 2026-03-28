@@ -61,6 +61,10 @@ public class UserLinkToDatabase {
         void onCallback(ArrayList<String> names);
     }
 
+    public interface RefereesCallback {
+        void onCallback(ArrayList<String> refIds, ArrayList<String> refNames);
+    }
+
 
     /*method that returns the user account type as a string */
     public Task<String> getUserAccountType(FirebaseUser currentUser) {
@@ -178,6 +182,35 @@ public class UserLinkToDatabase {
         });
     }
 
+    /*Method that gets all referee names and ids from database */
+    public void getAllReferees(RefereesCallback callback) {
+        DatabaseReference refRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child("Referee");
+
+        refRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> refNames = new ArrayList<>();
+                ArrayList<String> refIds = new ArrayList<>();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String firstName = ds.child("profile").child("firstName").getValue(String.class);
+                    String lastName = ds.child("profile").child("lastName").getValue(String.class);
+
+                    Log.d("FirebaseTest", "REF FOUND: " + firstName + " " + lastName);
+
+                    refIds.add(ds.getKey());
+                    refNames.add(firstName + " " + lastName);
+                }
+                callback.onCallback(refIds, refNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", error.getMessage());
+            }
+        });
+    }
 
     //-------------------------------------------------------------------------------------------
   /*  1. Core CRUD Operations

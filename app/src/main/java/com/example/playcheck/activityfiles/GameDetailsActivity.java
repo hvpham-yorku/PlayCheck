@@ -2,6 +2,7 @@ package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,9 +34,11 @@ public class GameDetailsActivity extends AppCompatActivity {
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
-        //recycleviews for team players
+        //recycleviews for team players and referees
         RecyclerView rvTeamA = findViewById(R.id.recycleviewTeamAPlayers);
         RecyclerView rvTeamB = findViewById(R.id.recycleViewTeamBPlayers);
+        RecyclerView rvRefs = findViewById(R.id.recycleViewReferees);
+
         TextView refereeText = findViewById(R.id.refereeText);
         
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
@@ -44,6 +47,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         //layout manager for recycleviews
         rvTeamA.setLayoutManager(new LinearLayoutManager(this));
         rvTeamB.setLayoutManager(new LinearLayoutManager(this));
+        rvRefs.setLayoutManager(new LinearLayoutManager(this));
 
         // Hide referee buttons by default
         refereeReportButton.setVisibility(View.GONE);
@@ -88,7 +92,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         String score = intent.getStringExtra("score");
         ArrayList<String> teamAPlayers = intent.getStringArrayListExtra("teamAPlayers");
         ArrayList<String> teamBPlayers = intent.getStringArrayListExtra("teamBPlayers");
-        String referee = intent.getStringExtra("referee");
+        ArrayList<String> referees = intent.getStringArrayListExtra("referees");
 
         // Set UI
         teamAText.setText(teamA);
@@ -96,13 +100,15 @@ public class GameDetailsActivity extends AppCompatActivity {
         dateText.setText("Date: " + date);
         locationText.setText("Location: " + location);
         scoreText.setText("Score: " + score);
-        refereeText.setText("Referee: " + referee);
+        refereeText.setText("Referees");
         teamANameText.setText(teamA);
         teamBNameText.setText(teamB);
+
 
         //using the PlayerAdapter to display players
         rvTeamA.setAdapter(new AddedPlayersAdapter(teamAPlayers, false));
         rvTeamB.setAdapter(new AddedPlayersAdapter(teamBPlayers, false));
+        rvRefs.setAdapter(new AddedPlayersAdapter(referees, false));
 
     }
 }

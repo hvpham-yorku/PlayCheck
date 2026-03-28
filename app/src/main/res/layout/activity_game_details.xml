@@ -106,9 +106,15 @@
             android:id="@+id/refereeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Referee"
-            android:textSize="18sp"
+            android:text="Referees"
+            android:textStyle="bold"
             android:layout_marginTop="12dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewReferees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
         <Button
             android:id="@+id/refereeReportButton"

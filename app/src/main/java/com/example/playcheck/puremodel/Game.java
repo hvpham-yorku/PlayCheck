@@ -23,6 +23,8 @@ public class Game {
     private String gameName; // Added to match Firebase data if present
     private String gameId;
     private Map<String, String> players;
+
+    private Map<String, String> referees;
     private String gameCreator;
 
     private String date;
@@ -37,9 +39,10 @@ public class Game {
 
 
 
+
     public Game(){}
 
-    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid) {
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid, Map<String, String> referees) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.gameDate = gameDate;
@@ -49,6 +52,7 @@ public class Game {
         this.gameCreator = gameCreator;
         this.teamAid = teamAid;
         this.teamBid = teamBid;
+        this.referees = referees;
 
         this.gameId = "";
         this.event = null;
@@ -183,6 +187,14 @@ public class Game {
 
     public void setTeamBid(String teamBid) {
         this.teamBid = teamBid;
+    }
+
+    public Map<String, String> getReferees() {
+        return referees;
+    }
+
+    public void setReferees(Map<String, String> referees) {
+        this.referees = referees;
     }
 
     public String getEventId() {

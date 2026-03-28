@@ -1,5 +1,6 @@
 package com.example.playcheck.Database;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,11 @@ import java.util.Map;
 
 public class GameLinkToDatabase {
 
+    /* Interfaces used for callbacks*/
+    public interface RefereeNamesCallback {
+        void onCallback(ArrayList<String> refereeIds, ArrayList<String> refereeNames);
+    }
+
     DatabaseReference gamesRef = FirebaseDatabase.getInstance().getReference("games");
     /* Reusable method that gets game data from the database based on a Query object*/
     public void getGameData(Query gamedata, ArrayList<Game> games, AdapterGameList adapter){ //DatabaseReference is a child class of Query so this is ok to do
@@ -32,9 +38,11 @@ public class GameLinkToDatabase {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Game info = dataSnapshot.getValue(Game.class);
+                    info.setGameId(dataSnapshot.getKey()); //set game id for each game
                     boolean isCreator = uid.equals(info.getGameCreator());
                     boolean isParticipant = info.getPlayers() != null && info.getPlayers().containsKey(uid);
-                    if (isCreator || isParticipant) {
+                    boolean isReferee = info.getReferees() != null && info.getReferees().containsKey(uid);
+                    if (isCreator || isParticipant || isReferee) {
                         games.add(info);
                     }
                 }
@@ -49,7 +57,7 @@ public class GameLinkToDatabase {
     }
 
     /* Create a game in the games folder */
-    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, ArrayList<String> playerIds, ArrayList<String> playerNames,OnCompleteListener<Void> listener){
+    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, ArrayList<String> playerIds, ArrayList<String> playerNames, ArrayList<String> refIds, ArrayList<String> refNames, OnCompleteListener<Void> listener){
         String gameId = gamesRef.push().getKey();
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -61,6 +69,11 @@ public class GameLinkToDatabase {
             playersMap.put(playerIds.get(i), playerNames.get(i));
         }
 
+        Map<String, String> refsMap = new HashMap<>();
+        for (int i = 0; i < refIds.size(); i++) {
+            refsMap.put(refIds.get(i), refNames.get(i));
+        }
+
         game.put("teamA", teamA);
         game.put("teamB", teamB);
         game.put("teamAid", teamAid);
@@ -70,8 +83,37 @@ public class GameLinkToDatabase {
         game.put("gameDate", gameDateTime);
         game.put("gameCreator", uid);
         game.put("players", playersMap);
+        game.put("referees", refsMap);
 
         gamesRef.child(gameId).setValue(game).addOnCompleteListener(listener);
+
+    }
+
+    /* Given a game id, return the ids and names of the referees */
+    public void getRefNamesFromGame(String gameId, RefereeNamesCallback callback){
+        ArrayList<String> refIds = new ArrayList<>();
+        ArrayList<String> refNames = new ArrayList<>();
+
+        gamesRef.child(gameId).child("referees")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        refIds.clear();
+                        refNames.clear();
+                        for (DataSnapshot refSnap : snapshot.getChildren()) {
+                            String refId = refSnap.getKey(); // uid
+                            String refName = refSnap.getValue(String.class); // name
+                            refIds.add(refId);
+                            refNames.add(refName);
+                        }
+                        callback.onCallback(refIds, refNames);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", error.getMessage());
+                    }
+                });
 
     }
 

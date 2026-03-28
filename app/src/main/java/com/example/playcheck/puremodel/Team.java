@@ -15,7 +15,9 @@ public class Team {
     private int teamWins;
     private int teamLosses;
 
-    public Team(){}
+    public Team() {
+    }
+
     private int wins;
     private int losses;
     private int rank;
@@ -66,6 +68,7 @@ public class Team {
     public void setPlayers(HashMap<String, String> players) {
         this.players = players;
     }
+
     public String getTeamName() {
         return teamName;
     }
@@ -111,6 +114,7 @@ public class Team {
     public void setTeamWins(int teamWins) {
         this.teamWins = teamWins;
     }
+
     public void setWins(int wins) {
         this.wins = wins;
     }
@@ -129,7 +133,8 @@ public class Team {
         return teamId;
 //        String s = "";
 //        return s;
-        }
+    }
+
     public void setDivision(String division) {
         this.division = division;
     }

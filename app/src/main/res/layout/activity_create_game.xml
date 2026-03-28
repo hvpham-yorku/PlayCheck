@@ -42,7 +42,7 @@
 
     <EditText
         android:id="@+id/gameType"
-        android:hint="Game Type"
+        android:hint="Sport"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -94,6 +94,41 @@
             android:onClick="expandTimePicker"/>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assign Referee (Optional)"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/searchReferee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search referee by name..."
+            android:drawableStart="@android:drawable/ic_menu_search" />
+
+        <Button
+            android:id="@+id/btnAddReferee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/refereeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#F0F0F0"
+        android:layout_marginTop="8dp" />
+
 
     <Button
         android:id="@+id/saveGame"
