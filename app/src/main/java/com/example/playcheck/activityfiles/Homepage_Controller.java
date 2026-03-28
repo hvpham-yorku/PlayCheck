@@ -49,8 +49,9 @@ public class Homepage_Controller extends AppCompatActivity {
         findViewById(R.id.cardAllGames).setOnClickListener(v ->
                 navigateTo(GameList.class));
 
-        findViewById(R.id.cardAllTeams).setOnClickListener(v ->
-                navigateTo(MyTeams.class));
+        findViewById(R.id.cardAllTeams).setOnClickListener(v ->{
+                android.util.Log.d("NAV_TEST", "All Teams Clicked!");
+                navigateTo(MyTeams.class);});
 
         findViewById(R.id.cardMySchedule).setOnClickListener(v ->
                 navigateTo(GameSchedule.class));
@@ -63,7 +64,7 @@ public class Homepage_Controller extends AppCompatActivity {
                 navigateTo(AllUsers_Controller.class));
 
         findViewById(R.id.cardPingPong).setOnClickListener(v ->
-                navigateTo(CreateTeam.class));
+                navigateTo(CreateTeamPlayer.class));
 
         // 4. Logout Logic
         findViewById(R.id.ivLogout).setOnClickListener(v -> {

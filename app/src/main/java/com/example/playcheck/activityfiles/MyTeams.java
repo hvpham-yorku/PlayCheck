@@ -2,6 +2,7 @@ package com.example.playcheck.activityfiles;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +18,7 @@ public class MyTeams extends AppCompatActivity {
 
     RecyclerView allTeamsRecycleView;
 
-    ArrayList<Team> teams;
+    ArrayList<Team> teams = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +27,20 @@ public class MyTeams extends AppCompatActivity {
 
         allTeamsRecycleView = findViewById(R.id.MyTeamsPageRecycleView);
         allTeamsRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        MyTeamsAdapter adapter = new MyTeamsAdapter(teams);
+        allTeamsRecycleView.setAdapter(adapter);
 
         TeamLinkToDatabase teamDB = new TeamLinkToDatabase();
         teamDB.getAllTeamsForUser(new TeamLinkToDatabase.allTeamsCallback() {
             @Override
-            public void onCallback(ArrayList<Team> teams) {
-                MyTeamsAdapter adapter = new MyTeamsAdapter(teams);
-                allTeamsRecycleView.setAdapter(adapter);
+            public void onCallback(ArrayList<Team> teamsList) {
+                if (teamsList != null && !teamsList.isEmpty()) {
+                    teams.clear();
+                    teams.addAll(teamsList); // Add the data from DB to local list
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MyTeams.this, "No teams found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
