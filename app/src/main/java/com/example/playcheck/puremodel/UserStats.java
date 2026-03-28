@@ -6,9 +6,16 @@ public interface UserStats {
     public int gettotaldislikes();
     public int gettotalSavings();
     
-    // New methods for snapshot-based max stats
-    public UserStatsSnapshot getDailyStats();
-    public UserStatsSnapshot getWeeklyStats();
-    public UserStatsSnapshot getMonthlyStats();
-    public UserStatsSnapshot getAllTimeStats();
+    /**
+     * Get statistics for a specific period and sport.
+     * @param period the time period (daily, weekly, monthly, allTime)
+     * @param sport the sport name (e.g., Football, Basketball) or "All"
+     * @return UserStatsSnapshot containing the max values
+     */
+    public UserStatsSnapshot getStatsForPeriod(String period, String sport);
+
+    public UserStatsSnapshot getDailyStats(String sport);
+    public UserStatsSnapshot getWeeklyStats(String sport);
+    public UserStatsSnapshot getMonthlyStats(String sport);
+    public UserStatsSnapshot getAllTimeStats(String sport);
 }

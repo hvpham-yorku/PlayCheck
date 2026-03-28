@@ -15,13 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light.NoActionBar">
         <activity
+            android:name=".activityfiles.Event_Option_Page_Contoroller"
+            android:exported="false" />
+        <activity
             android:name=".activityfiles.Referee_Profile_Page_Controller"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Player_Profile_Page_Controller"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.Organizer_Profile_Page_Controller"
+            android:name=".activityfiles.General_Profile_Page_Controller"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Login_Controller"

@@ -145,16 +145,28 @@ public abstract class User implements UserStats {
     public int gettotalSavings() { return totalSavings; }
 
     @Override
-    public UserStatsSnapshot getDailyStats() { return dailyStats; }
+    public UserStatsSnapshot getStatsForPeriod(String period, String sport) {
+        if (period == null) return new UserStatsSnapshot();
+        switch (period.toLowerCase()) {
+            case "daily": return getDailyStats(sport);
+            case "weekly": return getWeeklyStats(sport);
+            case "monthly": return getMonthlyStats(sport);
+            case "alltime": return getAllTimeStats(sport);
+            default: return new UserStatsSnapshot();
+        }
+    }
+
+    @Override
+    public UserStatsSnapshot getDailyStats(String sport) { return dailyStats; }
     
     @Override
-    public UserStatsSnapshot getWeeklyStats() { return weeklyStats; }
+    public UserStatsSnapshot getWeeklyStats(String sport) { return weeklyStats; }
     
     @Override
-    public UserStatsSnapshot getMonthlyStats() { return monthlyStats; }
+    public UserStatsSnapshot getMonthlyStats(String sport) { return monthlyStats; }
     
     @Override
-    public UserStatsSnapshot getAllTimeStats() { return allTimeStats; }
+    public UserStatsSnapshot getAllTimeStats(String sport) { return allTimeStats; }
 
     public void setDailyStats(UserStatsSnapshot stats) { this.dailyStats = stats; }
     public void setWeeklyStats(UserStatsSnapshot stats) { this.weeklyStats = stats; }
