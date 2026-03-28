@@ -79,6 +79,7 @@ public class GameDetailsActivity extends AppCompatActivity {
             Intent reportIntent = new Intent(this, RefereeReportActivity.class);
             reportIntent.putExtra("gameId", getIntent().getStringExtra("gameId"));
             reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
+
             startActivity(reportIntent);
         });
 

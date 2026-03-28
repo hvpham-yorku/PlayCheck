@@ -84,6 +84,7 @@ public class GameLinkToDatabase {
         game.put("gameCreator", uid);
         game.put("players", playersMap);
         game.put("referees", refsMap);
+        game.put("score", "No score logged yet");
 
         gamesRef.child(gameId).setValue(game).addOnCompleteListener(listener);
 

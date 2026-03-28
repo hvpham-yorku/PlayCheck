@@ -68,6 +68,7 @@ public class RefereeGamesActivity extends AppCompatActivity {
                     if (g != null) {
                         boolean isReferee = g.getReferees() != null && g.getReferees().containsKey(uid);
                         if (isReferee == true){
+                            g.setGameId(child.getKey());
                             games.add(g);
                         }
                     }

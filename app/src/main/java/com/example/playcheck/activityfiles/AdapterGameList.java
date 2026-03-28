@@ -85,9 +85,9 @@ public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHo
                             intent.putExtra("referees", refereeNames);
                             intent.putExtra("teamAPlayers", playerNamesA);
                             intent.putExtra("teamBPlayers", playerNamesB);
+                            intent.putExtra("score", game.getScore());
 
                             // temporary demo data
-                            intent.putExtra("score", "3 - 2");
                             intent.putExtra("sportsmanship", "Team A: 4.5 | Team B: 4.2");
 
                             v.getContext().startActivity(intent);
