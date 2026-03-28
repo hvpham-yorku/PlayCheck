@@ -1,6 +1,7 @@
 package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -127,6 +128,8 @@ public class Player_Profile_Page_Controller extends AppCompatActivity {
                             displayGameStats(game, gameSnapshot);
                         }
                     }
+                } else {
+                    showTbdStats();
                 }
             }
 
@@ -137,15 +140,48 @@ public class Player_Profile_Page_Controller extends AppCompatActivity {
         });
     }
 
+    private void showTbdStats() {
+        if (tvScore != null) {
+            tvScore.setText("TBD");
+            tvScore.setTextColor(Color.RED);
+        }
+        if (statsContentPlaceholder != null) {
+            statsContentPlaceholder.removeAllViews();
+            View statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_soccer, statsContentPlaceholder, false);
+            setAllTextViewsToZero(statsView);
+            statsContentPlaceholder.addView(statsView);
+        }
+    }
+
+    private void setAllTextViewsToZero(View v) {
+        int[] ids = {
+            R.id.tvShootingLeft, R.id.tvShootingRight, R.id.tvAttacksLeft, R.id.tvAttacksRight,
+            R.id.tvPossessionLeft, R.id.tvPossessionRight, R.id.tvCornersLeft, R.id.tvCornersRight,
+            R.id.tvYellowCardsLeft, R.id.tvYellowCardsRight, R.id.tvRedCardsLeft, R.id.tvRedCardsRight
+        };
+        for (int id : ids) {
+            TextView tv = v.findViewById(id);
+            if (tv != null) tv.setText("0");
+        }
+    }
+
     private void displayGameStats(Game game, DataSnapshot gameSnapshot) {
         String sportType = game.getGameType();
+        DataSnapshot reportSnapshot = gameSnapshot.child("matchReport");
+        
         if (tvScore != null) {
-            DataSnapshot reportSnapshot = gameSnapshot.child("matchReport");
             if (reportSnapshot.exists()) {
                 String score = reportSnapshot.child("score").getValue(String.class);
-                tvScore.setText(score != null ? score : "N/A");
+                if (score != null && !score.isEmpty()) {
+                    tvScore.setText(score);
+                    tvScore.setTextColor(Color.WHITE);
+                } else {
+                    tvScore.setText("TBD");
+                    tvScore.setTextColor(Color.RED);
+                }
             } else {
-                tvScore.setText("N/A");
+                tvScore.setText("TBD");
+                tvScore.setTextColor(Color.RED);
             }
         }
 
@@ -153,12 +189,29 @@ public class Player_Profile_Page_Controller extends AppCompatActivity {
         statsContentPlaceholder.removeAllViews();
         
         View statsView = null;
+        DataSnapshot detailedStats = reportSnapshot.child("detailedStats");
+        
         if ("Soccer".equalsIgnoreCase(sportType) || "Football".equalsIgnoreCase(sportType)) {
             statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_soccer, statsContentPlaceholder, false);
-            populateSoccerStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
+            if (detailedStats.exists()) {
+                populateFootballStats(statsView, detailedStats);
+            } else {
+                setAllTextViewsToZero(statsView);
+            }
         } else if ("Basketball".equalsIgnoreCase(sportType)) {
             statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_basketball, statsContentPlaceholder, false);
-            populateBasketballStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
+            if (detailedStats.exists()) {
+                populateBasketballStats(statsView, detailedStats);
+            } else {
+                setZeroBasketballStats(statsView);
+            }
+        } else if ("Volleyball".equalsIgnoreCase(sportType)) {
+            statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_volleyball, statsContentPlaceholder, false);
+            if (detailedStats.exists()) {
+                populateVolleyballStats(statsView, detailedStats);
+            } else {
+                setZeroVolleyballStats(statsView);
+            }
         }
         
         if (statsView != null) {
@@ -166,7 +219,26 @@ public class Player_Profile_Page_Controller extends AppCompatActivity {
         }
     }
 
-    private void populateSoccerStats(View v, DataSnapshot stats) {
+    private void setZeroBasketballStats(View v) {
+        int[] ids = { R.id.tvPointsLeft, R.id.tvPointsRight, R.id.tvReboundsLeft, R.id.tvReboundsRight,
+                      R.id.tvAssistsLeft, R.id.tvAssistsRight, R.id.tvStealsLeft, R.id.tvStealsRight,
+                      R.id.tvBlocksLeft, R.id.tvBlocksRight };
+        for (int id : ids) {
+            TextView tv = v.findViewById(id);
+            if (tv != null) tv.setText("0");
+        }
+    }
+
+    private void setZeroVolleyballStats(View v) {
+        int[] ids = { R.id.tvKillsLeft, R.id.tvKillsRight, R.id.tvAcesLeft, R.id.tvAcesRight,
+                      R.id.tvVolleyballBlocksLeft, R.id.tvVolleyballBlocksRight, R.id.tvDigsLeft, R.id.tvDigsRight };
+        for (int id : ids) {
+            TextView tv = v.findViewById(id);
+            if (tv != null) tv.setText("0");
+        }
+    }
+
+    private void populateFootballStats(View v, DataSnapshot stats) {
         if (!stats.exists()) return;
         setTextFromSnapshot(v, R.id.tvShootingLeft, stats.child("shootingLeft"));
         setTextFromSnapshot(v, R.id.tvShootingRight, stats.child("shootingRight"));
@@ -196,11 +268,25 @@ public class Player_Profile_Page_Controller extends AppCompatActivity {
         setTextFromSnapshot(v, R.id.tvBlocksRight, stats.child("blocksRight"));
     }
 
+    private void populateVolleyballStats(View v, DataSnapshot stats) {
+        if (!stats.exists()) return;
+        setTextFromSnapshot(v, R.id.tvKillsLeft, stats.child("killsLeft"));
+        setTextFromSnapshot(v, R.id.tvKillsRight, stats.child("killsRight"));
+        setTextFromSnapshot(v, R.id.tvAcesLeft, stats.child("acesLeft"));
+        setTextFromSnapshot(v, R.id.tvAcesRight, stats.child("acesRight"));
+        setTextFromSnapshot(v, R.id.tvVolleyballBlocksLeft, stats.child("volleyballBlocksLeft"));
+        setTextFromSnapshot(v, R.id.tvVolleyballBlocksRight, stats.child("volleyballBlocksRight"));
+        setTextFromSnapshot(v, R.id.tvDigsLeft, stats.child("digsLeft"));
+        setTextFromSnapshot(v, R.id.tvDigsRight, stats.child("digsRight"));
+    }
+
     private void setTextFromSnapshot(View v, int resId, DataSnapshot snapshot) {
         TextView tv = v.findViewById(resId);
         if (tv != null && snapshot.exists()) {
             Object val = snapshot.getValue();
             tv.setText(String.valueOf(val));
+        } else if (tv != null) {
+            tv.setText("0");
         }
     }
 

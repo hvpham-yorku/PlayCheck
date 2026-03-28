@@ -27,6 +27,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
 
     private AutoCompleteTextView sportTypeSpinner;
@@ -36,7 +40,7 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
     
     private DatabaseReference mDatabase;
     private String currentUid;
-    private String currentUserRole; // To know where to fetch stats from
+    private String currentUserRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,24 +103,27 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
     }
 
     private void setupSportTypeSpinner() {
-        String[] sports = {"Football", "Basketball", "Tennis", "Volleyball", "Running"};
+        String[] sportsArray = {"All", "Football", "Basketball", "Tennis", "Volleyball", "Running"};
+        List<String> sports = new ArrayList<>(Arrays.asList(sportsArray));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, sports);
         sportTypeSpinner.setAdapter(adapter);
-        sportTypeSpinner.setText(sports[0], false);
+        sportTypeSpinner.setText(sports.get(0), false);
+        
+        sportTypeSpinner.setOnItemClickListener((parent, view, position, id) -> {
+            updateStats(toggleGroup.getCheckedButtonId());
+        });
     }
 
     private void setupToggleGroup() {
         toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
-                // Reset all button backgrounds to white
                 btnDaily.setBackgroundColor(getResources().getColor(android.R.color.white, getTheme()));
                 btnWeekly.setBackgroundColor(getResources().getColor(android.R.color.white, getTheme()));
                 btnMonthly.setBackgroundColor(getResources().getColor(android.R.color.white, getTheme()));
                 btnAllTime.setBackgroundColor(getResources().getColor(android.R.color.white, getTheme()));
 
-                // Set checked button background to the lime green color
                 MaterialButton checkedButton = findViewById(checkedId);
-                checkedButton.setBackgroundColor(0xFFD4E157); // Lime color from image
+                checkedButton.setBackgroundColor(0xFFD4E157);
 
                 updateStats(checkedId);
             }
@@ -132,20 +139,40 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
         else if (checkedId == R.id.btn_monthly) period = "monthly";
         else period = "allTime";
 
+        String selectedSport = sportTypeSpinner.getText().toString();
+
         mDatabase.child("users").child(currentUserRole).child(currentUid).child("stats").child(period)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        UserStatsSnapshot stats = snapshot.getValue(UserStatsSnapshot.class);
-                        if (stats != null) {
-                            tvLikes.setText(String.valueOf(stats.getMaxLikes()));
-                            tvDislikes.setText(String.valueOf(stats.getMaxDislikes()));
-                            tvSaved.setText(String.valueOf(stats.getMaxSavings()));
+                        int totalLikes = 0;
+                        int totalDislikes = 0;
+                        int totalSaved = 0;
+
+                        if (selectedSport.equals("All") || selectedSport.isEmpty()) {
+                            // Pool all sports
+                            for (DataSnapshot sportSnapshot : snapshot.getChildren()) {
+                                UserStatsSnapshot stats = sportSnapshot.getValue(UserStatsSnapshot.class);
+                                if (stats != null) {
+                                    totalLikes += stats.getMaxLikes();
+                                    totalDislikes += stats.getMaxDislikes();
+                                    totalSaved += stats.getMaxSavings();
+                                }
+                            }
                         } else {
-                            tvLikes.setText("0");
-                            tvDislikes.setText("0");
-                            tvSaved.setText("0");
+                            // Specific sport
+                            DataSnapshot sportSnapshot = snapshot.child(selectedSport);
+                            UserStatsSnapshot stats = sportSnapshot.getValue(UserStatsSnapshot.class);
+                            if (stats != null) {
+                                totalLikes = stats.getMaxLikes();
+                                totalDislikes = stats.getMaxDislikes();
+                                totalSaved = stats.getMaxSavings();
+                            }
                         }
+
+                        tvLikes.setText(String.valueOf(totalLikes));
+                        tvDislikes.setText(String.valueOf(totalDislikes));
+                        tvSaved.setText(String.valueOf(totalSaved));
                     }
 
                     @Override

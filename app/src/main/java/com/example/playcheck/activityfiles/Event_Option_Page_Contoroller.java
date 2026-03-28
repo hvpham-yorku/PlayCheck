@@ -2,7 +2,6 @@ package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +12,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.playcheck.R;
-import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,14 +20,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Homepage_Controller extends AppCompatActivity {
+public class Event_Option_Page_Contoroller extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_homepage);
-
+        setContentView(R.layout.activity_event_option_page);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -40,53 +37,16 @@ public class Homepage_Controller extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        // 1. Suggestion & Create Event
-//        findViewById(R.id.cardSuggestion).setOnClickListener(v ->
-//                navigateTo(SuggestionActivity.class)); // Replace with your actual Activity class
-//
-        findViewById(R.id.cardCreateEvent).setOnClickListener(v ->
-                navigateTo(Event_Option_Page_Contoroller.class));
+        // Event Options
+        findViewById(R.id.cardGame).setOnClickListener(v -> navigateTo(CreateGameActivity.class));
+        findViewById(R.id.cardTournament).setOnClickListener(v -> handleNavClick("Tournament Creation"));
 
-        // 2. Main Grid Buttons
-        findViewById(R.id.cardAllGames).setOnClickListener(v ->
-                navigateTo(GameList.class));
-
-        findViewById(R.id.cardAllTeams).setOnClickListener(v ->
-                navigateTo(MyTeams.class));
-
-        findViewById(R.id.cardMySchedule).setOnClickListener(v ->
-                navigateTo(GameSchedule.class));
-
-        findViewById(R.id.cardStatistics).setOnClickListener(v ->
-                navigateTo(Video_Review_Page_Plus_Stats_controller.class));
-
-        // 3. New Buttons (Create Team & All Users)
-        findViewById(R.id.cardCalistenia).setOnClickListener(v ->
-                navigateTo(AllUsers_Controller.class));
-
-        findViewById(R.id.cardPingPong).setOnClickListener(v ->
-                navigateTo(CreateTeam.class));
-
-        // 4. Logout Logic
-        findViewById(R.id.ivLogout).setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, Login_Controller.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        });
-
-
-
-        // 5. Bottom Navigation
-        findViewById(R.id.navHome).setOnClickListener(v -> handleNavClick("Home"));
-        findViewById(R.id.navNews).setOnClickListener(v -> handleNavClick("Notifications"));
+        // Bottom Navigation
+        findViewById(R.id.navHome).setOnClickListener(v -> navigateTo(Homepage_Controller.class));
+        findViewById(R.id.navNews).setOnClickListener(v -> handleNavClick("Notifications/Messages Page not yet implemented"));
         findViewById(R.id.navClipboard).setOnClickListener(v -> navigateTo(Video_Review_Page_Plus_Stats_controller.class));
         findViewById(R.id.navBack).setOnClickListener(v -> finish());
         findViewById(R.id.navProfile).setOnClickListener(v -> navigateToUserProfile());
-
-
-
     }
 
     private void navigateToUserProfile() {
@@ -109,13 +69,13 @@ public class Homepage_Controller extends AppCompatActivity {
                 } else if (snapshot.child("Referee").hasChild(uid)) {
                     navigateTo(Referee_Profile_Page_Controller.class);
                 } else {
-                    Toast.makeText(Homepage_Controller.this, "Profile type not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Event_Option_Page_Contoroller.this, "Profile type not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Homepage_Controller.this, "Error fetching profile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Event_Option_Page_Contoroller.this, "Error fetching profile", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -133,6 +93,6 @@ public class Homepage_Controller extends AppCompatActivity {
     }
 
     private void handleNavClick(String navItem) {
-        Toast.makeText(this, "You are already on " + navItem, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, " " + navItem, Toast.LENGTH_SHORT).show();
     }
 }

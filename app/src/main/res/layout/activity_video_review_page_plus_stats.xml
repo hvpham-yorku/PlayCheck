@@ -182,7 +182,7 @@
                             android:id="@+id/tv_score"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5,615 / 7,699"
+                            android:text=""
                             android:textColor="#333333"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -205,7 +205,7 @@
                             android:id="@+id/tv_steps"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5,615 / 7,699"
+                            android:text=""
                             android:textColor="#333333"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -228,7 +228,7 @@
                             android:id="@+id/tv_calories"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5,615 / 7,699"
+                            android:text=""
                             android:textColor="#333333"
                             android:textStyle="bold" />
                     </LinearLayout>
