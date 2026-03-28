@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.PlayCheck" parent="Base.Theme.PlayCheck" />
+
+    <style name="ShapeAppearance.App.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

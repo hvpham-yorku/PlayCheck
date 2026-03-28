@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,6 +15,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.playcheck.R;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Homepage_Controller extends AppCompatActivity {
 
@@ -76,8 +83,43 @@ public class Homepage_Controller extends AppCompatActivity {
         findViewById(R.id.navNews).setOnClickListener(v -> handleNavClick("Notifications"));
         findViewById(R.id.navClipboard).setOnClickListener(v -> navigateTo(Video_Review_Page_Plus_Stats_controller.class));
         findViewById(R.id.navBack).setOnClickListener(v -> finish());
-        findViewById(R.id.navProfile).setOnClickListener(v -> handleNavClick("Profile"));
+        
+        
+        findViewById(R.id.navProfile).setOnClickListener(v -> navigateToUserProfile());
 
+
+
+    }
+
+    private void navigateToUserProfile() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String uid = user.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("Organizer").hasChild(uid)) {
+                    navigateTo(Organizer_Profile_Page_Controller.class);
+                } else if (snapshot.child("Player").hasChild(uid)) {
+                    navigateTo(Player_Profile_Page_Controller.class);
+                } else if (snapshot.child("Referee").hasChild(uid)) {
+                    navigateTo(Referee_Profile_Page_Controller.class);
+                } else {
+                    Toast.makeText(Homepage_Controller.this, "Profile type not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Homepage_Controller.this, "Error fetching profile", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
