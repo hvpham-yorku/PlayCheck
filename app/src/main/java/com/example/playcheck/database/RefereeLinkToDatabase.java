@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class RefereeLinkToDatabase extends UserLinkToDatabase {
+public class RefereeLinkToDatabase extends com.example.playcheck.Database.UserLinkToDatabase {
 
         public RefereeLinkToDatabase() {
                 super();

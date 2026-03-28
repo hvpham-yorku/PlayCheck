@@ -2,6 +2,7 @@ package com.example.playcheck.puremodel;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -185,7 +186,7 @@ public class Game {
     }
 
     public String getEventId() {
-        return this.event != null ? this.event.getEventId() : null;
+        return this.event.getEventId();
     }
 
     public void setEventId(String eventId) {

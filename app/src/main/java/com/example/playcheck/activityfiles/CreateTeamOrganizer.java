@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.playcheck.Database.TeamLinkToDatabase;
 import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
+import com.example.playcheck.Database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -163,7 +164,8 @@ public class CreateTeamOrganizer extends AppCompatActivity{
             }
         });
 
-    }
 
+
+    }
 
 }

@@ -34,11 +34,6 @@ public class UserLinkToDatabase {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
-    public UserLinkToDatabase(FirebaseAuth mAuth, DatabaseReference databaseRef) {
-        this.mAuth = mAuth;
-        this.databaseRef = databaseRef;
-    }
-
 
     /*FirebaseAuth uAuth;
     //The entity that updates/deletion are going to base on in the database
