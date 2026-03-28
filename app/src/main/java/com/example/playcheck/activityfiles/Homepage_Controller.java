@@ -2,7 +2,6 @@ package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +12,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.playcheck.R;
-import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -103,7 +101,7 @@ public class Homepage_Controller extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("Organizer").hasChild(uid)) {
-                    navigateTo(Organizer_Profile_Page_Controller.class);
+                    navigateTo(General_Profile_Page_Controller.class);
                 } else if (snapshot.child("Player").hasChild(uid)) {
                     navigateTo(Player_Profile_Page_Controller.class);
                 } else if (snapshot.child("Referee").hasChild(uid)) {

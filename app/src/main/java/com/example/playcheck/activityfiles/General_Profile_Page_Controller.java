@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Organizer_Profile_Page_Controller extends AppCompatActivity {
+public class General_Profile_Page_Controller extends AppCompatActivity {
 
     private boolean isEditMode = false;
     private View addPhotoButton, editActionButtons;
@@ -47,7 +47,7 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_organizer_profile_page);
+        setContentView(R.layout.activity_general_profile_page);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -116,7 +116,7 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(Organizer_Profile_Page_Controller.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(General_Profile_Page_Controller.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -141,7 +141,7 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Organizer_Profile_Page_Controller.this, "Failed to load recent game", Toast.LENGTH_SHORT).show();
+                Toast.makeText(General_Profile_Page_Controller.this, "Failed to load recent game", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -319,9 +319,9 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
                     tvUsername.setText(newUsername);
                     tvTeamName.setText(newTeamName);
                     toggleEditMode(false);
-                    Toast.makeText(Organizer_Profile_Page_Controller.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(General_Profile_Page_Controller.this, "Profile updated", Toast.LENGTH_SHORT).show();
                 })
-                .addOnFailureListener(e -> Toast.makeText(Organizer_Profile_Page_Controller.this, "Update failed", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(General_Profile_Page_Controller.this, "Update failed", Toast.LENGTH_SHORT).show());
     }
 
     private void toggleEditMode(boolean enable) {

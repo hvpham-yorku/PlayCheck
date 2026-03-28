@@ -2,7 +2,6 @@ package com.example.playcheck.activityfiles;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
@@ -190,7 +189,7 @@ public class Video_Review_Page_Plus_Stats_controller extends AppCompatActivity {
 
     private void navigateToProfile() {
         if ("Player".equals(currentUserRole)) navigateTo(Player_Profile_Page_Controller.class);
-        else if ("Organizer".equals(currentUserRole)) navigateTo(Organizer_Profile_Page_Controller.class);
+        else if ("Organizer".equals(currentUserRole)) navigateTo(General_Profile_Page_Controller.class);
         else if ("Referee".equals(currentUserRole)) navigateTo(Referee_Profile_Page_Controller.class);
     }
 

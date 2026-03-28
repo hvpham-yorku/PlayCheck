@@ -24,7 +24,7 @@
             android:name=".activityfiles.Player_Profile_Page_Controller"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.Organizer_Profile_Page_Controller"
+            android:name=".activityfiles.General_Profile_Page_Controller"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Login_Controller"

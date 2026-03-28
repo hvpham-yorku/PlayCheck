@@ -63,7 +63,7 @@ public class Event_Option_Page_Contoroller extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("Organizer").hasChild(uid)) {
-                    navigateTo(Organizer_Profile_Page_Controller.class);
+                    navigateTo(General_Profile_Page_Controller.class);
                 } else if (snapshot.child("Player").hasChild(uid)) {
                     navigateTo(Player_Profile_Page_Controller.class);
                 } else if (snapshot.child("Referee").hasChild(uid)) {
