@@ -24,18 +24,25 @@ public class Event {
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
-
     public String getEventId() {
         return this.eventId;
     }
-
     public String getEventTitle() {
         return this.eventTitle;
     }
-
     public String getEventDescription() {
         return this.eventDescription;
     }
+
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
+    }
+
+
 
 
 }

@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.fragment)
     implementation(libs.room.common.jvm)
     testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.test.runner)

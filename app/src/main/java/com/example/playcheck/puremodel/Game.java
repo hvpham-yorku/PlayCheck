@@ -37,6 +37,8 @@ public class Game {
     private Event event;
     private Referee referee;
 
+    private MatchReport matchReport;
+
 
 
 
@@ -273,5 +275,13 @@ public class Game {
 
     public String getGameCreator() {
         return gameCreator;
+    }
+
+    public MatchReport getMatchReport() {
+        return matchReport;
+    }
+
+    public void setMatchReport(MatchReport matchReport) {
+        this.matchReport = matchReport;
     }
 }

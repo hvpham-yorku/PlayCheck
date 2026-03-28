@@ -22,6 +22,7 @@ monitor = "1.6.1"
 camerax = "1.4.1"
 junitJupiter = "5.14.0"
 roomCommonJvm = "2.8.4"
+fragment = "1.8.9"
 
 [libraries]
 test-runner = { group = "androidx.test", name = "runner", version.ref = "monitor" }
@@ -52,6 +53,7 @@ camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", versi
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
+fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

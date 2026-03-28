@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".activityfiles.Homepage_Controller">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Main Rounded Container -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#E9F0F7"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <!-- Suggestion Card with SVG Background -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardSuggestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/suggestion"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/frame_43953" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Divider Line with Logout -->
+                    <View
+                        android:id="@+id/greenDivider"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#28B446"
+                        app:layout_constraintEnd_toStartOf="@+id/ivLogout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardSuggestion" />
+
+                    <ImageView
+                        android:id="@+id/ivLogout"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/logout"
+                        android:focusable="true"
+                        android:src="@drawable/ic_log_out"
+                        app:layout_constraintBottom_toBottomOf="@id/greenDivider"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/greenDivider" />
+
+                    <!-- Create Event Card with SVG Background -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardCreateEvent"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="24dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/greenDivider">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/create_event"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/create_event" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Grid of 4 Buttons with SVG Backgrounds -->
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:columnCount="2"
+                        android:rowCount="2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/cardCreateEvent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardCreateEvent">
+
+                        <!-- All Games -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardAllGames"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/all_games"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43954" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- All Teams -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardAllTeams"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/all_teams"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43955" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- My Schedule -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardMySchedule"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/my_schedule"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43956" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Statistics -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardStatistics"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/statistics"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43958" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- All Users Button (NEW) -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardCalistenia"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="All Users"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_8" /> <!-- Replace with your SVG -->
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Create Team Button (NEW) -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardPingPong"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:cardCornerRadius="16dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="Create-Team"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/frame_43959" /> <!-- Replace with your SVG -->
+                        </com.google.android.material.card.MaterialCardView>
+                    </GridLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_home" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_home" />
+        <ImageView android:id="@+id/navNews" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic__gamelist" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_news" />
+        <ImageView android:id="@+id/navClipboard" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_videoplayback_stats" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_clipboard" />
+        <ImageView android:id="@+id/navBack" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_arrow_back" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_back" />
+        <ImageView android:id="@+id/navProfile" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_profile" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_profile" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

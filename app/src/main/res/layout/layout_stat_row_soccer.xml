@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="32dp"
+    android:paddingBottom="8dp">
+
+    <!-- Shooting Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvShootingLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="12"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvShootingLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Shooting"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvShootingRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="22"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Attacks Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvAttacksLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="22"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvAttacksLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Attacks"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvAttacksRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="43"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Possession Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvPossessionLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="42"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvPossessionLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Possession"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvPossessionRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="55"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Corners Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvCornersLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="32"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvCornersLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Corners"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvCornersRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="04"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Yellow Card Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvYellowCardsLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+             <View
+                 android:layout_width="8dp"
+                 android:layout_height="12dp"
+                 android:background="#FFC107"
+                 android:layout_marginEnd="4dp" />
+             <TextView
+                 android:id="@+id/tvYellowCardsLabel"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Yellow Card"
+                 android:textColor="@android:color/white"
+                 android:textSize="14sp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvYellowCardsRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Red Card Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="4dp">
+        <TextView
+            android:id="@+id/tvRedCardsLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+             <View
+                 android:layout_width="8dp"
+                 android:layout_height="12dp"
+                 android:background="#D32F2F"
+                 android:layout_marginEnd="4dp" />
+             <TextView
+                 android:id="@+id/tvRedCardsLabel"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Red Card"
+                 android:textColor="@android:color/white"
+                 android:textSize="14sp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvRedCardsRight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

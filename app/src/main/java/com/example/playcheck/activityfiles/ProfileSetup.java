@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class ProfileSetup extends AppCompatActivity {
 
-    TextInputEditText firstNameEdit, lastNameEdit, dobEdit;
+    TextInputEditText firstNameEdit, lastNameEdit, dobEdit, usernameEdit;
     AutoCompleteTextView genderDropdown;
     Button saveBtn;
 
@@ -36,6 +36,7 @@ public class ProfileSetup extends AppCompatActivity {
         firstNameEdit = findViewById(R.id.firstName);
         lastNameEdit = findViewById(R.id.lastName);
         dobEdit = findViewById(R.id.dob);
+        usernameEdit = findViewById(R.id.username);
         genderDropdown = findViewById(R.id.genderDropdown);
         saveBtn = findViewById(R.id.btnSaveProfile);
 
@@ -53,6 +54,7 @@ public class ProfileSetup extends AppCompatActivity {
             String dob = String.valueOf(dobEdit.getText()).trim();
             String gender = String.valueOf(genderDropdown.getText()).trim();
             String lastName = String.valueOf(lastNameEdit.getText()).trim();
+            String username = String.valueOf(usernameEdit.getText()).trim();
 
             if (TextUtils.isEmpty(firstName)) {
                 Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
@@ -74,9 +76,12 @@ public class ProfileSetup extends AppCompatActivity {
 
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(this, "Enter username", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            }
 
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -93,6 +98,7 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("gender", gender);
             profile.put("email", email);
             profile.put("accountType", accountType);
+            profile.put("username", username);
 
             userDb.saveUserProfile(uid, accountType, profile)
                     .addOnSuccessListener(unused -> {
@@ -106,7 +112,7 @@ public class ProfileSetup extends AppCompatActivity {
                             nextIntent = new Intent(this, PlayerHomeActivity.class);
                         }
                         else if (accountType.equals("Referee")) {
-                            nextIntent = new Intent(this, RefereeHomeActivity.class);
+                            startActivity(new Intent(this, RefereeHomeActivity.class));
                         }
 
                         if (nextIntent != null) {

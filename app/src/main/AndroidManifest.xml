@@ -23,9 +23,20 @@
             android:name=".activityfiles.MatchClipListActivity"
             android:exported="false" />
         <activity
-            android:name=".activityfiles.Login"
-            android:exported="true"
-            android:theme="@style/Theme.Material3.Light.NoActionBar">
+            android:name=".activityfiles.Event_Option_Page_Contoroller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.Referee_Profile_Page_Controller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.Player_Profile_Page_Controller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.General_Profile_Page_Controller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.Login_Controller"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +46,19 @@
         <activity
             android:name=".activityfiles.HomeActivity"
             android:exported="true" />
+        <activity
+            android:name=".activityfiles.Homepage_Controller"
+            android:exported="true" />
+        <activity
+            android:name=".activityfiles.AllUsers_Controller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.Video_Review_Page_Plus_Stats_controller"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.Login"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.PlayerHomeActivity"
             android:exported="true"

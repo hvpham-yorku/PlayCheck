@@ -70,7 +70,7 @@ public class Registration extends AppCompatActivity {
         loginLink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), Login_Controller.class);
                 startActivity(intent);
                 finish();
             }

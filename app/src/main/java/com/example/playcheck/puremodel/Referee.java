@@ -1,6 +1,6 @@
 package com.example.playcheck.puremodel;
 
-import com.example.playcheck.Database.RefereeLinkToDatabase;
+import com.example.playcheck.database.RefereeLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -77,7 +77,6 @@ public class Referee extends User {
     // Referee-specific Business Logic using specialized service
     //-------------------------------------------------------------------------------------------
 
-    // TODO: 2026-03-05 work on this part
     @Override
     public CompletableFuture<String> register() {
         return super.register().thenCompose(uid -> {
@@ -156,4 +155,6 @@ public class Referee extends User {
         }
         return null;
     }
+
+
 }
