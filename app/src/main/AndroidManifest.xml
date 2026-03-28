@@ -72,21 +72,23 @@
             android:exported="true" />
         <activity
             android:name=".activityfiles.RefereeGamesActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.CreateTeam"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.MyTeams"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
 
         <activity android:name=".activityfiles.OrganizerDashboardActivity"/>
         <activity android:name=".activityfiles.CreateGameActivity"/>
         <activity android:name=".activityfiles.RefereeReportActivity"/>
 
+        <activity android:name=".activityfiles.AssignRefereeActivity" android:exported="true" />
+        <activity android:name=".activityfiles.CreateTournamentActivity" android:exported="true" />
 
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.playcheck.activityfiles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -59,16 +60,22 @@ public class CreateGameActivity extends AppCompatActivity {
 
         String gameId = gamesRef.push().getKey();
 
-        Map<String,Object> game = new HashMap<>();
+        Map<String, Object> game = new HashMap<>();
 
         game.put("teamA", teamAVal);
         game.put("teamB", teamBVal);
         game.put("gameVenue", venueVal);
         game.put("gameType", typeVal);
         game.put("gameDate", dateVal);
+        game.put("gameId", gameId);
 
         gamesRef.child(gameId).setValue(game)
-                .addOnSuccessListener(unused ->
-                        Toast.makeText(this,"Game Created",Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "Game Created", Toast.LENGTH_SHORT).show();
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("gameId", gameId);
+                setResult(RESULT_OK, resultIntent);
+                });
     }
 }
