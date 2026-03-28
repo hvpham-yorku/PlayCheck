@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.playcheck.puremodel.Game;
+import com.example.playcheck.puremodel.Team;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,10 @@ public class TeamLinkToDatabase {
     }
     public interface TeamPlayersCallback {
         void onCallback(ArrayList<String> playerIds, ArrayList<String> playerNames);
+    }
+
+    public interface allTeamsCallback {
+        void onCallback(ArrayList<Team> teams);
     }
 
     /*Create a team in the teams folder. Listener return if task is sucessful or not */
@@ -57,6 +63,8 @@ public class TeamLinkToDatabase {
         teamData.put("players", playersMap);
         teamData.put("Captain", captainMap);
         teamData.put("teamCreator", uid);
+        teamData.put("teamWins", 0);
+        teamData.put("teamLosses", 0);
 
 
         teamsRef.child(teamId).setValue(teamData).addOnCompleteListener(listener);
@@ -148,6 +156,34 @@ public class TeamLinkToDatabase {
                     }
                 });
     }
+
+    /* Get all teams the player or organizer is a part of / created */
+    public void getAllTeamsForUser(allTeamsCallback callback){
+        ArrayList<Team> teams = new ArrayList<>();
+        teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        teams.clear();
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        for (DataSnapshot teamSnap : snapshot.getChildren()) {
+                            Team info = teamSnap.getValue(Team.class);
+                            String creatorId = teamSnap.child("teamCreator").getValue(String.class);
+                            boolean isPlayer = teamSnap.child("players").hasChild(uid);
+                            if (isPlayer == true || creatorId.equals(uid)){
+                                teams.add(info);
+                            }
+                        }
+                        callback.onCallback(teams);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("Firebase", error.getMessage());
+                    }
+                });
+
+    }
+
 
 
 

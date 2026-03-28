@@ -6,19 +6,23 @@ public class Team {
     private String teamName;
     private String teamId;
     private String teamCreator;
-    private HashMap<String, String> captain;
+    private HashMap<String, String> Captain;
     private HashMap<String, String> players;
+    private int teamWins;
+    private int teamLosses;
 
     public Team(){}
 
     public Team(String teamId, String teamName, String teamCreator,
                 HashMap<String, String> captain,
-                HashMap<String, String> players) {
+                HashMap<String, String> players, int teamWins, int teamLosses) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.teamCreator = teamCreator;
-        this.captain = captain;
+        this.Captain = Captain;
         this.players = players;
+        this.teamWins = teamWins;
+        this.teamLosses = teamLosses;
     }
 
     //Constructor for tests
@@ -28,11 +32,11 @@ public class Team {
 
     //getters and setters
     public HashMap<String, String> getCaptain() {
-        return captain;
+        return Captain;
     }
 
     public void setCaptain(HashMap<String, String> captain) {
-        this.captain = captain;
+        this.Captain = Captain;
     }
 
     public String getTeamCreator() {
@@ -46,6 +50,7 @@ public class Team {
     public HashMap<String, String> getPlayers() {
         return players;
     }
+
 
     public void setPlayers(HashMap<String, String> players) {
         this.players = players;
@@ -62,6 +67,23 @@ public class Team {
     public void setTeamId(String teamId) {
         this.teamId = teamId;
     }
+
+    public int getTeamLosses() {
+        return teamLosses;
+    }
+
+    public void setTeamLosses(int teamLosses) {
+        this.teamLosses = teamLosses;
+    }
+
+    public int getTeamWins() {
+        return teamWins;
+    }
+
+    public void setTeamWins(int teamWins) {
+        this.teamWins = teamWins;
+    }
+
 
     // TODO: 2026-03-05 work on this as it used in the player class
     public String getTeamId() {

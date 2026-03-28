@@ -32,6 +32,8 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
         viewGames.setOnClickListener(v ->
                 startActivity(new Intent(this, GameList.class)));
 
+
+
         if (btnLogout != null) {
             btnLogout.setOnClickListener(v -> {
                 FirebaseAuth.getInstance().signOut();

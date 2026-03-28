@@ -60,6 +60,11 @@ public class PlayerHomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, CreateTeamPlayer.class));
         });
 
+        // Button opens my teams page
+        btnMyTeams.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyTeams.class));
+        });
+
         if (btnLogout != null) {
             btnLogout.setOnClickListener(v -> {
                 FirebaseAuth.getInstance().signOut();
@@ -67,11 +72,6 @@ public class PlayerHomeActivity extends AppCompatActivity {
                 finish();
             });
         }
-
-        // Button opens my teams page
-//        btnMyTeams.setOnClickListener(v -> {
-//            startActivity(new Intent(this, MyTeams.class));
-//        });
 
         // Load preview: upcoming games only (limit to like 3)
         gamesRef = FirebaseDatabase.getInstance().getReference("games");

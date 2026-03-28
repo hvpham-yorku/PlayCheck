@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="My Teams"
+        android:textColor="@color/black"
         android:textSize="26sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -19,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/MyTeamsPageRecycleView"
         android:layout_width="409dp"
         android:layout_height="670dp"
         android:layout_marginTop="32dp"
