@@ -53,11 +53,17 @@ public class CreateTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        databaseRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("users");
+        databaseRef = FirebaseDatabase.getInstance().getReference("users");
 
         team = new TeamLinkToDatabase();
-        user = new UserLinkToDatabase(); // Added initialization for 'user' to avoid NullPointerException
+        user = new UserLinkToDatabase();
 
         teamNameEditText = findViewById(R.id.teamName);
         addPlayerButton = findViewById(R.id.btnAddPlayer);
@@ -65,6 +71,7 @@ public class CreateTeam extends AppCompatActivity {
         backButton = findViewById(R.id.backBtnCreateTeam);
         addedPlayersRecyclerView = findViewById(R.id.AddedPlayers);
         captainSeachBar = (AutoCompleteTextView)findViewById(R.id.searchCaptain);
+        playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
 
         //recycleview for added players so far
         AddedPlayersAdapter adapter = new AddedPlayersAdapter(currentAddedPlayerNames);
@@ -85,19 +92,19 @@ public class CreateTeam extends AppCompatActivity {
                         String uid = currentUser.getUid();
                         currentAddedPlayerIds.add(uid);
                         int indexOfCurrentUserID = playerIds.indexOf(uid);
-                        String currentUserName = playerNames.get(indexOfCurrentUserID);
-                        currentAddedPlayerNames.add(currentUserName);
+                        if (indexOfCurrentUserID != -1) {
+                            String currentUserName = playerNames.get(indexOfCurrentUserID);
+                            currentAddedPlayerNames.add(currentUserName);
+                        } else {
+                            currentAddedPlayerNames.add(currentUser.getEmail());
+                        }
 
                         adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1);
 
                         //create search bar for adding players
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, playerNames);
-                        playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
+                        ArrayAdapter<String> playerSearchAdapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, playerNames);
                         playerSearchBar.setThreshold(1); //start searching from first character
-                        playerSearchBar.setAdapter(adapter);
-
-
-
+                        playerSearchBar.setAdapter(playerSearchAdapter);
                     }
                 });
 
@@ -130,16 +137,16 @@ public class CreateTeam extends AppCompatActivity {
                 if (!currentAddedPlayerIds.contains(selectedPlayerId)){
                     currentAddedPlayerIds.add(selectedPlayerId);
                     currentAddedPlayerNames.add(selectedPlayerName);
-                    adapter.notifyItemInserted(currentAddedPlayerIds.size() - 1); //change recycle view since player is added
+                    adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1); //change recycle view since player is added
                     playerSearchBar.setText("");
                 } else {
                     Toast.makeText(CreateTeam.this, "Player is already added to Team", Toast.LENGTH_SHORT).show();
                 }
 
                 //create search bar for adding captain (gets updated when player is added to team)
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
+                ArrayAdapter<String> captainSearchAdapter = new ArrayAdapter<String>(CreateTeam.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
                 captainSeachBar.setThreshold(1);
-                captainSeachBar.setAdapter(adapter);
+                captainSeachBar.setAdapter(captainSearchAdapter);
 
             }
         });
@@ -178,16 +185,7 @@ public class CreateTeam extends AppCompatActivity {
                         Toast.makeText(CreateTeam.this, "Cannot Create Team: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-
-
             }
         });
-
-
-
     }
-
 }

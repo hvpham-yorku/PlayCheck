@@ -20,6 +20,9 @@ public class GameLinkToDatabase {
                 games.clear(); //clear list before updating it again
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Game info = dataSnapshot.getValue(Game.class);
+                    if (info != null) {
+                        info.setGameId(dataSnapshot.getKey());
+                    }
                     games.add(info);
                 }
                 adapter.notifyDataSetChanged(); //Tells the recycler view to update with new game list

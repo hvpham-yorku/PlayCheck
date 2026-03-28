@@ -160,10 +160,13 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
         View statsView = null;
         if ("Soccer".equalsIgnoreCase(sportType) || "Football".equalsIgnoreCase(sportType)) {
             statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_soccer, statsContentPlaceholder, false);
-            populateSoccerStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
+            populateFootballStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
         } else if ("Basketball".equalsIgnoreCase(sportType)) {
             statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_basketball, statsContentPlaceholder, false);
             populateBasketballStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
+        } else if ("Volleyball".equalsIgnoreCase(sportType)) {
+            statsView = getLayoutInflater().inflate(R.layout.layout_stat_row_volleyball, statsContentPlaceholder, false);
+            populateVolleyballStats(statsView, gameSnapshot.child("matchReport").child("detailedStats"));
         }
         
         if (statsView != null) {
@@ -171,7 +174,7 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
         }
     }
 
-    private void populateSoccerStats(View v, DataSnapshot stats) {
+    private void populateFootballStats(View v, DataSnapshot stats) {
         if (!stats.exists()) return;
         setTextFromSnapshot(v, R.id.tvShootingLeft, stats.child("shootingLeft"));
         setTextFromSnapshot(v, R.id.tvShootingRight, stats.child("shootingRight"));
@@ -199,6 +202,18 @@ public class Organizer_Profile_Page_Controller extends AppCompatActivity {
         setTextFromSnapshot(v, R.id.tvStealsRight, stats.child("stealsRight"));
         setTextFromSnapshot(v, R.id.tvBlocksLeft, stats.child("blocksLeft"));
         setTextFromSnapshot(v, R.id.tvBlocksRight, stats.child("blocksRight"));
+    }
+
+    private void populateVolleyballStats(View v, DataSnapshot stats) {
+        if (!stats.exists()) return;
+        setTextFromSnapshot(v, R.id.tvKillsLeft, stats.child("killsLeft"));
+        setTextFromSnapshot(v, R.id.tvKillsRight, stats.child("killsRight"));
+        setTextFromSnapshot(v, R.id.tvAcesLeft, stats.child("acesLeft"));
+        setTextFromSnapshot(v, R.id.tvAcesRight, stats.child("acesRight"));
+        setTextFromSnapshot(v, R.id.tvVolleyballBlocksLeft, stats.child("volleyballBlocksLeft"));
+        setTextFromSnapshot(v, R.id.tvVolleyballBlocksRight, stats.child("volleyballBlocksRight"));
+        setTextFromSnapshot(v, R.id.tvDigsLeft, stats.child("digsLeft"));
+        setTextFromSnapshot(v, R.id.tvDigsRight, stats.child("digsRight"));
     }
 
     private void setTextFromSnapshot(View v, int resId, DataSnapshot snapshot) {

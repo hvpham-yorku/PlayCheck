@@ -27,6 +27,12 @@ public abstract class User implements UserStats {
     private int totallikes;
     private int totaldislikes;
     private int totalSavings;
+    
+    // New stats snapshots for the interface
+    private UserStatsSnapshot dailyStats = new UserStatsSnapshot();
+    private UserStatsSnapshot weeklyStats = new UserStatsSnapshot();
+    private UserStatsSnapshot monthlyStats = new UserStatsSnapshot();
+    private UserStatsSnapshot allTimeStats = new UserStatsSnapshot();
 
     protected static UserLinkToDatabase databaseService = null;
 
@@ -104,6 +110,18 @@ public abstract class User implements UserStats {
                         this.dateOfBirth = LocalDate.parse((String) entry.getValue());
                     }
                     break;
+                case "dailyStats":
+                    this.dailyStats = (UserStatsSnapshot) entry.getValue();
+                    break;
+                case "weeklyStats":
+                    this.weeklyStats = (UserStatsSnapshot) entry.getValue();
+                    break;
+                case "monthlyStats":
+                    this.monthlyStats = (UserStatsSnapshot) entry.getValue();
+                    break;
+                case "allTimeStats":
+                    this.allTimeStats = (UserStatsSnapshot) entry.getValue();
+                    break;
             }
         }
     }
@@ -125,6 +143,23 @@ public abstract class User implements UserStats {
     
     @Override
     public int gettotalSavings() { return totalSavings; }
+
+    @Override
+    public UserStatsSnapshot getDailyStats() { return dailyStats; }
+    
+    @Override
+    public UserStatsSnapshot getWeeklyStats() { return weeklyStats; }
+    
+    @Override
+    public UserStatsSnapshot getMonthlyStats() { return monthlyStats; }
+    
+    @Override
+    public UserStatsSnapshot getAllTimeStats() { return allTimeStats; }
+
+    public void setDailyStats(UserStatsSnapshot stats) { this.dailyStats = stats; }
+    public void setWeeklyStats(UserStatsSnapshot stats) { this.weeklyStats = stats; }
+    public void setMonthlyStats(UserStatsSnapshot stats) { this.monthlyStats = stats; }
+    public void setAllTimeStats(UserStatsSnapshot stats) { this.allTimeStats = stats; }
 
     public void addLike() { if (!isSelfAction()) totallikes++; }
     public void removeLike() { if (!isSelfAction()) totallikes--; }

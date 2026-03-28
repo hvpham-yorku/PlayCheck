@@ -40,26 +40,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
         Button backButton = findViewById(R.id.backBtnGameDetails);
 
-        refereeReportButton.setOnClickListener(v -> {
-
-            Intent reportIntent = new Intent(this, RefereeReportActivity.class);
-
-            reportIntent.putExtra("gameId", getIntent().getLongExtra("gameId",0));
-            reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
-            startActivity(reportIntent);
-
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-// Get data from Intent
+        // Get data from Intent
         Intent intent = getIntent();
-
         String teamA = intent.getStringExtra("teamA");
         String teamB = intent.getStringExtra("teamB");
         String date = intent.getStringExtra("date");
@@ -68,6 +50,24 @@ public class GameDetailsActivity extends AppCompatActivity {
         String teamAPlayers = intent.getStringExtra("teamAPlayers");
         String teamBPlayers = intent.getStringExtra("teamBPlayers");
         String referee = intent.getStringExtra("referee");
+        String gameType = intent.getStringExtra("gameType");
+        long gameId = intent.getLongExtra("gameId", 0);
+
+        refereeReportButton.setOnClickListener(v -> {
+            Intent reportIntent = new Intent(this, RefereeReportActivity.class);
+            reportIntent.putExtra("gameId", gameId);
+            reportIntent.putExtra("gameType", gameType);
+            reportIntent.putExtra("teamA", teamA);
+            reportIntent.putExtra("teamB", teamB);
+            startActivity(reportIntent);
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 // Set UI
         teamAText.setText(teamA);

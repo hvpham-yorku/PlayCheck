@@ -28,6 +28,8 @@ public class Game {
 
     private Event event;
     private Referee referee;
+    
+    private MatchReport matchReport;
 
 
 
@@ -202,5 +204,13 @@ public class Game {
 
     public void setTeamBPlayers(List<String> teamBPlayers) {
         this.teamBPlayers = teamBPlayers;
+    }
+
+    public MatchReport getMatchReport() {
+        return matchReport;
+    }
+
+    public void setMatchReport(MatchReport matchReport) {
+        this.matchReport = matchReport;
     }
 }
