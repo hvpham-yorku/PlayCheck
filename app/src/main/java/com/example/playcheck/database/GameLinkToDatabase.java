@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.playcheck.activityfiles.AdapterGameList;
 import com.example.playcheck.activityfiles.CreateGameActivity;
 import com.example.playcheck.puremodel.Game;
+import com.example.playcheck.puremodel.MatchReport;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,14 @@ public class GameLinkToDatabase {
     /* Interfaces used for callbacks*/
     public interface RefereeNamesCallback {
         void onCallback(ArrayList<String> refereeIds, ArrayList<String> refereeNames);
+    }
+
+    public interface TeamIdsFromGameCallback {
+        void onCallback(String teamAid, String teamBid);
+    }
+
+    public interface MatchReportCallback {
+        void onCallback(MatchReport report);
     }
 
     DatabaseReference gamesRef = FirebaseDatabase.getInstance().getReference("games");
@@ -117,6 +126,47 @@ public class GameLinkToDatabase {
                 });
 
     }
+
+    /*Given game id, returne the team ids */
+    public void getTeamIdsFromGame(String gameId, TeamIdsFromGameCallback callback) {
+        gamesRef.child(gameId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String teamAid = snapshot.child("teamAid").getValue(String.class);
+                    String teamBid = snapshot.child("teamBid").getValue(String.class);
+                    callback.onCallback(teamAid, teamBid);
+                } else {
+                    callback.onCallback(null, null);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Error fetching team IDs: " + error.getMessage());
+            }
+        });
+    }
+
+    /*Method that gets game stats */
+    public void observeMatchReport(String gameId, MatchReportCallback callback) {
+        gamesRef.child(gameId).child("matchReport").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    MatchReport report = snapshot.getValue(MatchReport.class);
+                    callback.onCallback(report);
+                } else {
+                    callback.onCallback(null);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "MatchReport update failed: " + error.getMessage());
+            }
+        });
+    }
+
 
 
 }

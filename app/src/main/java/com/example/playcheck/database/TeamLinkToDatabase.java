@@ -3,6 +3,7 @@ package com.example.playcheck.Database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import com.google.firebase.database.ServerValue;
 
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Team;
@@ -185,6 +186,14 @@ public class TeamLinkToDatabase {
     }
 
 
+    /*Given team id and win status, increment wins or losses by 1*/
+    public void updateTeamRecord(String teamId, boolean win){
+        if (win){
+            teamsRef.child(teamId).child("teamWins").setValue(ServerValue.increment(1));
+        } else{
+            teamsRef.child(teamId).child("teamLosses").setValue(ServerValue.increment(1));
+        }
+    }
 
 
 

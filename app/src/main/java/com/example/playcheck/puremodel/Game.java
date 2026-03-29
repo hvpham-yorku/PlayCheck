@@ -44,7 +44,7 @@ public class Game {
 
     public Game(){}
 
-    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid, Map<String, String> referees) {
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid, Map<String, String> referees, String score) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.gameDate = gameDate;
@@ -55,6 +55,7 @@ public class Game {
         this.teamAid = teamAid;
         this.teamBid = teamBid;
         this.referees = referees;
+        this.score = score;
 
         this.gameId = "";
         this.event = null;
