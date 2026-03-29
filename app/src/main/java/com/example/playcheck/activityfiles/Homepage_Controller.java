@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,10 +39,29 @@ public class Homepage_Controller extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        // 1. Suggestion & Create Event
-//        findViewById(R.id.cardSuggestion).setOnClickListener(v ->
-//                navigateTo(SuggestionActivity.class)); // Replace with your actual Activity class
-//
+
+        UserLinkToDatabase userDB = new UserLinkToDatabase();
+        // suggestion is customized according to user
+        findViewById(R.id.cardSuggestion).setOnClickListener(v -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                userDB.getUserAccountType(user).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String accountType = task.getResult();
+                        if ("Organizer".equalsIgnoreCase(accountType)) {
+                            navigateTo(CreateGameActivity.class);
+                        } else if ("Player".equalsIgnoreCase(accountType) || "Referee".equalsIgnoreCase(accountType)) {
+                            navigateTo(TeamStandings.class);
+                        } else {
+                            Toast.makeText(this, "Account type unknown", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Try another feature", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
         findViewById(R.id.cardCreateEvent).setOnClickListener(v ->
                 navigateTo(Event_Option_Page_Contoroller.class));
 
@@ -49,8 +69,9 @@ public class Homepage_Controller extends AppCompatActivity {
         findViewById(R.id.cardAllGames).setOnClickListener(v ->
                 navigateTo(GameList.class));
 
-        findViewById(R.id.cardAllTeams).setOnClickListener(v ->
-                navigateTo(MyTeams.class));
+        findViewById(R.id.cardAllTeams).setOnClickListener(v ->{
+                android.util.Log.d("NAV_TEST", "All Teams Clicked!");
+                navigateTo(MyTeams.class);});
 
         findViewById(R.id.cardMySchedule).setOnClickListener(v ->
                 navigateTo(GameSchedule.class));
@@ -62,8 +83,28 @@ public class Homepage_Controller extends AppCompatActivity {
         findViewById(R.id.cardCalistenia).setOnClickListener(v ->
                 navigateTo(AllUsers_Controller.class));
 
-        findViewById(R.id.cardPingPong).setOnClickListener(v ->
-                navigateTo(CreateTeam.class));
+        findViewById(R.id.cardPingPong).setOnClickListener(v -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                userDB.getUserAccountType(user).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String accountType = task.getResult();
+                        if ("Organizer".equalsIgnoreCase(accountType)) {
+                            // Organizers create teams via the Organizer view
+                            navigateTo(CreateTeamOrganizer.class);
+                        } else if ("Player".equalsIgnoreCase(accountType)) {
+                            // Players create teams via the Player view
+                            navigateTo(CreateTeamPlayer.class);
+                        } else if ("Referee".equalsIgnoreCase(accountType)) {
+                            // Referees do nothing
+                            Toast.makeText(this, "Referees cannot create teams", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Error verifying role", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         // 4. Logout Logic
         findViewById(R.id.ivLogout).setOnClickListener(v -> {

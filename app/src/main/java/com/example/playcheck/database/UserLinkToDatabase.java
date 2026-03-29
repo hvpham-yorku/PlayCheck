@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import android.util.Log;
 
@@ -10,6 +10,7 @@ import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,13 +34,15 @@ public class UserLinkToDatabase {
         databaseRef = FirebaseDatabase.getInstance().getReference();
     }
 
-    public UserLinkToDatabase(FirebaseAuth mAuth, DatabaseReference databaseRef) {
-        this.mAuth = mAuth;
-        this.databaseRef = databaseRef;
-    }
 
+    /*FirebaseAuth uAuth;
+    //The entity that updates/deletion are going to base on in the database
+     User theUser;
+    UserLinkToDatabase(User theUser){
 
-    FirebaseAuth uAuth;
+        this.theUser = theUser;
+        uAuth = FirebaseAuth.getInstance();
+    } */
 
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference rootRef = userRef.child("Referee");
@@ -48,13 +51,6 @@ public class UserLinkToDatabase {
     DatabaseReference rootOrganizerRef = userRef.child("Organizer");
 //-----------------------------------------------------------------------------------------------
 
-    //The entity that updates/deletion are going to base on in the database
-    User theUser;
-    UserLinkToDatabase(User theUser){
-
-        this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
-    }
 
     /* Interfaces used for callbacks*/
     public interface PlayerIdCallback {
@@ -65,9 +61,13 @@ public class UserLinkToDatabase {
         void onCallback(ArrayList<String> names);
     }
 
+    public interface RefereesCallback {
+        void onCallback(ArrayList<String> refIds, ArrayList<String> refNames);
+    }
+
 
     /*method that returns the user account type as a string */
-    public static Task<String> getUserAccountType(FirebaseUser currentUser) {
+    public Task<String> getUserAccountType(FirebaseUser currentUser) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         String uid = currentUser.getUid();
 
@@ -109,8 +109,26 @@ public class UserLinkToDatabase {
         });
     }
 
+    /**
+     * Registers a new user with Firebase Authentication.
+     */
+    public Task<AuthResult> registerUser(String email, String password) {
+        return mAuth.createUserWithEmailAndPassword(email, password);
+    }
+
+    /**
+     * Saves user profile information to the database.
+     */
+    public Task<Void> saveUserProfile(String uid, String accountType, Map<String, Object> profile) {
+        return databaseRef.child("users")
+                .child(accountType)
+                .child(uid)
+                .child("profile")
+                .setValue(profile);
+    }
+
     /* Method that returns all ids for players in the database */
-    public static void getPlayerIDs(final PlayerIdCallback callback) {
+    public void getPlayerIDs(final PlayerIdCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
         ArrayList<String> playerIds = new ArrayList<>();
 
@@ -136,7 +154,7 @@ public class UserLinkToDatabase {
     }
 
     /* Method that returns all player names in the database */
-    public static void getPlayerNames(PlayerNameCallback callback) {
+    public void getPlayerNames(PlayerNameCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
 
         ArrayList<String> playerNames = new ArrayList<>();
@@ -163,6 +181,37 @@ public class UserLinkToDatabase {
             }
         });
     }
+
+    /*Method that gets all referee names and ids from database */
+    public void getAllReferees(RefereesCallback callback) {
+        DatabaseReference refRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child("Referee");
+
+        refRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> refNames = new ArrayList<>();
+                ArrayList<String> refIds = new ArrayList<>();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String firstName = ds.child("profile").child("firstName").getValue(String.class);
+                    String lastName = ds.child("profile").child("lastName").getValue(String.class);
+
+                    Log.d("FirebaseTest", "REF FOUND: " + firstName + " " + lastName);
+
+                    refIds.add(ds.getKey());
+                    refNames.add(firstName + " " + lastName);
+                }
+                callback.onCallback(refIds, refNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", error.getMessage());
+            }
+        });
+    }
+
     //-------------------------------------------------------------------------------------------
   /*  1. Core CRUD Operations
     These are the fundamental building blocks of any persistence class.

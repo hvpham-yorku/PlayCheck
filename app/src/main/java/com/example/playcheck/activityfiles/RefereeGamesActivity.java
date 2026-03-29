@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -63,10 +64,15 @@ public class RefereeGamesActivity extends AppCompatActivity {
                 for (DataSnapshot child : snapshot.getChildren()) {
 
                     Game g = child.getValue(Game.class);
-
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     if (g != null) {
-                        games.add(g);
+                        boolean isReferee = g.getReferees() != null && g.getReferees().containsKey(uid);
+                        if (isReferee == true){
+                            g.setGameId(child.getKey());
+                            games.add(g);
+                        }
                     }
+
                 }
 
                 adapter.notifyDataSetChanged();
