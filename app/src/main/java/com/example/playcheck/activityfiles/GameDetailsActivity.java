@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.playcheck.Database.GameLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,7 +63,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         UserLinkToDatabase user = new UserLinkToDatabase();
         if (currentUser != null) {
-            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
                     if ("Referee".equals(accountType)) {

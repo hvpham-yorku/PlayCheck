@@ -86,7 +86,12 @@ public class PlayerLinkToDatabase extends UserLinkToDatabase {
                         List<Game> games = new ArrayList<>();
                         for (DataSnapshot matchSnapshot : snapshot.getChildren()) {
                             Game game = matchSnapshot.getValue(Game.class);
-                            if (game != null) games.add(game);
+                            if (game != null) {
+                                if (game.getGameId() == null || game.getGameId().isEmpty()) {
+                                    game.setGameId(matchSnapshot.getKey());
+                                }
+                                games.add(game);
+                            }
                         }
                         future.complete(games);
                     }
@@ -110,6 +115,35 @@ public class PlayerLinkToDatabase extends UserLinkToDatabase {
                 .setValue(performance).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) future.complete(null);
                     else future.completeExceptionally(task.getException());
+                });
+        return future;
+    }
+
+    public CompletableFuture<Map<String, Object>> getPlayerStats(String playerUid) {
+        CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+        databaseRef.child("users").child("Player").child(playerUid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        Map<String, Object> stats = new HashMap<>();
+                        if (snapshot.exists()) {
+                            // Extract stats from the player profile
+                            stats.put("goals", snapshot.child("goalsScored").getValue(Integer.class));
+                            stats.put("matchesPlayed", snapshot.child("matchesPlayed").getValue(Integer.class));
+                            
+                            // Optional: Calculate or retrieve win rate
+                            if (snapshot.hasChild("winRate")) {
+                                stats.put("winRate", snapshot.child("winRate").getValue());
+                            } else {
+                                stats.put("winRate", "N/A");
+                            }
+                        }
+                        future.complete(stats);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        future.completeExceptionally(error.toException());
+                    }
                 });
         return future;
     }

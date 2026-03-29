@@ -2,10 +2,9 @@ package com.example.playcheck.activityfiles;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.playcheck.Database.TeamLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Team;
 import java.util.ArrayList;

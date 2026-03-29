@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.Database.GameLinkToDatabase;
-import com.example.playcheck.Database.TeamLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.BasketballStats;
 import com.example.playcheck.puremodel.MatchReport;

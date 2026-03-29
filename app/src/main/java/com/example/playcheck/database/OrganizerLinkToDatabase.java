@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class OrganizerLinkToDatabase extends com.example.playcheck.Database.UserLinkToDatabase {
+public class OrganizerLinkToDatabase extends com.example.playcheck.database.UserLinkToDatabase {
 
     public OrganizerLinkToDatabase() {
         super();
@@ -32,7 +32,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
     public CompletableFuture<String> createEvent(String organizerUid, Event event) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String eventId = databaseRef.child("events").push().getKey();
+        String eventId = getDatabaseRef().child("events").push().getKey();
         if (eventId == null) {
             future.completeExceptionally(new Exception("Failed to generate event ID"));
             return future;
@@ -43,7 +43,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
         updates.put("events/" + eventId, event);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, true);
 
-        databaseRef.updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(eventId);
@@ -61,7 +61,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
     public CompletableFuture<Void> updateEvent(String eventId, Map<String, Object> updates) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        databaseRef.child("events")
+        getDatabaseRef().child("events")
                 .child(eventId)
                 .updateChildren(updates)
                 .addOnCompleteListener(task -> {
@@ -85,7 +85,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
         updates.put("events/" + eventId, null);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, null);
 
-        databaseRef.updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);
@@ -103,14 +103,14 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
     public CompletableFuture<String> createTeam(Team team) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String teamId = databaseRef.child("teams").push().getKey();
+        String teamId = getDatabaseRef().child("teams").push().getKey();
         if (teamId == null) {
             future.completeExceptionally(new Exception("Failed to generate team ID"));
             return future;
         }
         team.setTeamId(teamId);
 
-        databaseRef.child("teams")
+        getDatabaseRef().child("teams")
                 .child(teamId)
                 .setValue(team)
                 .addOnCompleteListener(task -> {
@@ -130,7 +130,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
     public CompletableFuture<String> scheduleGame(Game game) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String gameId = databaseRef.child("games").push().getKey();
+        String gameId = getDatabaseRef().child("games").push().getKey();
         if (gameId == null) {
             future.completeExceptionally(new Exception("Failed to generate game ID"));
             return future;
@@ -151,7 +151,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
             updates.put("referees/" + game.getRefereeId() + "/assignedGames/" + gameId, true);
         }
 
-        databaseRef.updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(gameId);
@@ -169,7 +169,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
     public CompletableFuture<Void> updateGameResult(String gameId, Map<String, Object> result) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        databaseRef.child("games")
+        getDatabaseRef().child("games")
                 .child(gameId)
                 .child("result")
                 .setValue(result)
@@ -191,7 +191,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
         List<Event> events = new ArrayList<>();
 
-        databaseRef.child("organizers")
+        getDatabaseRef().child("organizers")
                 .child(organizerUid)
                 .child("events")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -203,7 +203,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
                             String eventId = eventSnapshot.getKey();
                             CompletableFuture<Void> eventFuture = new CompletableFuture<>();
 
-                            databaseRef.child("events")
+                            getDatabaseRef().child("events")
                                     .child(eventId)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -256,7 +256,7 @@ public class OrganizerLinkToDatabase extends com.example.playcheck.Database.User
         updates.put("games/" + gameId + "/refereeId", refereeId);
         updates.put("referees/" + refereeId + "/assignedGames/" + gameId, true);
 
-        databaseRef.updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);

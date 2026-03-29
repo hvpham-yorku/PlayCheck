@@ -11,7 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,12 +40,11 @@ public class Homepage_Controller extends AppCompatActivity {
 
     private void setupClickListeners() {
 
-        UserLinkToDatabase userDB = new UserLinkToDatabase();
         // suggestion is customized according to user
         findViewById(R.id.cardSuggestion).setOnClickListener(v -> {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
-                userDB.getUserAccountType(user).addOnCompleteListener(task -> {
+                UserLinkToDatabase.getUserAccountType(user).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         String accountType = task.getResult();
                         if ("Organizer".equalsIgnoreCase(accountType)) {
@@ -86,7 +85,7 @@ public class Homepage_Controller extends AppCompatActivity {
         findViewById(R.id.cardPingPong).setOnClickListener(v -> {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
-                userDB.getUserAccountType(user).addOnCompleteListener(task -> {
+                UserLinkToDatabase.getUserAccountType(user).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         String accountType = task.getResult();
                         if ("Organizer".equalsIgnoreCase(accountType)) {

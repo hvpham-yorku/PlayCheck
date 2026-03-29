@@ -17,8 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
+import com.example.playcheck.puremodel.Organizer;
+import com.example.playcheck.puremodel.Player;
+import com.example.playcheck.puremodel.Referee;
+import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -108,29 +112,33 @@ public class Registration extends AppCompatActivity {
             }
 
             //create the user
-            userDb.registerUser(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
-                            if (task.isSuccessful()) {
-                                // Sign up success, go to profile setup
-                                Intent nextIntent = new Intent(Registration.this, ProfileSetup.class);
-                                nextIntent.putExtra("email", email);
-                                nextIntent.putExtra("password", password);
-                                nextIntent.putExtra("accountType", accountType);
+            User newUser;
+            if ("Organizer".equalsIgnoreCase(accountType)) {
+                newUser = new Organizer();
+            } else if ("Referee".equalsIgnoreCase(accountType)) {
+                newUser = new Referee();
+            } else {
+                newUser = new Player();
+            }
+            newUser.setEmail(email);
 
-                                startActivity(nextIntent);
-                                finish();
+            userDb.createUser(newUser, password)
+                    .thenAccept(uid -> {
+                        progressBar.setVisibility(View.GONE);
+                        Intent nextIntent = new Intent(Registration.this, ProfileSetup.class);
+                        nextIntent.putExtra("email", email);
+                        nextIntent.putExtra("password", password);
+                        nextIntent.putExtra("accountType", accountType);
 
-                            } else {
-                                // If sign up fails, display a message to the user.
-                                Toast.makeText(Registration.this,
-                                        task.getException().getMessage(),
-                                        Toast.LENGTH_LONG).show();
-
-                            }
-                        }
+                        startActivity(nextIntent);
+                        finish();
+                    })
+                    .exceptionally(e -> {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(Registration.this,
+                                e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return null;
                     });
         });
     }

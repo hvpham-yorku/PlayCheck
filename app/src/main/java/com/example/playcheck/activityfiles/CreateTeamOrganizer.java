@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.playcheck.Database.TeamLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
-import com.example.playcheck.Database.OrganizerLinkToDatabase;
+import com.example.playcheck.database.OrganizerLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

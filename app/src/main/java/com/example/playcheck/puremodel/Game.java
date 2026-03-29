@@ -41,8 +41,18 @@ public class Game {
 
     private MatchReport matchReport;
 
-    private static GameLinkToDatabase databaseService = new GameLinkToDatabase();
+    private static GameLinkToDatabase databaseService;
 
+    private static GameLinkToDatabase getDatabaseService() {
+        if (databaseService == null) {
+            databaseService = new GameLinkToDatabase();
+        }
+        return databaseService;
+    }
+
+    public static void setDatabaseService(GameLinkToDatabase service) {
+        databaseService = service;
+    }
 
     public Game(){}
 
@@ -79,15 +89,15 @@ public class Game {
     //-------------------------------------------------------------------------------------------
 
     public CompletableFuture<Void> save() {
-        return databaseService.saveGame(this);
+        return getDatabaseService().saveGame(this);
     }
 
     public static CompletableFuture<List<Game>> fetchAll() {
-        return databaseService.getAllGames();
+        return getDatabaseService().getAllGames();
     }
 
     public static CompletableFuture<Game> fetchById(String id) {
-        return databaseService.getGameById(id);
+        return getDatabaseService().getGameById(id);
     }
 
     //-------------------------------------------------------------------------------------------
