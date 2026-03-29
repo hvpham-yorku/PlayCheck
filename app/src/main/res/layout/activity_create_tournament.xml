@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#7EADDB"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Create Tournament"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+        </RelativeLayout>
+
+        <!-- Tournament Form Container -->
+        <LinearLayout
+            android:id="@+id/tournamentFormContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tournament Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tournament Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <EditText
+                android:id="@+id/edtTournamentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. Summer Championship 2026"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text" />
+
+            <!-- Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <EditText
+                android:id="@+id/edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tournament details..."
+                android:padding="12dp"
+                android:minLines="3"
+                android:gravity="top"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text" />
+
+            <!-- Tournament Type -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tournament Type"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <Spinner
+                android:id="@+id/spinnerTournamentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp" />
+
+            <!-- Number of Teams -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Teams (Optional)"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <EditText
+                android:id="@+id/edtNumTeams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. 8"
+                android:inputType="number"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text" />
+
+            <!-- Start Date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Date &amp; Time"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/txtStartDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Not selected"
+                    android:padding="12dp"
+                    android:textColor="#7F8C8D"
+                    android:background="@android:drawable/edit_text" />
+
+                <Button
+                    android:id="@+id/btnSelectStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Select"
+                    android:background="#7EADDB"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- End Date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Date &amp; Time"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/txtEndDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Not selected"
+                    android:padding="12dp"
+                    android:textColor="#7F8C8D"
+                    android:background="@android:drawable/edit_text" />
+
+                <Button
+                    android:id="@+id/btnSelectEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Select"
+                    android:background="#7EADDB"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <!-- Create Tournament Button -->
+            <Button
+                android:id="@+id/btnCreateTournament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Tournament"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="#22C55E"
+                android:textColor="#FFFFFF"
+                android:padding="16dp" />
+        </LinearLayout>
+
+        <!-- Games Section (shown after tournament is created) -->
+        <LinearLayout
+            android:id="@+id/gamesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Games to Tournament"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/txtGamesAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Games Added: 0"
+                android:textSize="16sp"
+                android:textColor="#7F8C8D"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnAddGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="➕ Add Game"
+                android:textSize="16sp"
+                android:background="#7EADDB"
+                android:textColor="#FFFFFF"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnViewGames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📋 View All Games"
+                android:textSize="14sp"
+                android:background="#E5E7EB"
+                android:textColor="#2C3E50"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✓ Finish Tournament Setup"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="#22C55E"
+                android:textColor="#FFFFFF"
+                android:padding="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
-import com.example.playcheck.database.UserLinkToDatabase;
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,6 +34,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    UserLinkToDatabase user = new UserLinkToDatabase();
 
     @Override
     public void onStart() {
@@ -42,28 +43,30 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null){
+            progressBar.setVisibility(View.VISIBLE);
             //get account type
-            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
 
-                    // Will connect to a home screen that specifically is for that account type
-                    Intent nextIntent;
                     if (accountType == null){
+                        // If no profile found, force profile setup or registration
                         startActivity(new Intent(Login.this, Registration.class));
                         finish();
                         return;
                     }
+
+                    Intent nextIntent = null;
                     if (accountType.equals("Referee")){
                         nextIntent = new Intent(this, RefereeHomeActivity.class);
-                        startActivity(nextIntent);
-                        finish();
                     } else if (accountType.equals("Player")){
                         nextIntent = new Intent(this, PlayerHomeActivity.class);
-                        startActivity(nextIntent);
-                        finish();
                     } else if (accountType.equals("Organizer")){
                         nextIntent = new Intent(this, OrganizerDashboardActivity.class);
+                    }
+
+                    if (nextIntent != null) {
                         startActivity(nextIntent);
                         finish();
                     }
@@ -112,44 +115,29 @@ public class Login extends AppCompatActivity {
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
-
-                        progressBar.setVisibility(View.GONE);
-
                         if (task.isSuccessful()) {
-
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String uid = user.getUid();
-
-                            DatabaseReference ref = FirebaseDatabase.getInstance()
-                                    .getReference("users");
-
-                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                    if (snapshot.child("Organizer").hasChild(uid)) {
+                            FirebaseUser userFB = mAuth.getCurrentUser();
+                            user.getUserAccountType(userFB).addOnCompleteListener(typeTask -> {
+                                progressBar.setVisibility(View.GONE);
+                                if (typeTask.isSuccessful()) {
+                                    String accountType = typeTask.getResult();
+                                    if (accountType == null) {
+                                        startActivity(new Intent(Login.this, Registration.class));
+                                    } else if (accountType.equals("Organizer")) {
                                         startActivity(new Intent(Login.this, OrganizerDashboardActivity.class));
-                                    }
-
-                                    else if (snapshot.child("Player").hasChild(uid)) {
+                                    } else if (accountType.equals("Player")) {
                                         startActivity(new Intent(Login.this, PlayerHomeActivity.class));
-                                    }
-
-                                    else if (snapshot.child("Referee").hasChild(uid)) {
+                                    } else if (accountType.equals("Referee")) {
                                         startActivity(new Intent(Login.this, RefereeHomeActivity.class));
                                     }
-
                                     finish();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
+                                } else {
+                                    Toast.makeText(Login.this, "Failed to get account type.", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -1,9 +1,16 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
+
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.playcheck.activityfiles.AdapterGameList;
+import com.example.playcheck.activityfiles.CreateGameActivity;
 import com.example.playcheck.puremodel.Game;
+import com.example.playcheck.puremodel.MatchReport;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -1,5 +1,7 @@
 package com.example.playcheck.activityfiles;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;

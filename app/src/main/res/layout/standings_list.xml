@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rankBadge"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#E8E8E8">
+
+        <TextView
+            android:id="@+id/rankNumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="1"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"
+            android:gravity="center" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/teamNameText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Team Name"
+        android:textSize="14sp"
+        android:textColor="#2C3E50"
+        android:layout_marginStart="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📈"
+        android:textSize="12sp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/winsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0W"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/lossesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0L"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D" />
+</LinearLayout>

@@ -14,8 +14,38 @@ public class Team {
 
     public Team() {}
 
+    //Constructor for tests
     public Team(String teamName) {
         this.teamName = teamName;
+        this.wins = wins; //tony
+        this.losses = losses; //tony
+    }
+
+
+    //getters and setters
+    public HashMap<String, String> getCaptain() {
+        return Captain;
+    }
+
+    public void setCaptain(HashMap<String, String> captain) {
+        this.Captain = Captain;
+    }
+
+    public String getTeamCreator() {
+        return teamCreator;
+    }
+
+    public void setTeamCreator(String teamCreator) {
+        this.teamCreator = teamCreator;
+    }
+
+    public HashMap<String, String> getPlayers() {
+        return players;
+    }
+
+
+    public void setPlayers(HashMap<String, String> players) {
+        this.players = players;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -41,6 +71,23 @@ public class Team {
     public String getTeamName() {
         return teamName;
     }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
@@ -69,4 +116,5 @@ public class Team {
     public void setMemberIds(List<String> memberIds) {
         this.memberIds = memberIds;
     }
+
 }

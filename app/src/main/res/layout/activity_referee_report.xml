@@ -1,26 +1,253 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/inputScore"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Final Score"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/inputNotes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Match Notes"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:id="@+id/textTeamA"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Team A"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" VS "
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/textTeamB"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Team B"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="Submit Report"/>
+        <!-- Switches between stats views for differnt sports -->
+        <ViewFlipper
+            android:id="@+id/sportStatsFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Football Stats"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/footGoalsA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Goals Team A"
+                        android:inputType="number"/>
+                    <EditText
+                        android:id="@+id/footGoalsB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Goals Team B"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/footShotsTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Shots Team A"
+                        android:inputType="number"/>
+                    <EditText
+                        android:id="@+id/footShotsTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Shots Team B"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/footYellowTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Yellow Cards A"
+                        android:inputType="number"/>
+                    <EditText
+                        android:id="@+id/footYellowTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Yellow Cards B"
+                        android:inputType="number"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Basketball Stats"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/basketPointsTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Points Team A"
+                        android:inputType="number"/>
+                    <EditText
+                        android:id="@+id/basketPointsTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Points Team B"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/basketRebTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Rebounds Team A"
+                        android:inputType="number"/>
+                    <EditText
+                        android:id="@+id/basketRebTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Rebounds Team B"
+                        android:inputType="number"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Volleyball Stats"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/volleySetsA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Sets Won A"
+                        android:inputType="number"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+                    <EditText
+                        android:id="@+id/volleySetsB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Sets Won B"
+                        android:inputType="number"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/volleyKillsTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Kills Team A"
+                        android:inputType="number"/>
+                    <EditText android:id="@+id/volleyKillsTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Kills R"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/volleyAcesTeamA"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Aces Team A"
+                        android:inputType="number"/>
+                    <EditText android:id="@+id/volleyAcesTeamB"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Aces Team B"
+                        android:inputType="number"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ViewFlipper>
+
+        <EditText
+            android:id="@+id/inputNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="General Match Notes"/>
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="24dp"
+            android:text="Submit Final Score and Report"/>
+    </LinearLayout>
+</ScrollView>

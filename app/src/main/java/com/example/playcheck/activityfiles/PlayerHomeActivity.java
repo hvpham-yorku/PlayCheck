@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +35,7 @@ public class PlayerHomeActivity extends AppCompatActivity {
         Button btnSchedule = findViewById(R.id.btnPlayerSchedule);
         Button btnCreateTeam = findViewById(R.id.btnMakeTeam);
         Button btnMyTeams = findViewById(R.id.btnPlayerTeams);
+        Button btnLogout = findViewById(R.id.btnLogoutPlayer);
 
 
         recyclerPreview = findViewById(R.id.recyclerPreview);
@@ -55,13 +57,21 @@ public class PlayerHomeActivity extends AppCompatActivity {
 
         // Button opens create game page
         btnCreateTeam.setOnClickListener(v -> {
-            startActivity(new Intent(this, CreateTeam.class));
+            startActivity(new Intent(this, CreateTeamPlayer.class));
         });
 
         // Button opens my teams page
-//        btnMyTeams.setOnClickListener(v -> {
-//            startActivity(new Intent(this, MyTeams.class));
-//        });
+        btnMyTeams.setOnClickListener(v -> {
+            startActivity(new Intent(this, MyTeams.class));
+        });
+
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, Login.class));
+                finish();
+            });
+        }
 
         // Load preview: upcoming games only (limit to like 3)
         gamesRef = FirebaseDatabase.getInstance().getReference("games");

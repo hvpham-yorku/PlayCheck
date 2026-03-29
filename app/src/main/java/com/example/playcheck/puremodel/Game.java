@@ -4,9 +4,11 @@ import com.example.playcheck.database.GameLinkToDatabase;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -22,28 +24,41 @@ public class Game {
     private String gameType;
     private String gameName; 
     private String gameId;
+    private Map<String, String> players;
+
+    private Map<String, String> referees;
+    private String gameCreator;
 
     private String date;
     private String location;
     private String score;
-    private List<String> teamAPlayers;
-    private List<String> teamBPlayers;
-
+    private List<String> teamAPlayers; //used for tests
+    private List<String> teamBPlayers; //used for tests
+    private String teamAid;
+    private String teamBid;
     private Event event;
     private Referee referee;
-    
+
     private MatchReport matchReport;
 
     private static GameLinkToDatabase databaseService = new GameLinkToDatabase();
 
+
     public Game(){}
 
-    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType) {
+    public Game(String teamA, String teamB, long gameDate, String gameVenue, String gameType, Map<String, String> players, String gameCreator, String teamAid, String teamBid, Map<String, String> referees, String score) {
         this.teamA = teamA;
         this.teamB = teamB;
         this.gameDate = gameDate;
         this.gameVenue = gameVenue;
         this.gameType = gameType;
+        this.players = players;
+        this.gameCreator = gameCreator;
+        this.teamAid = teamAid;
+        this.teamBid = teamBid;
+        this.referees = referees;
+        this.score = score;
+
         this.gameId = "";
         this.event = null;
         this.referee = null;
@@ -89,6 +104,10 @@ public class Game {
         return gameDate;
     }
 
+    public Map<String, String> getPlayers() {
+        return players;
+    }
+
     public String getGameDateLongtoString(long gameDate){
         try {
             LocalDateTime dateAsString = LocalDateTime.ofInstant(
@@ -103,6 +122,22 @@ public class Game {
             return "Invalid Date";
         }
     }
+
+    /*returns the date + time as an int*/
+    public long getEpochTime(int year, int month, int day, int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTimeInMillis();
+    }
+
     public LocalDate getDateInLocalDate() {
         return Instant.ofEpochMilli(this.gameDate)
                 .atZone(ZoneId.systemDefault())
@@ -115,6 +150,10 @@ public class Game {
 
     public String getGameType(){
         return gameType;
+    }
+
+    public void setPlayers(Map<String, String> players) {
+        this.players = players;
     }
 
     public void setTeamA(String teamA) {
@@ -151,8 +190,36 @@ public class Game {
         this.gameId = gameId;
     }
 
+    public void setGameCreator(String gameCreator) {
+        this.gameCreator = gameCreator;
+    }
+
+    public String getTeamAid() {
+        return teamAid;
+    }
+
+    public void setTeamAid(String teamAid) {
+        this.teamAid = teamAid;
+    }
+
+    public String getTeamBid() {
+        return teamBid;
+    }
+
+    public void setTeamBid(String teamBid) {
+        this.teamBid = teamBid;
+    }
+
+    public Map<String, String> getReferees() {
+        return referees;
+    }
+
+    public void setReferees(Map<String, String> referees) {
+        this.referees = referees;
+    }
+
     public String getEventId() {
-        return this.event != null ? this.event.getEventId() : null;
+        return this.event.getEventId();
     }
 
     public void setEventId(String eventId) {
@@ -219,6 +286,10 @@ public class Game {
 
     public void setTeamBPlayers(List<String> teamBPlayers) {
         this.teamBPlayers = teamBPlayers;
+    }
+
+    public String getGameCreator() {
+        return gameCreator;
     }
 
     public MatchReport getMatchReport() {
