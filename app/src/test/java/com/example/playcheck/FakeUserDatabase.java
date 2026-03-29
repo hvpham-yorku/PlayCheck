@@ -47,7 +47,7 @@ class FakeUserDatabase extends UserLinkToDatabase {
 
 
     @Override
-    public CompletableFuture<Void> updateUserFields(String uid, Map<String, Object> fields) {
+    public CompletableFuture<Void> updateUserFields(String uid, String role, Map<String, Object> fields) {
         User target = users.get(uid);
         if (target != null) {
             if (fields.containsKey("firstName")) {
@@ -64,7 +64,6 @@ class FakeUserDatabase extends UserLinkToDatabase {
         return CompletableFuture.completedFuture(null);
     }
 
-    @Override
     public CompletableFuture<Void> updateEmail(String email) {
         if (storedUser != null) {
             storedUser.setEmail(email);
@@ -73,7 +72,6 @@ class FakeUserDatabase extends UserLinkToDatabase {
         return CompletableFuture.completedFuture(null);
     }
 
-    @Override
     public CompletableFuture<Void> deleteUser(String uid) {
         users.remove(uid);
         if (TEST_UID.equals(uid)) {

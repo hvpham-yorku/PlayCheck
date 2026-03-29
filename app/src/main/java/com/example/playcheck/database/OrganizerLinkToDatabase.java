@@ -1,13 +1,9 @@
 package com.example.playcheck.database;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -37,13 +33,17 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         String eventId = databaseRef.child("events").push().getKey();
+        if (eventId == null) {
+            future.completeExceptionally(new Exception("Failed to generate event ID"));
+            return future;
+        }
         event.setEventId(eventId);
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("events/" + eventId, event);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, true);
 
-        databaseRef.getRoot().updateChildren(updates)
+        databaseRef.updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(eventId);
@@ -85,7 +85,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         updates.put("events/" + eventId, null);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, null);
 
-        databaseRef.getRoot().updateChildren(updates)
+        databaseRef.updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);
@@ -104,6 +104,10 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         String teamId = databaseRef.child("teams").push().getKey();
+        if (teamId == null) {
+            future.completeExceptionally(new Exception("Failed to generate team ID"));
+            return future;
+        }
         team.setTeamId(teamId);
 
         databaseRef.child("teams")
@@ -127,6 +131,10 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         String gameId = databaseRef.child("games").push().getKey();
+        if (gameId == null) {
+            future.completeExceptionally(new Exception("Failed to generate game ID"));
+            return future;
+        }
         game.setGameId(gameId);
 
         Map<String, Object> updates = new HashMap<>();
@@ -143,7 +151,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
             updates.put("referees/" + game.getRefereeId() + "/assignedGames/" + gameId, true);
         }
 
-        databaseRef.getRoot().updateChildren(updates)
+        databaseRef.updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(gameId);
@@ -217,12 +225,16 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
                             futures.add(eventFuture);
                         }
 
-                        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                                .thenAccept(v -> future.complete(events))
-                                .exceptionally(throwable -> {
-                                    future.completeExceptionally(throwable);
-                                    return null;
-                                });
+                        if (futures.isEmpty()) {
+                            future.complete(events);
+                        } else {
+                            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                                    .thenAccept(v -> future.complete(events))
+                                    .exceptionally(throwable -> {
+                                        future.completeExceptionally(throwable);
+                                        return null;
+                                    });
+                        }
                     }
 
                     @Override
@@ -244,7 +256,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         updates.put("games/" + gameId + "/refereeId", refereeId);
         updates.put("referees/" + refereeId + "/assignedGames/" + gameId, true);
 
-        databaseRef.getRoot().updateChildren(updates)
+        databaseRef.updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);

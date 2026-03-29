@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -75,6 +76,10 @@ public abstract class User implements UserStats {
         return getDatabaseService().getCurrentUser();
     }
 
+    public static CompletableFuture<List<User>> fetchAllUsers() {
+        return getDatabaseService().getAllUsers();
+    }
+
     public CompletableFuture<Void> saveProfile() {
         if (this.uid == null || this.uid.isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -90,7 +95,7 @@ public abstract class User implements UserStats {
                 return CompletableFuture.failedFuture(new Exception("Cannot save profile fields: User UID is null."));
             }
         }
-        return getDatabaseService().updateUserFields(this.uid, fields)
+        return getDatabaseService().updateUserFields(this.uid, this.classType, fields)
                 .thenAccept(v -> updateLocalFields(fields));
     }
 

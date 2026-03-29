@@ -1,11 +1,14 @@
 package com.example.playcheck.puremodel;
 
+import com.example.playcheck.database.GameLinkToDatabase;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /*
 This class defines the information that each Game has.
@@ -17,7 +20,7 @@ public class Game {
     private long gameDate;
     private String gameVenue;
     private String gameType;
-    private String gameName; // Added to match Firebase data if present
+    private String gameName; 
     private String gameId;
 
     private String date;
@@ -31,7 +34,7 @@ public class Game {
     
     private MatchReport matchReport;
 
-
+    private static GameLinkToDatabase databaseService = new GameLinkToDatabase();
 
     public Game(){}
 
@@ -44,7 +47,6 @@ public class Game {
         this.gameId = "";
         this.event = null;
         this.referee = null;
-
     }
 
     public Game(String teamA, String teamB, String date, String location, String score, List<String> teamAPlayers, List<String> teamBPlayers) {
@@ -57,13 +59,33 @@ public class Game {
         this.teamBPlayers = teamBPlayers;
     }
 
+    //-------------------------------------------------------------------------------------------
+    // Business Logic Methods
+    //-------------------------------------------------------------------------------------------
+
+    public CompletableFuture<Void> save() {
+        return databaseService.saveGame(this);
+    }
+
+    public static CompletableFuture<List<Game>> fetchAll() {
+        return databaseService.getAllGames();
+    }
+
+    public static CompletableFuture<Game> fetchById(String id) {
+        return databaseService.getGameById(id);
+    }
+
+    //-------------------------------------------------------------------------------------------
+    // Getters and Setters
+    //-------------------------------------------------------------------------------------------
+
     public String getTeamA() {
         return teamA;
     }
     public String getTeamB() {
         return teamB;
     }
-    public long getGameDate() { //return date as a long int
+    public long getGameDate() { 
         return gameDate;
     }
 
@@ -82,12 +104,9 @@ public class Game {
         }
     }
     public LocalDate getDateInLocalDate() {
-
-        LocalDate localDateSystemDefault = Instant.ofEpochMilli(this.gameDate)
+        return Instant.ofEpochMilli(this.gameDate)
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-        return localDateSystemDefault;
-
     }
 
     public String getGameVenue() {
@@ -144,26 +163,22 @@ public class Game {
 
     public Event getEvent() {
         return event;
-
     }
 
     public void setEvent(Event event) {
         this.event = event;
     }
 
-
     public Referee getReferee() {
         return referee;
     }
 
     public void setReferee(Referee referee) {
-
         this.referee = referee;
     }
 
     public String getRefereeId() {
         return this.referee != null ? this.referee.getRefereeId() : null;
-
     }
 
     public String getDate() {
