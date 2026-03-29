@@ -195,6 +195,29 @@ public class TeamLinkToDatabase {
         }
     }
 
+    /*Gets all teams in the database as Team objects */
+    public void getAllTeamsForStandings(allTeamsCallback callback) {
+        teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Team> teams = new ArrayList<>();
+                for (DataSnapshot teamSnap : snapshot.getChildren()) {
+                    Team team = teamSnap.getValue(Team.class);
+                    if (team != null) {
+                        team.setTeamId(teamSnap.getKey());
+                        teams.add(team);
+                    }
+                }
+                callback.onCallback(teams);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", error.getMessage());
+            }
+        });
+    }
+
 
 
 

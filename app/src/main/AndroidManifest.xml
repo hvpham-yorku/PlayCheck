@@ -124,6 +124,7 @@
         <activity android:name=".activityfiles.RefereeReportActivity" />
         <activity android:name=".activityfiles.RecordOrAttachClipActivity" />
         <activity android:name=".activityfiles.ClipPlayerActivity" />
+        <activity android:name=".activityfiles.TeamStandings" android:exported="true" />
 
         <activity android:name=".activityfiles.AssignRefereeActivity" android:exported="true" />
         <activity android:name=".activityfiles.CreateTournamentActivity" android:exported="true" />
