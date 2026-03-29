@@ -134,10 +134,13 @@ public class UserLinkToDatabase {
                 User user = null;
                 if (snapshot.child("Organizer").hasChild(uid)) {
                     user = snapshot.child("Organizer").child(uid).getValue(Organizer.class);
+                    if (user == null) user = snapshot.child("Organizer").child(uid).child("profile").getValue(Organizer.class);
                 } else if (snapshot.child("Player").hasChild(uid)) {
                     user = snapshot.child("Player").child(uid).getValue(Player.class);
+                    if (user == null) user = snapshot.child("Player").child(uid).child("profile").getValue(Player.class);
                 } else if (snapshot.child("Referee").hasChild(uid)) {
                     user = snapshot.child("Referee").child(uid).getValue(Referee.class);
+                    if (user == null) user = snapshot.child("Referee").child(uid).child("profile").getValue(Referee.class);
                 }
 
                 if (user != null) {
@@ -194,12 +197,19 @@ public class UserLinkToDatabase {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot roleSnap : snapshot.getChildren()) {
+                    String role = roleSnap.getKey();
                     for (DataSnapshot userSnap : roleSnap.getChildren()) {
-                        String classType = userSnap.child("classType").getValue(String.class);
                         User user = null;
-                        if ("Organizer".equals(classType)) user = userSnap.getValue(Organizer.class);
-                        else if ("Player".equals(classType)) user = userSnap.getValue(Player.class);
-                        else if ("Referee".equals(classType)) user = userSnap.getValue(Referee.class);
+                        if (userSnap.hasChild("profile")) {
+                            DataSnapshot profileSnap = userSnap.child("profile");
+                            if ("Organizer".equals(role)) user = profileSnap.getValue(Organizer.class);
+                            else if ("Player".equals(role)) user = profileSnap.getValue(Player.class);
+                            else if ("Referee".equals(role)) user = profileSnap.getValue(Referee.class);
+                        } else {
+                            if ("Organizer".equals(role)) user = userSnap.getValue(Organizer.class);
+                            else if ("Player".equals(role)) user = userSnap.getValue(Player.class);
+                            else if ("Referee".equals(role)) user = userSnap.getValue(Referee.class);
+                        }
                         
                         if (user != null) {
                             user.setUid(userSnap.getKey());
@@ -259,6 +269,10 @@ public class UserLinkToDatabase {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String firstName = child.child("firstName").getValue(String.class);
                     String lastName = child.child("lastName").getValue(String.class);
+                    if (firstName == null && child.hasChild("profile")) {
+                        firstName = child.child("profile").child("firstName").getValue(String.class);
+                        lastName = child.child("profile").child("lastName").getValue(String.class);
+                    }
                     names.add(firstName + " " + lastName);
                 }
                 callback.onCallback(names);

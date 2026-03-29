@@ -171,14 +171,7 @@ public class AllUsers_Controller extends AppCompatActivity implements UserAdapte
 
     @Override
     public void onUserClick(User user) {
-        Intent intent;
-        if (user instanceof Organizer) {
-            intent = new Intent(this, General_Profile_Page_Controller.class);
-        } else if (user instanceof Player) {
-            intent = new Intent(this, Player_Profile_Page_Controller.class);
-        } else {
-            intent = new Intent(this, Referee_Profile_Page_Controller.class);
-        }
+        Intent intent = new Intent(this, User_Profile_Page_Others_Perspective_Controller.class);
         intent.putExtra("USER_ID", user.getUid());
         startActivity(intent);
     }
