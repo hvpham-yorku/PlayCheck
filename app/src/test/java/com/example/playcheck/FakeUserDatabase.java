@@ -18,7 +18,7 @@ class FakeUserDatabase extends UserLinkToDatabase {
     private static final String TEST_UID = "TEST_UID";
 
     public FakeUserDatabase() {
-        super(null, (DatabaseReference) null);
+        //super(null, (DatabaseReference) null);
     }
 
     @Override
