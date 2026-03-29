@@ -38,14 +38,14 @@ public class RefereeReportActivity extends AppCompatActivity {
         gamesRef = FirebaseDatabase.getInstance().getReference("games");
 
         submitButton.setOnClickListener(v -> {
-            long gameId = getIntent().getLongExtra("gameId", 0);
+            String gameId = getIntent().getStringExtra("gameId");
             String gameType = getIntent().getStringExtra("gameType");
 
             String score = inputScore.getText().toString();
             String notes = inputNotes.getText().toString();
 
             if(gameId != 0){
-                DatabaseReference reportRef = gamesRef.child(String.valueOf(gameId)).child("matchReport");
+                DatabaseReference reportRef = gamesRef.child(gameId).child("matchReport");
 
                 MatchReport report = new MatchReport();
                 report.setScore(score);

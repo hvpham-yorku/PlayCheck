@@ -70,9 +70,10 @@ public class AdapterGameList extends RecyclerView.Adapter<AdapterGameList.ViewHo
                 intent.putExtra("teamA", game.getTeamA());
                 intent.putExtra("teamB", game.getTeamB());
                 intent.putExtra("date", game.getGameDateLongtoString(game.getGameDate()));
+                intent.putExtra("gameDateMillis", game.getGameDate());
                 intent.putExtra("location", game.getGameVenue());
                 intent.putExtra("gameType", game.getGameType());
-                intent.putExtra("gameId", game.getGameDate());
+                intent.putExtra("gameId", game.getGameId());
 
 // temporary demo data
                 intent.putExtra("score", "3 - 2");
