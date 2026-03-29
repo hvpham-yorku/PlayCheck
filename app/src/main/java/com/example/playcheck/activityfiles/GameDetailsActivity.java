@@ -1,25 +1,26 @@
 package com.example.playcheck.activityfiles;
-import android.view.View;
-import android.widget.TextView;
+
 import android.content.Intent;
-
-
-
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.widget.EditText;
-import android.widget.Button;
-import android.widget.Toast;
-import com.example.playcheck.R;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.playcheck.activityfiles.RefereeReportActivity;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
+import com.example.playcheck.Database.GameLinkToDatabase;
+import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class GameDetailsActivity extends AppCompatActivity {
 
@@ -31,14 +32,66 @@ public class GameDetailsActivity extends AppCompatActivity {
 
         TextView teamAText = findViewById(R.id.teamA);
         TextView teamBText = findViewById(R.id.teamB);
+        TextView teamBNameText = findViewById(R.id.teamBTeamName);
+        TextView teamANameText = findViewById(R.id.teamATeamName);
         TextView dateText = findViewById(R.id.dateText);
         TextView locationText = findViewById(R.id.locationText);
         TextView scoreText = findViewById(R.id.scoreText);
-        TextView teamAPlayersText = findViewById(R.id.teamAPlayersText);
-        TextView teamBPlayersText = findViewById(R.id.teamBPlayersText);
+        //recycleviews for team players and referees
+        RecyclerView rvTeamA = findViewById(R.id.recycleviewTeamAPlayers);
+        RecyclerView rvTeamB = findViewById(R.id.recycleViewTeamBPlayers);
+        RecyclerView rvRefs = findViewById(R.id.recycleViewReferees);
+
         TextView refereeText = findViewById(R.id.refereeText);
+
+        ViewFlipper flipper = findViewById(R.id.detailsStatsFlipper);
+        TextView notesText = findViewById(R.id.detailsNotes);
+        
         Button refereeReportButton = findViewById(R.id.refereeReportButton);
-        Button backButton = findViewById(R.id.backBtnGameDetails);
+        Button btnViewClips = findViewById(R.id.btnViewClips);
+
+        //layout manager for recycleviews
+        rvTeamA.setLayoutManager(new LinearLayoutManager(this));
+        rvTeamB.setLayoutManager(new LinearLayoutManager(this));
+        rvRefs.setLayoutManager(new LinearLayoutManager(this));
+
+        // Hide referee buttons by default
+        refereeReportButton.setVisibility(View.GONE);
+        btnViewClips.setVisibility(View.GONE);
+
+        // Only show buttons if the user is a Referee
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        UserLinkToDatabase user = new UserLinkToDatabase();
+        if (currentUser != null) {
+            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String accountType = task.getResult();
+                    if ("Referee".equals(accountType)) {
+                        refereeReportButton.setVisibility(View.VISIBLE);
+                        btnViewClips.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+
+        btnViewClips.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MatchClipListActivity.class);
+            intent.putExtra("gameId", getIntent().getStringExtra("gameId"));
+            intent.putExtra("gameName", getIntent().getStringExtra("gameName"));
+            startActivity(intent);
+        });
+
+        refereeReportButton.setOnClickListener(v -> {
+            Intent reportIntent = new Intent(this, RefereeReportActivity.class);
+            reportIntent.putExtra("gameId", getIntent().getStringExtra("gameId"));
+            //reportIntent.putExtra("gameName", getIntent().getStringExtra("gameName"));
+            reportIntent.putExtra("teamA", getIntent().getStringExtra("teamA"));
+            reportIntent.putExtra("teamB", getIntent().getStringExtra("teamB"));
+            reportIntent.putExtra("gameType", getIntent().getStringExtra("gameType"));
+
+            startActivity(reportIntent);
+        });
+
 
         // Get data from Intent
         Intent intent = getIntent();
@@ -47,37 +100,71 @@ public class GameDetailsActivity extends AppCompatActivity {
         String date = intent.getStringExtra("date");
         String location = intent.getStringExtra("location");
         String score = intent.getStringExtra("score");
-        String teamAPlayers = intent.getStringExtra("teamAPlayers");
-        String teamBPlayers = intent.getStringExtra("teamBPlayers");
-        String referee = intent.getStringExtra("referee");
         String gameType = intent.getStringExtra("gameType");
-        long gameId = intent.getLongExtra("gameId", 0);
+        ArrayList<String> teamAPlayers = intent.getStringArrayListExtra("teamAPlayers");
+        ArrayList<String> teamBPlayers = intent.getStringArrayListExtra("teamBPlayers");
+        ArrayList<String> referees = intent.getStringArrayListExtra("referees");
 
-        refereeReportButton.setOnClickListener(v -> {
-            Intent reportIntent = new Intent(this, RefereeReportActivity.class);
-            reportIntent.putExtra("gameId", gameId);
-            reportIntent.putExtra("gameType", gameType);
-            reportIntent.putExtra("teamA", teamA);
-            reportIntent.putExtra("teamB", teamB);
-            startActivity(reportIntent);
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-// Set UI
+        // Set UI
         teamAText.setText(teamA);
         teamBText.setText(teamB);
         dateText.setText("Date: " + date);
         locationText.setText("Location: " + location);
-        scoreText.setText("Score: " + score);
-        teamAPlayersText.setText(teamAPlayers);
-        teamBPlayersText.setText(teamBPlayers);
-        refereeText.setText("Referee: " + referee);
+        refereeText.setText("Referees");
+        teamANameText.setText(teamA);
+        teamBNameText.setText(teamB);
 
+        //updates score when it is logged by referee
+        GameLinkToDatabase gamesDB = new GameLinkToDatabase();
+        String gameId = getIntent().getStringExtra("gameId");
+
+        //display stats based on sport
+        if (gameType.equalsIgnoreCase("Football") || gameType.equalsIgnoreCase("Soccer")){
+            flipper.setDisplayedChild(0);
+        } else if (gameType.equalsIgnoreCase("Basketball")){
+            flipper.setDisplayedChild(1);
+        } else if (gameType.equalsIgnoreCase("Volleyball")){
+            flipper.setDisplayedChild(2);
+        } else { //default to football/soccer
+            flipper.setDisplayedChild(0);
+        }
+
+        //show match report
+        gamesDB.observeMatchReport(gameId, report -> {
+            if (report != null) {
+                scoreText.setText("Score: " + report.getScore());
+                notesText.setText("Notes: " + report.getNotes());
+
+                Map<String, Object> stats = report.getDetailedStats();
+                if (stats != null) {
+                    updateStatsUI(gameType, stats);
+                }
+            } else {
+                scoreText.setText("Score: Not Reported");
+                notesText.setText("Notes: No report submitted yet.");
+            }
+        });
+
+
+        //using the PlayerAdapter to display players
+        rvTeamA.setAdapter(new AddedPlayersAdapter(teamAPlayers, false));
+        rvTeamB.setAdapter(new AddedPlayersAdapter(teamBPlayers, false));
+        rvRefs.setAdapter(new AddedPlayersAdapter(referees, false));
+
+    }
+
+    //method that gets stats based on game
+    private void updateStatsUI(String gameType, Map<String, Object> stats) {
+        if ("Basketball".equalsIgnoreCase(gameType)) {
+            ((TextView)findViewById(R.id.detailsBasketPoints)).setText("Points: " + stats.get("pointsLeft") + " - " + stats.get("pointsRight"));
+            ((TextView)findViewById(R.id.detailsBasketRebounds)).setText("Rebounds: " + stats.get("reboundsLeft") + " - " + stats.get("reboundsRight"));
+        } else if ("Volleyball".equalsIgnoreCase(gameType)) {
+            // Ensure these keys match RefereeReportActivity convertVolleyballToMap
+            ((TextView)findViewById(R.id.detailsVolleyAces)).setText("Aces: " + stats.get("acesLeft") + " - " + stats.get("acesRight"));
+            ((TextView)findViewById(R.id.detailsVolleyBlocks)).setText("Blocks: " + stats.get("volleyballBlocksLeft") + " - " + stats.get("volleyballBlocksRight"));
+        } else {
+            ((TextView)findViewById(R.id.detailsFootShots)).setText("Shots: " + stats.get("shootingLeft") + " - " + stats.get("shootingRight"));
+            ((TextView)findViewById(R.id.detailsFootYellow)).setText("Yellow Cards: " + stats.get("yellowCardsLeft") + " - " + stats.get("yellowCardsRight"));
+        }
     }
 }

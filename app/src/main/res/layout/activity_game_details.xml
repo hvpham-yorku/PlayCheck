@@ -75,26 +75,131 @@
             android:layout_marginTop="12dp" />
 
         <TextView
-            android:id="@+id/teamAPlayersText"
+            android:id="@+id/teamATeamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team A Players"
+            android:text="Team A Roster:"
+            android:textStyle="bold"
             android:layout_marginTop="16dp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleviewTeamAPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
         <TextView
-            android:id="@+id/teamBPlayersText"
+            android:id="@+id/teamBTeamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team B Players"
-            android:layout_marginTop="12dp" />
+            android:text="Team B Roster:"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewTeamBPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:id="@+id/refereeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Referee"
-            android:textSize="18sp"
+            android:text="Referees"
+            android:textStyle="bold"
             android:layout_marginTop="12dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewReferees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Match Statistics"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/black"/>
+
+        <ViewFlipper
+            android:id="@+id/detailsStatsFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:background="#F5F5F5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/detailsFootShots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shots: 0 - 0"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/detailsFootYellow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Yellow Cards: 0 - 0"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/detailsBasketPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Points: 0 - 0"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/detailsBasketRebounds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rebounds: 0 - 0"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/detailsVolleyAces"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aces: 0 - 0"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/detailsVolleyBlocks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Blocks: 0 - 0"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </ViewFlipper>
+
+        <TextView
+            android:id="@+id/detailsNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notes: No report submitted yet."
+            android:layout_marginTop="12dp"
+            android:padding="8dp"
+            android:background="#EEEEEE"
+            android:textStyle="italic" />
 
         <Button
             android:id="@+id/refereeReportButton"
@@ -102,6 +207,13 @@
             android:layout_height="55dp"
             android:text="Submit Referee Report"
             android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/btnViewClips"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="View Replay Clips"
+            android:layout_marginTop="12dp"/>
 
 
     </LinearLayout>

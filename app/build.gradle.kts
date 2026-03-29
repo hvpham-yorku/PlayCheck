@@ -40,6 +40,8 @@ android {
 
 dependencies {
     implementation(libs.fragment)
+    implementation(libs.room.common.jvm)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.rules)
     implementation(libs.appcompat)
@@ -63,4 +65,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // CameraX dependencies
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+
+    implementation("androidx.annotation:annotation:1.7.0")
 }

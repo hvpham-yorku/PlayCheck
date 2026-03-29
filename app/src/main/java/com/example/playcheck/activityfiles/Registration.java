@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,14 +25,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 
 public class Registration extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
     Button registrationButton;
-    FirebaseAuth mAuth;
-    DatabaseReference user;
+    private UserLinkToDatabase userDb;
     ProgressBar progressBar;
     TextView loginLink;
     AutoCompleteTextView dropdown;
@@ -47,7 +46,7 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        mAuth = FirebaseAuth.getInstance();
+        userDb = new UserLinkToDatabase();
 
         // Initialization of fields
         editTextEmail = findViewById(R.id.email);
@@ -108,22 +107,18 @@ public class Registration extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.GONE);
-
             //create the user
-            mAuth.createUserWithEmailAndPassword(email, password)
+            userDb.registerUser(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 // Sign up success, go to profile setup
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Intent nextIntent;
-                                nextIntent = new Intent(Registration.this, ProfileSetup.class);
+                                Intent nextIntent = new Intent(Registration.this, ProfileSetup.class);
                                 nextIntent.putExtra("email", email);
                                 nextIntent.putExtra("password", password);
                                 nextIntent.putExtra("accountType", accountType);
-                                progressBar.setVisibility(ProgressBar.GONE);
 
                                 startActivity(nextIntent);
                                 finish();
@@ -137,13 +132,6 @@ public class Registration extends AppCompatActivity {
                             }
                         }
                     });
-
-
-
-
-
-
-
         });
     }
 }

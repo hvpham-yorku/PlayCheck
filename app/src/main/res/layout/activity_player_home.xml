@@ -49,12 +49,21 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:text="Create Team"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnLogoutPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Logout"
+        android:backgroundTint="#FF5252"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Upcoming (preview)"
         android:textSize="18sp"
         android:textStyle="bold"

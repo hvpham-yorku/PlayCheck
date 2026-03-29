@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.Database.GameLinkToDatabase;
 
 /*
 The GameListPlayer class creates the Game List page.
@@ -30,8 +30,9 @@ public class GameList extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Game> games;
     AdapterGameList adapter;
-    Button backBtn;
     private ArrayList<String> optionsList; //the options/filters that will be used for dropdown menu
+
+   GameLinkToDatabase gamesDB = new GameLinkToDatabase();
 
     private GameListDropDownAdapter dropDownAdapter;
 
@@ -42,13 +43,12 @@ public class GameList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
         recyclerView = findViewById(R.id.gamelist);
-        backBtn = findViewById(R.id.backBtnGameList);
         gamedetails = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference("games"); //points to the "games" folder in database
         games = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterGameList(this, games); //creating a new adapter for this activity using data from 'games'
         recyclerView.setAdapter(adapter); //set the adapter that will be used to add data to games list
-        GameLinkToDatabase.getGameData(gamedetails, games, adapter);
+        gamesDB.getGameData(gamedetails, games, adapter);
 
         optionsList = new ArrayList<String>();
         optionsList.add("All Games");
@@ -57,17 +57,12 @@ public class GameList extends AppCompatActivity {
         optionsList.add("Game Venue (Alphabetical)");
         optionsList.add("Game Type (Alphabetical)");
 
+
         //connect dropdown adapter, optionsList data and dropdown UI together
         Spinner spinnerDropDown = findViewById(R.id.gameListSpinner);
         dropDownAdapter = new GameListDropDownAdapter(this, optionsList);
         spinnerDropDown.setAdapter(dropDownAdapter);
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         spinnerDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -75,15 +70,15 @@ public class GameList extends AppCompatActivity {
                 String clickedItem = (String) adapterView.getItemAtPosition(i); //gets the item stored in the adapter at index i
                 long current_dateTime = getCurrentDateTimeAsLong();
                 if (clickedItem.equals("Past Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
+                    gamesDB.getGameData(gamedetails.orderByChild("gameDate").endBefore(current_dateTime), games, adapter); //get games before the current time
                 } else if (clickedItem.equals("Upcoming Games")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
+                    gamesDB.getGameData(gamedetails.orderByChild("gameDate").startAt(current_dateTime), games, adapter); //get games during and after the current time
                 } else if (clickedItem.equals("Game Venue (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
+                    gamesDB.getGameData(gamedetails.orderByChild("gameVenue"), games, adapter);
                 } else if (clickedItem.equals("Game Type (Alphabetical)")){
-                    GameLinkToDatabase.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
+                    gamesDB.getGameData(gamedetails.orderByChild("gameType"), games, adapter);
                 } else {
-                    GameLinkToDatabase.getGameData(gamedetails, games, adapter); //show all games
+                    gamesDB.getGameData(gamedetails, games, adapter); //show all games
                 }
             }
             @Override

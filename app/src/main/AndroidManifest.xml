@@ -4,6 +4,8 @@
     package="com.example.playcheck">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:allowBackup="true"
@@ -14,6 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light.NoActionBar">
+        <activity
+            android:name=".activityfiles.LiveFeedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activityfiles.MatchClipListActivity"
+            android:exported="false" />
         <activity
             android:name=".activityfiles.User_Profile_Page_Others_Perspective_Controller"
             android:exported="false" />
@@ -39,6 +47,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activityfiles.HomeActivity"
+            android:exported="true" />
+        <activity
             android:name=".activityfiles.Homepage_Controller"
             android:exported="true" />
         <activity
@@ -57,50 +68,54 @@
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.GameDetailsActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activityfiles.Registration"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.ProfileSetup"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.OrganizerActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activityfiles.PlayerActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activityfiles.GameList"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.GameSchedule"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.RefereeActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.GameActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".activityfiles.RefereeHomeActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activityfiles.RefereeGamesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
+            android:name=".activityfiles.CreateTeamPlayer"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
-            android:name=".activityfiles.CreateTeam"
+            android:name=".activityfiles.CreateTeamOrganizer"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
@@ -110,6 +125,13 @@
         <activity android:name=".activityfiles.OrganizerDashboardActivity" />
         <activity android:name=".activityfiles.CreateGameActivity" />
         <activity android:name=".activityfiles.RefereeReportActivity" />
+        <activity android:name=".activityfiles.RecordOrAttachClipActivity" />
+        <activity android:name=".activityfiles.ClipPlayerActivity" />
+        <activity android:name=".activityfiles.TeamStandings" android:exported="true" />
+
+        <activity android:name=".activityfiles.AssignRefereeActivity" android:exported="true" />
+        <activity android:name=".activityfiles.CreateTournamentActivity" android:exported="true" />
+
     </application>
 
 </manifest>

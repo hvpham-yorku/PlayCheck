@@ -39,21 +39,12 @@ public class GameSchedule extends AppCompatActivity {
     private ArrayList<Game> allGames;  // All games from Firebase
     private DatabaseReference databaseReference;
 
-    Button backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_schedule);
 
-        //back to previous page button
-        backBtn = findViewById(R.id.backBtnGameSchedule);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         // Initialize calendar
         calendarView = findViewById(R.id.calendarView);

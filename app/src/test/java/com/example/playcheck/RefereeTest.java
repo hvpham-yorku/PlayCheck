@@ -2,7 +2,7 @@ package com.example.playcheck;
 
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Referee;
-import com.example.playcheck.database.RefereeLinkToDatabase;
+import com.example.playcheck.Database.RefereeLinkToDatabase;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;

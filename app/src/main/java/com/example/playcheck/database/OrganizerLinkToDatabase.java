@@ -1,4 +1,4 @@
-package com.example.playcheck.database;
+package com.example.playcheck.Database;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class OrganizerLinkToDatabase extends UserLinkToDatabase {
+public class OrganizerLinkToDatabase extends com.example.playcheck.Database.UserLinkToDatabase {
 
     public OrganizerLinkToDatabase() {
         super();
