@@ -3,9 +3,6 @@ package com.example.playcheck.activityfiles;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,11 +18,6 @@ import com.example.playcheck.Database.TeamLinkToDatabase;
 import com.example.playcheck.Database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CreateGameActivity extends AppCompatActivity {
 
@@ -35,19 +27,6 @@ public class CreateGameActivity extends AppCompatActivity {
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
     RecyclerView addedRefereesRecycleView;
-
-    UserLinkToDatabase user;
-    TeamLinkToDatabase teamsDB;
-    GameLinkToDatabase gameToDB;
-    int selectedYear, selectedMonth, selectedDay;
-    int hour, minute;
-
-    ArrayList<String> refIds = new ArrayList<>();
-    ArrayList<String> currentAddedRefIds = new ArrayList<>();
-    ArrayList<String> currentAddedRefNames = new ArrayList<>();
-    ArrayList<String> refNames = new ArrayList<>();
-    ArrayList<String> teamIDs;
-    ArrayList<String> teamNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,50 +51,8 @@ public class CreateGameActivity extends AppCompatActivity {
         addedRefereesRecycleView.setLayoutManager(new LinearLayoutManager(this));
         addedRefereesRecycleView.setAdapter(adapter);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        teamsDB = new TeamLinkToDatabase();
-        gameToDB = new GameLinkToDatabase();
-        user = new UserLinkToDatabase();
-
-        //get team names and ids
-        teamsDB.getTeamIDs(new TeamLinkToDatabase.TeamIdCallback() {
-            @Override
-            public void onCallback(ArrayList<String> teamIds) {
-                teamIDs = teamIds;
-
-                teamsDB.getTeamNames(new TeamLinkToDatabase.TeamNamesCallback() {
-                    @Override
-                    public void onCallback(ArrayList<String> allTeamNames) {
-                        teamNames = allTeamNames;
-
-                        user.getAllReferees(new UserLinkToDatabase.RefereesCallback() {
-                            @Override
-                            public void onCallback(ArrayList<String> refids, ArrayList<String> refN) {
-                                refNames = refN;
-                                refIds = refids;
-                                //create search bar for teamA and teamB and ref
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateGameActivity.this,android.R.layout.simple_dropdown_item_1line, teamNames);
-                                ArrayAdapter<String> adapterRef = new ArrayAdapter<String>(CreateGameActivity.this,android.R.layout.simple_dropdown_item_1line, refNames);
-                                teamA.setThreshold(1);
-                                teamA.setAdapter(adapter);
-                                teamB.setThreshold(1);
-                                teamB.setAdapter(adapter);
-                                refSearchBar.setThreshold(1);
-                                refSearchBar.setAdapter(adapterRef);
-                            }
-                        });
-
-                    }
-                });
-
-
-
-            }
-        });
-
-        //add ref to list
-        btnAddReferee.setOnClickListener(v -> {
-            String selectedRef = refSearchBar.getText().toString().trim();
+        backBtn = findViewById(R.id.backBtnCreateGame);
+        backBtn.setOnClickListener(view -> finish());
 
             if (refNames.contains(selectedRef)) {
                 if (!currentAddedRefNames.contains(selectedRef)) {
@@ -135,140 +72,38 @@ public class CreateGameActivity extends AppCompatActivity {
             }
         });
 
-        saveGame.setOnClickListener(v -> saveGame());
+        saveGame.setOnClickListener(v -> performSaveGame());
     }
 
-    // Initialize Date Picker
-    private void initializeDatePicker() {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                month = month + 1; //months are numbered 0 - 11 by default
-                selectedYear = year;
-                selectedMonth = month;
-                selectedDay = dayOfMonth;
-                String date = createDateString(dayOfMonth, selectedMonth, selectedYear);
-                dateBtn.setText(date);
+    private void performSaveGame() {
+        String teamAVal = teamA.getText().toString();
+        String teamBVal = teamB.getText().toString();
+        String venueVal = venue.getText().toString();
+        String typeVal = type.getText().toString();
+        String dateStr = date.getText().toString();
 
-            }
-        };
-
-        //today's date is the default date
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        datePicker = new DatePickerDialog(CreateGameActivity.this, dateSetListener, year, month, day);
-
-    }
-
-    public void expandDatePicker(View view){ //date picker shows when date button is clicked
-        datePicker.show();
-
-    }
-
-    public void expandTimePicker(View view){//time picker shows when time button is clicked
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int chosenHourOfDay, int chosenMinute) {
-                hour = chosenHourOfDay;
-                minute = chosenMinute;
-                //format the time and display
-                SimpleDateFormat pattern = new SimpleDateFormat("hh:mm a");
-                String dateAndTime = pattern.format(new java.util.Date(0, 0, 0, hour, minute));
-                timeBtn.setText(dateAndTime);
-
-            }
-        };
-
-        timePicker = new TimePickerDialog(CreateGameActivity.this, onTimeSetListener, hour, minute, false);
-        timePicker.show();
-
-    }
-
-    /*save game btn pressed */
-    private void saveGame() {
-
-        String teamAVal = teamA.getText().toString().trim();
-        String teamBVal = teamB.getText().toString().trim();
-        String venueVal = venue.getText().toString().trim();
-        String typeVal = type.getText().toString().trim();
-
-        //check if fields are empty
-        if (teamAVal.isEmpty() || teamBVal.isEmpty() || venueVal.isEmpty() || typeVal.isEmpty()){
-            Toast.makeText(CreateGameActivity.this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (selectedDay == 0 || selectedMonth == 0 || selectedYear == 0){
-            Toast.makeText(CreateGameActivity.this, "Select a date and time", Toast.LENGTH_SHORT).show();
+        if (teamAVal.isEmpty() || teamBVal.isEmpty() || venueVal.isEmpty() || typeVal.isEmpty() || dateStr.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        //get team ids
-        int indexTeamA = teamNames.indexOf(teamAVal);
-        int indexTeamB = teamNames.indexOf(teamBVal);
-
-        if (indexTeamA < 0){
-            Toast.makeText(CreateGameActivity.this, "Team A not Found", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (indexTeamB < 0){
-            Toast.makeText(CreateGameActivity.this, "Team B not Found", Toast.LENGTH_SHORT).show();
+        long dateVal;
+        try {
+            dateVal = Long.parseLong(dateStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String teamAid = teamIDs.get(indexTeamA);
-        String teamBid = teamIDs.get(indexTeamB);
-
-
-        long dateTimeInt = (new Game()).getEpochTime(selectedYear, selectedMonth, selectedDay, hour, minute); //date and time as a long int
-
-        //Create Game in DB
-        teamsDB.getPlayersFromTeam(teamAid, (idsA, namesA) -> {
-            teamsDB.getPlayersFromTeam(teamBid, (idsB, namesB) -> {
-
-                // Merge lists together; all players names and ids are now in A
-                idsA.addAll(idsB);
-                namesA.addAll(namesB);
-
-                gameToDB.createGame(teamAid, teamBid, teamAVal, teamBVal, venueVal, typeVal, dateTimeInt, idsA, namesA, currentAddedRefIds, currentAddedRefNames,
-                        task -> {
-                            if(task.isSuccessful()){
-                                Toast.makeText(CreateGameActivity.this, "Game Created", Toast.LENGTH_SHORT).show();
-                                finish();
-                            } else {
-                                Toast.makeText(CreateGameActivity.this, "Cannot Create Game: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-
+        Game game = new Game(teamAVal, teamBVal, dateVal, venueVal, typeVal);
+        game.save().thenAccept(unused -> {
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Game Created", Toast.LENGTH_SHORT).show();
+                finish();
             });
-
+        }).exceptionally(throwable -> {
+            runOnUiThread(() -> Toast.makeText(this, "Failed to create game: " + throwable.getMessage(), Toast.LENGTH_SHORT).show());
+            return null;
         });
     }
-
-    /* Both methods below format the date to be displayed to the UI */
-    private String createDateString(int dayOfMonth, int month, int year) {
-        return getFormatMonth(month) + " " + dayOfMonth + " " + year;
-    }
-    private String getFormatMonth(int month) {
-        switch (month) {
-            case 1: return "January";
-            case 2: return "February";
-            case 3: return "March";
-            case 4: return "April";
-            case 5: return "May";
-            case 6: return "June";
-            case 7: return "July";
-            case 8: return "August";
-            case 9: return "September";
-            case 10: return "October";
-            case 11: return "November";
-            case 12: return "December";
-            default: return "";
-        }
-
-
-    }
-
 }

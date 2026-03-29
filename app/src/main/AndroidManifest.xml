@@ -17,10 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light.NoActionBar">
         <activity
-            android:name=".activityfiles.LiveFeedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activityfiles.MatchClipListActivity"
+            android:name=".activityfiles.User_Profile_Page_Others_Perspective_Controller"
             android:exported="false" />
         <activity
             android:name=".activityfiles.Event_Option_Page_Contoroller"
