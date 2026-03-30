@@ -122,6 +122,30 @@ public class GameLinkToDatabase {
         }
     }
 
+    /* Update specific fields for an existing game */
+    public void updateGameDetails(String gameId, Map<String, Object> updates, OnCompleteListener<Void> listener) {
+        gamesRef.child(gameId).updateChildren(updates).addOnCompleteListener(listener);
+    }
+
+    /* Given a game id, return the ids and names of the referees */
+    public void getRefNamesFromGame(String gameId, RefereeNamesCallback callback){
+        ArrayList<String> refIds = new ArrayList<>();
+        ArrayList<String> refNames = new ArrayList<>();
+
+        gamesRef.child(gameId).child("referees")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        refIds.clear();
+                        refNames.clear();
+                        for (DataSnapshot refSnap : snapshot.getChildren()) {
+                            String refId = refSnap.getKey(); // uid
+                            String refName = refSnap.getValue(String.class); // name
+                            refIds.add(refId);
+                            refNames.add(refName);
+                        }
+                        callback.onCallback(refIds, refNames);
+                    }
     /**
      * Fetches a specific game by ID.
      */
