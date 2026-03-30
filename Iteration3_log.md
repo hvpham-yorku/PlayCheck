@@ -72,10 +72,29 @@ The importance of communication was reinforced.
 
 # Assignment of User Stories and Time taken
 - Khalid - Referee Stories (PC-1.1 → PC-1.4)
-- PC-1.1 – Record video footage
-  - Set up video capture (device/camera API) — 6h
-  - Backend endpoint to store video — 4h
-  - Save video metadata (DB) — 2h
-  - UI (start/stop recording) — 3h
+  - PC-1.1 – Record video footage - 15h
+  - PC-1.2 – Replay recorded clips - 7h
+  - PC-1.3 – Live camera feed - 13h
+  - PC-1.4 – Link clips to matches - 8h
+
+- Anthony – Organizer Stories (PC-4.1, PC-4.2, PC-6.1)
+  - PC-4.1 – Assign referees to matches - 8h
+  - PC-4.2 – Message referees - 13h 
+  - PC-6.1 – Create tournaments - 11h
+ 
+- Zaid – Organizer Stories (PC-6.2, PC-6.3)
+  - PC-6.2 – Invite teams & referees - 13h 
+  - PC-6.3 – Update schedules/details - 11h
+
+- Trinity – Game & Team Stories (PC-5.1 → PC-5.3)
+  - PC-5.1 – View team standings - 8h
+  - PC-5.2 – View win/loss records - 6h
+  - PC-5.3 – View match/team statistics - 11h
+ 
+- Marwan – Player Stories (PC-2.2, PC-2.3)
+  - PC-2.2 – View team match results & opponents - 8h
+  - PC-2.3 – View past statistics - 8h
+
+
 
 
