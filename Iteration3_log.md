@@ -52,3 +52,30 @@ The importance of communication was reinforced.
 <br>
 
 # Development Tasks per User Story
+- PC-1.1: As a referee, I want to record video footage of a game so that I can review plays when disputes occur.
+- PC-1.2: As a referee, I want to replay recorded clips so that I can make accurate decisions.
+- PC-1.3: As a referee, I want to view a live camera feed when available so that I can confirm calls in real time.
+- PC-1.4: As a referee, I want clips linked to specific matches so that footage can be retrieved later.
+
+- PC-5.1: As a player, I want to view team standings so that I can see league rankings
+- PC-5.2: As a user,I want to see win/loss records so that league progress is transparent
+- PC-5.3: As a player, I want to view match or team statistics so that I can evaluate performance.
+
+- PC-2.2: As a player, I want to view my team’s match results and opponents so that I can review performance. 
+- PC-2.3: As a player, I want to see statistics for past games so that I can monitor improvement
+
+- PC-4.1: As an organizer, I want to assign referees to matches so that games are properly officiated
+- PC-4.2: As an organizer, I want to message referees so that I can send updates or changes
+- PC-6.1: As an organizer, I want to create games or tournaments so that events can be scheduled. 
+- PC-6.2: As an organizer, I want to invite teams and referees so that participation is coordinated.
+- PC-6.3: As an organizer, I want to update schedules or event details so that participants receive accurate information.
+
+# Assignment of User Stories and Time taken
+- Khalid - Referee Stories (PC-1.1 → PC-1.4)
+- PC-1.1 – Record video footage
+  - Set up video capture (device/camera API) — 6h
+  - Backend endpoint to store video — 4h
+  - Save video metadata (DB) — 2h
+  - UI (start/stop recording) — 3h
+
+
