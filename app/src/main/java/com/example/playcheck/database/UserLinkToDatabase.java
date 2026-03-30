@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import android.util.Log;
 
@@ -11,7 +11,6 @@ import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,10 +30,39 @@ public class UserLinkToDatabase {
     protected DatabaseReference databaseRef;
 
     public UserLinkToDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        // Initialize lazily to avoid issues during unit tests
     }
 
+    public UserLinkToDatabase(FirebaseAuth mAuth, DatabaseReference databaseRef) {
+        this.mAuth = mAuth;
+        this.databaseRef = databaseRef;
+    }
+
+    protected FirebaseAuth getAuth() {
+        if (mAuth == null) {
+            mAuth = FirebaseAuth.getInstance();
+        }
+        return mAuth;
+    }
+
+    protected DatabaseReference getDatabaseRef() {
+        if (databaseRef == null) {
+            databaseRef = FirebaseDatabase.getInstance().getReference();
+        }
+        return databaseRef;
+    }
+
+    public interface PlayerIdCallback {
+        void onCallback(ArrayList<String> ids);
+    }
+
+    public interface PlayerNameCallback {
+        void onCallback(ArrayList<String> names);
+    }
+
+    public interface RefereeCallback {
+        void onCallback(ArrayList<String> refIds, ArrayList<String> refNames);
+    }
 
     /**
      * Creates a new user with email and password.
@@ -43,10 +71,10 @@ public class UserLinkToDatabase {
     public CompletableFuture<String> createUser(User user, String password) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        mAuth.createUserWithEmailAndPassword(user.getEmail(), password)
+        getAuth().createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        String uid = mAuth.getCurrentUser().getUid();
+                        String uid = getAuth().getCurrentUser().getUid();
                         user.setUid(uid);
 
                         saveUserToDatabase(user)
@@ -54,7 +82,7 @@ public class UserLinkToDatabase {
                                     if (dbTask.isSuccessful()) {
                                         future.complete(uid);
                                     } else {
-                                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                                        FirebaseUser currentUser = getAuth().getCurrentUser();
                                         if (currentUser != null) currentUser.delete();
                                         future.completeExceptionally(dbTask.getException());
                                     }
@@ -73,10 +101,10 @@ public class UserLinkToDatabase {
     public CompletableFuture<User> loginUser(String email, String password) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        getAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        String uid = mAuth.getCurrentUser().getUid();
+                        String uid = getAuth().getCurrentUser().getUid();
                         fetchUserByUid(uid).thenAccept(future::complete)
                                 .exceptionally(throwable -> {
                                     future.completeExceptionally(throwable);
@@ -94,7 +122,7 @@ public class UserLinkToDatabase {
      * Logs out the current user.
      */
     public void logout() {
-        mAuth.signOut();
+        getAuth().signOut();
     }
 
     /**
@@ -103,7 +131,7 @@ public class UserLinkToDatabase {
     public CompletableFuture<User> getCurrentUser() {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = getAuth().getCurrentUser();
         if (currentUser != null) {
             fetchUserByUid(currentUser.getUid()).thenAccept(future::complete)
                     .exceptionally(throwable -> {
@@ -119,13 +147,13 @@ public class UserLinkToDatabase {
 
     private Task<Void> saveUserToDatabase(User user) {
         String role = getRoleFromUser(user);
-        return databaseRef.child("users").child(role).child(user.getUid()).setValue(user);
+        return getDatabaseRef().child("users").child(role).child(user.getUid()).setValue(user);
     }
 
     public CompletableFuture<User> fetchUserByUid(String uid) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        databaseRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabaseRef().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = null;
@@ -160,7 +188,7 @@ public class UserLinkToDatabase {
     public CompletableFuture<Void> updateUser(User user) {
         CompletableFuture<Void> future = new CompletableFuture<>();
         String role = getRoleFromUser(user);
-        databaseRef.child("users").child(role).child(user.getUid())
+        getDatabaseRef().child("users").child(role).child(user.getUid())
                 .setValue(user)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -174,7 +202,7 @@ public class UserLinkToDatabase {
 
     public CompletableFuture<Void> updateUserFields(String uid, String role, Map<String, Object> fields) {
         CompletableFuture<Void> future = new CompletableFuture<>();
-        databaseRef.child("users").child(role).child(uid)
+        getDatabaseRef().child("users").child(role).child(uid)
                 .updateChildren(fields)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -190,7 +218,7 @@ public class UserLinkToDatabase {
         CompletableFuture<List<User>> future = new CompletableFuture<>();
         List<User> users = new ArrayList<>();
 
-        databaseRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabaseRef().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot roleSnap : snapshot.getChildren()) {
@@ -233,14 +261,6 @@ public class UserLinkToDatabase {
         return "User";
     }
 
-    public interface PlayerIdCallback {
-        void onCallback(ArrayList<String> ids);
-    }
-
-    public interface PlayerNameCallback {
-        void onCallback(ArrayList<String> names);
-    }
-
     public static void getPlayerIDs(PlayerIdCallback callback) {
         FirebaseDatabase.getInstance().getReference("users").child("Player").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -281,6 +301,31 @@ public class UserLinkToDatabase {
         });
     }
 
+    public void getAllReferees(RefereeCallback callback) {
+        getDatabaseRef().child("users").child("Referee").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> refIds = new ArrayList<>();
+                ArrayList<String> refNames = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    refIds.add(child.getKey());
+                    String firstName = child.child("firstName").getValue(String.class);
+                    String lastName = child.child("lastName").getValue(String.class);
+                    if (firstName == null && child.hasChild("profile")) {
+                        firstName = child.child("profile").child("firstName").getValue(String.class);
+                        lastName = child.child("profile").child("lastName").getValue(String.class);
+                    }
+                    refNames.add(firstName + " " + lastName);
+                }
+                callback.onCallback(refIds, refNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
     public static Task<String> getUserAccountType(FirebaseUser user) {
         String uid = user.getUid();
         TaskCompletionSource<String> tcs = new TaskCompletionSource<>();
@@ -304,5 +349,31 @@ public class UserLinkToDatabase {
             }
         });
         return tcs.getTask();
+    }
+
+    public CompletableFuture<Void> updateEmail(String uid, String role, String newEmail) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        getDatabaseRef().child("users").child(role).child(uid).child("email").setValue(newEmail)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+        return future;
+    }
+
+    public CompletableFuture<Void> deleteUser(String uid, String role) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        getDatabaseRef().child("users").child(role).child(uid).removeValue()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+        return future;
     }
 }

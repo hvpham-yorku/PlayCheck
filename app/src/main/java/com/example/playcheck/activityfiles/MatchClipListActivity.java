@@ -20,8 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.Database.RefereeLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.RefereeLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -87,7 +87,7 @@ public class MatchClipListActivity extends AppCompatActivity {
         // Check if user is a referee to show/hide buttons
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
                     if ("Referee".equals(accountType)) {

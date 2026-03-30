@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
         if(currentUser != null){
             progressBar.setVisibility(View.VISIBLE);
             //get account type
-            user.getUserAccountType(currentUser).addOnCompleteListener(task -> {
+            UserLinkToDatabase.getUserAccountType(currentUser).addOnCompleteListener(task -> {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     String accountType = task.getResult();
@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             FirebaseUser userFB = mAuth.getCurrentUser();
-                            user.getUserAccountType(userFB).addOnCompleteListener(typeTask -> {
+                            UserLinkToDatabase.getUserAccountType(userFB).addOnCompleteListener(typeTask -> {
                                 progressBar.setVisibility(View.GONE);
                                 if (typeTask.isSuccessful()) {
                                     String accountType = typeTask.getResult();

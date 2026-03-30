@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.playcheck.Database.GameLinkToDatabase;
-import com.example.playcheck.Database.TeamLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
 import com.example.playcheck.activityfiles.GameDetailsActivity;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Team;

@@ -3,7 +3,7 @@ package com.example.playcheck;
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Team;
-import com.example.playcheck.Database.PlayerLinkToDatabase;
+import com.example.playcheck.database.PlayerLinkToDatabase;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;

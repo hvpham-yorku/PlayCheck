@@ -4,13 +4,13 @@ import com.example.playcheck.database.GameLinkToDatabase;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.Map;
 
 /*
 This class defines the information that each Game has.
@@ -22,7 +22,7 @@ public class Game {
     private long gameDate;
     private String gameVenue;
     private String gameType;
-    private String gameName; 
+    private String gameName;
     private String gameId;
     private Map<String, String> players;
 
@@ -41,8 +41,18 @@ public class Game {
 
     private MatchReport matchReport;
 
-    private static GameLinkToDatabase databaseService = new GameLinkToDatabase();
+    private static GameLinkToDatabase databaseService;
 
+    private static GameLinkToDatabase getDatabaseService() {
+        if (databaseService == null) {
+            databaseService = new GameLinkToDatabase();
+        }
+        return databaseService;
+    }
+
+    public static void setDatabaseService(GameLinkToDatabase service) {
+        databaseService = service;
+    }
 
     public Game(){}
 
@@ -79,15 +89,15 @@ public class Game {
     //-------------------------------------------------------------------------------------------
 
     public CompletableFuture<Void> save() {
-        return databaseService.saveGame(this);
+        return getDatabaseService().saveGame(this);
     }
 
     public static CompletableFuture<List<Game>> fetchAll() {
-        return databaseService.getAllGames();
+        return getDatabaseService().getAllGames();
     }
 
     public static CompletableFuture<Game> fetchById(String id) {
-        return databaseService.getGameById(id);
+        return getDatabaseService().getGameById(id);
     }
 
     //-------------------------------------------------------------------------------------------
@@ -100,7 +110,7 @@ public class Game {
     public String getTeamB() {
         return teamB;
     }
-    public long getGameDate() { 
+    public long getGameDate() {
         return gameDate;
     }
 
@@ -219,7 +229,7 @@ public class Game {
     }
 
     public String getEventId() {
-        return this.event.getEventId();
+        return this.event != null ? this.event.getEventId() : null;
     }
 
     public void setEventId(String eventId) {
