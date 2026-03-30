@@ -7,7 +7,7 @@
 
 # Meeting Minutes 
 ### ***Date: March 12 - Time: 5:00 pm***
-- Iteration 2 Review (What was done right and wrong) and Discussions about roadmap for Iteration 3
+- Iteration 2 Review (What was done right and wrong) and Discussions about roadmap for Iteration 3:
 The team got together to talk about how Iteration 2 went. There were things that were done correctly, as well as things that could have been better.
 The biggest thing talked about was communication.
 
@@ -52,74 +52,3 @@ The importance of communication was reinforced.
 <br>
 
 # Development Tasks per User Story
-Khalid - Referee Stories (PC-1.1 → PC-1.4)
-PC-1.1 – Record video footage
-Set up video capture (device/camera API) — 6h
-Backend endpoint to store video — 4h
-Save video metadata (DB) — 2h
-UI (start/stop recording) — 3h
-PC-1.2 – Replay recorded clips
-Video playback UI — 3h
-Fetch video from backend — 2h
-Playback controls (pause, seek) — 2h
-PC-1.3 – Live camera feed
-Integrate live streaming (WebRTC or similar) — 8h
-Display live feed in UI — 3h
-Handle connection/loading states — 2h
-PC-1.4 – Link clips to matches
-DB schema for match-video relation — 2h
-Backend linking logic — 3h
-UI for selecting match — 3h
-Anthony – Organizer Stories (PC-4.1, PC-4.2, PC-6.1)
-PC-4.1 – Assign referees to matches
-DB structure (matches + referees) — 2h
-Backend assignment API — 3h
-UI (select/assign referee) — 3h
-
-
-PC-4.2 – Message referees
-Messaging DB structure — 2h
-Backend messaging API — 4h
-UI (send/view messages) — 4h
-Basic notifications — 3h
-PC-6.1 – Create tournaments
-DB schema (games/tournaments) — 3h
-Backend creation endpoints — 4h
-UI form for event creation — 4h
-Zaid – Organizer Stories (PC-6.2, PC-6.3)
-PC-6.2 – Invite teams & referees
-Invitation DB structure — 2h
-Backend invite system — 4h
-UI (send/manage invites) — 4h
-Accept/decline logic — 3h
-PC-6.3 – Update schedules/details
-Backend update endpoints — 3h
-UI editing forms — 3h
-Validation + error handling — 2h
-Participant notifications — 3h
-Trinity – Game & Team Stories (PC-5.1 → PC-5.3)
-PC-5.1 – View team standings
-DB query for standings — 3h
-Backend endpoint — 2h
-UI table display — 3h
-PC-5.2 – View win/loss records
-Extend DB queries — 2h
-Backend logic — 2h
-UI integration — 2h
-
-
-
-PC-5.3 – View match/team statistics
-Stats calculation logic — 4h
-Backend API — 3h
-UI (charts/tables) — 4h
-Marwan – Player Stories (PC-2.2, PC-2.3)
-PC-2.2 – View team match results & opponents
-Backend query (matches + opponents) — 3h
-API endpoint — 2h
-UI list view — 3h
-PC-2.3 – View past statistics
-Backend stats aggregation — 3h
-API endpoint — 2h
-UI display (graphs/tables) — 3h
-
