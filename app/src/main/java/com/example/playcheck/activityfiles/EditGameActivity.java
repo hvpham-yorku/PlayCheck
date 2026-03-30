@@ -11,8 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.playcheck.R;
-import com.example.playcheck.Database.GameLinkToDatabase;
-import com.example.playcheck.Database.NotificationLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.database.NotificationLinkToDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

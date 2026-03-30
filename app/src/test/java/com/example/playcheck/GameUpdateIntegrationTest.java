@@ -9,9 +9,8 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-import com.example.playcheck.Database.GameLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -67,7 +66,7 @@ public class GameUpdateIntegrationTest {
         mockGamesRef = mock(DatabaseReference.class);
         mockGameRef = mock(DatabaseReference.class);
 
-        staticFirebaseDatabase.when(FirebaseDatabase::getInstance).thenReturn(mockFirebaseDatabase);
+        staticFirebaseDatabase.when(FirebaseDatabase.getInstance()).thenReturn(mockFirebaseDatabase);
 
         when(mockFirebaseDatabase.getReference("games")).thenReturn(mockGamesRef);
         when(mockGamesRef.child("game123")).thenReturn(mockGameRef);
