@@ -37,6 +37,9 @@ public class AddedPlayersAdapter extends RecyclerView.Adapter<AddedPlayersAdapte
 
     @Override
     public int getItemCount() {
+        if (currentPlayers == null){
+            return 0;
+        }
         return currentPlayers.size();
     }
 

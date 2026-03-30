@@ -1,5 +1,6 @@
 package com.example.playcheck.database;
 
+import com.example.playcheck.puremodel.Clip;
 import com.example.playcheck.puremodel.Game;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -182,15 +183,12 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                 
                 String clipId = databaseRef.child("matchClips").child(gameId).push().getKey();
                 
-                java.util.Map<String, String> clipData = new java.util.HashMap<>();
-                clipData.put("title", clipTitle);
-                clipData.put("uri", clipUri);
-                clipData.put("id", clipId); // Store ID for deletion
+                Clip clip = new Clip(clipId, clipTitle, clipUri);
 
                 databaseRef.child("matchClips")
                         .child(gameId)
                         .child(clipId)
-                        .setValue(clipData)
+                        .setValue(clip)
                         .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                         future.complete(null);
@@ -205,9 +203,9 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
         /**
          * Get all video clips for a specific game
          */
-        public CompletableFuture<List<java.util.Map<String, String>>> getMatchClips(String gameId) {
-                CompletableFuture<List<java.util.Map<String, String>>> future = new CompletableFuture<>();
-                List<java.util.Map<String, String>> clips = new ArrayList<>();
+        public CompletableFuture<List<Clip>> getMatchClips(String gameId) {
+                CompletableFuture<List<Clip>> future = new CompletableFuture<>();
+                List<Clip> clips = new ArrayList<>();
 
                 databaseRef.child("matchClips")
                         .child(gameId)
@@ -215,11 +213,11 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
                                         for (DataSnapshot clipSnapshot : snapshot.getChildren()) {
-                                                java.util.Map<String, String> clip = (java.util.Map<String, String>) clipSnapshot.getValue();
+                                                Clip clip = clipSnapshot.getValue(Clip.class);
                                                 if (clip != null) {
-                                                        // Ensure the 'id' field is present by using the Firebase Key as a fallback
-                                                        if (!clip.containsKey("id")) {
-                                                                clip.put("id", clipSnapshot.getKey());
+                                                        // Ensure ID is set
+                                                        if (clip.getId() == null) {
+                                                                clip.setId(clipSnapshot.getKey());
                                                         }
                                                         clips.add(clip);
                                                 }

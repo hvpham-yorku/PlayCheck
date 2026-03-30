@@ -23,12 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.playcheck.database.RefereeLinkToDatabase;
 import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
+import com.example.playcheck.puremodel.Clip;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 // This screen shows all the clips for a specific game
 public class MatchClipListActivity extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class MatchClipListActivity extends AppCompatActivity {
     Button btnAddClip, btnLiveFeed;
     ListView listClips;
 
-    ArrayList<Map<String, String>> clipList;
+    ArrayList<Clip> clipList;
     ClipAdapter adapter;
 
     String gameId;
@@ -78,7 +78,7 @@ public class MatchClipListActivity extends AppCompatActivity {
             gameName = "Unknown Match";
         }
 
-        txtTitle.setText("Clips for " + gameName);
+        txtTitle.setText(getString(R.string.clips_for, gameName));
 
         clipList = new ArrayList<>();
         adapter = new ClipAdapter(this, clipList);
@@ -136,9 +136,9 @@ public class MatchClipListActivity extends AppCompatActivity {
                 clipList.addAll(clips);
                 adapter.notifyDataSetChanged();
                 if (clipList.isEmpty()) {
-                    txtTitle.setText("Clips for " + gameName + " (No clips yet)");
+                    txtTitle.setText(getString(R.string.clips_for, gameName) + " (No clips yet)");
                 } else {
-                    txtTitle.setText("Clips for " + gameName);
+                    txtTitle.setText(getString(R.string.clips_for, gameName));
                 }
             });
         }).exceptionally(e -> {
@@ -161,12 +161,12 @@ public class MatchClipListActivity extends AppCompatActivity {
     }
 
     // Popup to make sure user really wants to delete
-    private void confirmDelete(Map<String, String> clip) {
+    private void confirmDelete(Clip clip) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Clip")
-                .setMessage("Are you sure you want to delete '" + clip.get("title") + "'?")
+                .setMessage("Are you sure you want to delete '" + clip.getTitle() + "'?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    dbService.deleteMatchClip(gameId, clip.get("id")).thenAccept(v -> {
+                    dbService.deleteMatchClip(gameId, clip.getId()).thenAccept(v -> {
                         runOnUiThread(() -> {
                             Toast.makeText(this, "Clip deleted", Toast.LENGTH_SHORT).show();
                             loadClips();
@@ -181,8 +181,8 @@ public class MatchClipListActivity extends AppCompatActivity {
     }
 
     // Custom adapter for the list view rows
-    private class ClipAdapter extends ArrayAdapter<Map<String, String>> {
-        public ClipAdapter(Context context, List<Map<String, String>> clips) {
+    private class ClipAdapter extends ArrayAdapter<Clip> {
+        public ClipAdapter(Context context, List<Clip> clips) {
             super(context, 0, clips);
         }
 
@@ -193,12 +193,12 @@ public class MatchClipListActivity extends AppCompatActivity {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_clip, parent, false);
             }
 
-            Map<String, String> clip = getItem(position);
+            Clip clip = getItem(position);
             TextView txtName = convertView.findViewById(R.id.txtClipName);
             ImageButton btnDelete = convertView.findViewById(R.id.btnDeleteClip);
 
             if (clip != null) {
-                txtName.setText(clip.get("title"));
+                txtName.setText(clip.getTitle());
                 
                 // Only show delete button if user is a referee
                 btnDelete.setVisibility(isReferee ? View.VISIBLE : View.GONE);
@@ -207,8 +207,8 @@ public class MatchClipListActivity extends AppCompatActivity {
                 convertView.setOnClickListener(v -> {
                     Intent intent = new Intent(MatchClipListActivity.this, ClipPlayerActivity.class);
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-                    intent.putExtra("clipTitle", clip.get("title"));
-                    intent.putExtra("clipUri", clip.get("uri"));
+                    intent.putExtra("clipTitle", clip.getTitle());
+                    intent.putExtra("clipUri", clip.getUri());
                     startActivity(intent);
                 });
 
