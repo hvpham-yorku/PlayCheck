@@ -67,6 +67,10 @@
             android:name=".activityfiles.GameDetailsActivity"
             android:exported="true" />
         <activity
+            android:name=".activityfiles.EditGameActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+        <activity
             android:name=".activityfiles.Registration"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
