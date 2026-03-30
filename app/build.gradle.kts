@@ -65,6 +65,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
 
     // CameraX dependencies
     implementation(libs.camera.core)
@@ -73,4 +74,7 @@ dependencies {
     implementation(libs.camera.view)
 
     implementation("androidx.annotation:annotation:1.7.0")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
+        exclude(group = "com.google.protobuf", module = "protobuf-lite")
+    }
 }

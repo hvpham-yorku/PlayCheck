@@ -122,6 +122,11 @@ public class GameLinkToDatabase {
         }
     }
 
+    /* Update specific fields for an existing game */
+    public void updateGameDetails(String gameId, Map<String, Object> updates, OnCompleteListener<Void> listener) {
+        getDatabaseRef().child(gameId).updateChildren(updates).addOnCompleteListener(listener);
+    }
+
     /**
      * Fetches a specific game by ID.
      */
@@ -148,7 +153,7 @@ public class GameLinkToDatabase {
     }
 
     /**
-     * Fetees referees for a game by game ID.
+     * Fetches referees for a game by game ID.
      */
     public void getRefNamesFromGame(String gameId, OnRefereesFetchedListener listener) {
         if (gameId == null || gameId.isEmpty()) {
