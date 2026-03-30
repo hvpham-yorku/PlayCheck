@@ -5,13 +5,13 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CreateTeamIntegrationTest">
+      <SelectionState runConfigName="GameDetailsIntergrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CreateGameIntergrationTest">
+      <SelectionState runConfigName="TeamStandingsIntergrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MatchReportAndGameDetailsTest">
+      <SelectionState runConfigName="MyTeamsIntergrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

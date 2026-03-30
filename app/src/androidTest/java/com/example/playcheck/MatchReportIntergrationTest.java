@@ -31,7 +31,7 @@ import java.util.concurrent.TimeoutException;
 on the referee report page, and viewing the game details and match report on the Game Details page */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MatchReportAndGameDetailsTest {
+public class MatchReportIntergrationTest {
 
 
     //this is the intent the Report page receives
