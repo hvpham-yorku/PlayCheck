@@ -10,35 +10,33 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileSetup extends AppCompatActivity {
 
-    TextInputEditText firstNameEdit, lastNameEdit, dobEdit;
+    TextInputEditText firstNameEdit, lastNameEdit, dobEdit, usernameEdit;
     AutoCompleteTextView genderDropdown;
     Button saveBtn;
 
-    FirebaseAuth auth;
-    DatabaseReference dbRef;
+    private UserLinkToDatabase userDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setup);
 
-        auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance("https://recycleviewgamelistplayer-default-rtdb.firebaseio.com/").getReference();
+        userDb = new UserLinkToDatabase();
 
         firstNameEdit = findViewById(R.id.firstName);
         lastNameEdit = findViewById(R.id.lastName);
         dobEdit = findViewById(R.id.dob);
+        usernameEdit = findViewById(R.id.username);
         genderDropdown = findViewById(R.id.genderDropdown);
         saveBtn = findViewById(R.id.btnSaveProfile);
 
@@ -56,6 +54,7 @@ public class ProfileSetup extends AppCompatActivity {
             String dob = String.valueOf(dobEdit.getText()).trim();
             String gender = String.valueOf(genderDropdown.getText()).trim();
             String lastName = String.valueOf(lastNameEdit.getText()).trim();
+            String username = String.valueOf(usernameEdit.getText()).trim();
 
             if (TextUtils.isEmpty(firstName)) {
                 Toast.makeText(this, "Enter first name", Toast.LENGTH_SHORT).show();
@@ -74,15 +73,18 @@ public class ProfileSetup extends AppCompatActivity {
                 Toast.makeText(this, "Select gender", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(this, "Enter username", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            /* if (auth.getCurrentUser() == null) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
                 return;
-            } */
+            }
 
-
-            String uid = auth.getCurrentUser().getUid();
-            String email = auth.getCurrentUser().getEmail();
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             String accountType = getIntent().getStringExtra("accountType");
             if (TextUtils.isEmpty(accountType)){
                 Toast.makeText(this, "Error: No Account Type", Toast.LENGTH_LONG).show();
@@ -96,30 +98,32 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("gender", gender);
             profile.put("email", email);
             profile.put("accountType", accountType);
+            profile.put("username", username);
 
-            dbRef.child("users")
-                    .child(accountType)
-                    .child(uid)
-                    .child("profile")
-                    .setValue(profile)
-                    .addOnSuccessListener(unused -> {
+            userDb.updateUserFields(uid, accountType, profile)
+                    .thenAccept(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for that account type
+                        Intent nextIntent = null;
                         if (accountType.equals("Organizer")) {
-                            startActivity(new Intent(this, OrganizerDashboardActivity.class));
+                            nextIntent = new Intent(this, OrganizerDashboardActivity.class);
                         }
                         else if (accountType.equals("Player")) {
-                            startActivity(new Intent(this, PlayerHomeActivity.class));
+                            nextIntent = new Intent(this, PlayerHomeActivity.class);
                         }
                         else if (accountType.equals("Referee")) {
-                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                            nextIntent = new Intent(this, RefereeHomeActivity.class);
                         }
 
-                        finish();
+                        if (nextIntent != null) {
+                            startActivity(nextIntent);
+                            finish();
+                        }
                     })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                    );
+                    .exceptionally(e -> {
+                        Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return null;
+                    });
 
 
         });

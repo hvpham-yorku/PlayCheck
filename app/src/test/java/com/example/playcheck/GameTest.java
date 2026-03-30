@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+
 import static org.junit.Assert.*;
 
 import com.example.playcheck.puremodel.Game;
@@ -122,4 +123,6 @@ public class GameTest {
         assertNotEquals(game1.getTeamA(), game2.getTeamA());
         assertNotEquals(game1.getLocation(), game2.getLocation());
     }
+
+
 }

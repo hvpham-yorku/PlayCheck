@@ -16,17 +16,27 @@ public class Player extends User {
 
     // Specialized database service
     private transient PlayerLinkToDatabase playerDbService;
+    private static PlayerLinkToDatabase defaultPlayerDbService;
 
     public Player() {
         super();
-        this.playerDbService = new PlayerLinkToDatabase();
     }
 
     public Player(String firstName, String lastName, String email, String dob, String gender){
         super(firstName, lastName, email, dob, gender);
         this.goalsScored = 0;
         this.matchesPlayed = 0;
-        this.playerDbService = new PlayerLinkToDatabase();
+    }
+
+    public static void setPlayerDbService(PlayerLinkToDatabase service) {
+        defaultPlayerDbService = service;
+    }
+
+    private PlayerLinkToDatabase getPlayerDbService() {
+        if (playerDbService != null) return playerDbService;
+        if (defaultPlayerDbService != null) return defaultPlayerDbService;
+        playerDbService = new PlayerLinkToDatabase();
+        return playerDbService;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -42,14 +52,12 @@ public class Player extends User {
 
         if (getUid() != null && teamId != null) {
             // First: Update the team membership in database
-            return playerDbService.addPlayerToTeam(getUid(), teamId)
+            return getPlayerDbService().addPlayerToTeam(getUid(), teamId)
                     .thenCompose(v -> {
                         // Second: Save the updated player profile (with new teamId)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful - you could add logging here
                         System.out.println("Player successfully joined team: " + teamId);
                     });
         }
@@ -58,7 +66,6 @@ public class Player extends User {
 
     /**
      * Leave team - removes team relationship and updates profile
-     * This is where you saw the saveProfile() call
      */
     public CompletableFuture<Void> leaveTeam() {
         String oldTeamId = this.teamId;
@@ -66,15 +73,11 @@ public class Player extends User {
         this.teamId = null;
 
         if (getUid() != null && oldTeamId != null) {
-            // First: Remove from team in database
-            return playerDbService.removePlayerFromTeam(getUid(), oldTeamId)
+            return getPlayerDbService().removePlayerFromTeam(getUid(), oldTeamId)
                     .thenCompose(v -> {
-                        // Second: Save the updated player profile (with teamId = null)
-                        // This saveProfile() comes from the parent User class
                         return saveProfile();
                     })
                     .thenAccept(v -> {
-                        // Third: Update successful
                         System.out.println("Player successfully left team: " + oldTeamId);
                     });
         }
@@ -93,7 +96,6 @@ public class Player extends User {
             stats.put("goalsScored", goalsScored);
             stats.put("matchesPlayed", matchesPlayed);
 
-            // Use saveProfileFields (more efficient than saveProfile)
             return saveProfileFields(stats);
         }
         return CompletableFuture.completedFuture(null);
@@ -105,7 +107,7 @@ public class Player extends User {
     public CompletableFuture<Void> recordMatchPerformance(String gameId, int goals, int assists,
                                                           int minutesPlayed) {
         if (getUid() != null) {
-            return playerDbService.recordMatchPerformance(getUid(), gameId, goals, assists,
+            return getPlayerDbService().recordMatchPerformance(getUid(), gameId, goals, assists,
                             minutesPlayed)
                     .thenCompose(v -> updateStats(goals, 1));
         }
@@ -117,7 +119,7 @@ public class Player extends User {
      */
     public CompletableFuture<Team> loadTeamInfo() {
         if (getUid() != null) {
-            return playerDbService.getPlayerTeam(getUid())
+            return getPlayerDbService().getPlayerTeam(getUid())
                     .thenApply(team -> {
                         this.team = team;
                         if (team != null) {
@@ -134,9 +136,19 @@ public class Player extends User {
      */
     public CompletableFuture<List<Game>> loadMatchHistory() {
         if (getUid() != null) {
-            return playerDbService.getPlayerMatchHistory(getUid());
+            return getPlayerDbService().getPlayerMatchHistory(getUid());
         }
         return CompletableFuture.completedFuture(List.of());
+    }
+
+    /**
+     * Load player statistics
+     */
+    public CompletableFuture<Map<String, Object>> loadStatistics() {
+        if (getUid() != null) {
+            return getPlayerDbService().getPlayerStats(getUid());
+        }
+        return CompletableFuture.completedFuture(new HashMap<>());
     }
 
     //-------------------------------------------------------------------------------------------

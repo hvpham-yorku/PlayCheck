@@ -27,6 +27,43 @@
     <string name="referee_profile_image">Referee Profile Image</string>
     <string name="Fill_User_Instructions">Fill in your Referee Profile details:</string>
     <string name="EnterYourUserNameHint">Enter your chosen username</string>
+    <string name="clips_for">Clips for %1$s</string>
+    <string name="app_subtitle">Your sports Management App</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="or">or</string>
+    <string name="google">Google</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="instagram">Instagram</string>
+    <string name="sign_up_request">Don\'t have an account yet? Sign Up</string>
+    <string name="Sign_Up">Sign Up</string>
+    <string name="Sign_In">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="nav_home">nav_home</string>
+    <string name="nav_news">nav_news</string>
+    <string name="nav_clipboard">nav_clipboard</string>
+    <string name="nav_back">nav_back</string>
+    <string name="nav_profile">nav_profile</string>
+    <string name="statistics">statistics</string>
+    <string name="my_schedule">my_schedule</string>
+    <string name="all_teams">all_teams</string>
+    <string name="all_games">all_games</string>
+    <string name="create_event">create_event</string>
+    <string name="playcheck_logo">PlayCheck Logo</string>
+    <string name="your_sports_management_app">Your sports Management App</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="login_word"><![CDATA[Login >]]></string>
+    <string name="or_word">or</string>
+    <string name="google_word">Google</string>
+    <string name="linkedin_word">LinkedIn</string>
+    <string name="instagram_word">Instagram</string>
+    <string name="dont_have_an_account_yet_word">Dont have an account yet?</string>
+    <string name="sign_up_word">Sign Up</string>
+
 
     <string-array name="account_type_choices">
         <item>Player</item>

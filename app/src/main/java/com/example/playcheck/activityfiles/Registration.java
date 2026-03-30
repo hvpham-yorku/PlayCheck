@@ -17,21 +17,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
+import com.example.playcheck.puremodel.Organizer;
+import com.example.playcheck.puremodel.Player;
+import com.example.playcheck.puremodel.Referee;
+import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 
 public class Registration extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
     Button registrationButton;
-    FirebaseAuth mAuth;
-    DatabaseReference user;
+    private UserLinkToDatabase userDb;
     ProgressBar progressBar;
     TextView loginLink;
     AutoCompleteTextView dropdown;
@@ -47,7 +50,7 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        mAuth = FirebaseAuth.getInstance();
+        userDb = new UserLinkToDatabase();
 
         // Initialization of fields
         editTextEmail = findViewById(R.id.email);
@@ -71,7 +74,7 @@ public class Registration extends AppCompatActivity {
         loginLink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), Login_Controller.class);
                 startActivity(intent);
                 finish();
             }
@@ -108,42 +111,35 @@ public class Registration extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.GONE);
-
             //create the user
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign up success, go to profile setup
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Intent nextIntent;
-                                nextIntent = new Intent(Registration.this, ProfileSetup.class);
-                                nextIntent.putExtra("email", email);
-                                nextIntent.putExtra("password", password);
-                                nextIntent.putExtra("accountType", accountType);
-                                progressBar.setVisibility(ProgressBar.GONE);
+            User newUser;
+            if ("Organizer".equalsIgnoreCase(accountType)) {
+                newUser = new Organizer();
+            } else if ("Referee".equalsIgnoreCase(accountType)) {
+                newUser = new Referee();
+            } else {
+                newUser = new Player();
+            }
+            newUser.setEmail(email);
 
-                                startActivity(nextIntent);
-                                finish();
+            userDb.createUser(newUser, password)
+                    .thenAccept(uid -> {
+                        progressBar.setVisibility(View.GONE);
+                        Intent nextIntent = new Intent(Registration.this, ProfileSetup.class);
+                        nextIntent.putExtra("email", email);
+                        nextIntent.putExtra("password", password);
+                        nextIntent.putExtra("accountType", accountType);
 
-                            } else {
-                                // If sign up fails, display a message to the user.
-                                Toast.makeText(Registration.this,
-                                        task.getException().getMessage(),
-                                        Toast.LENGTH_LONG).show();
-
-                            }
-                        }
+                        startActivity(nextIntent);
+                        finish();
+                    })
+                    .exceptionally(e -> {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(Registration.this,
+                                e.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                        return null;
                     });
-
-
-
-
-
-
-
         });
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class RefereeLinkToDatabase extends UserLinkToDatabase {
+public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLinkToDatabase {
 
         public RefereeLinkToDatabase() {
                 super();
@@ -163,6 +163,94 @@ public class RefereeLinkToDatabase extends UserLinkToDatabase {
                         .child("gameReports")
                         .child(gameId)
                         .setValue(report)
+                        .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                        future.complete(null);
+                                } else {
+                                        future.completeExceptionally(task.getException());
+                                }
+                        });
+
+                return future;
+        }
+
+        /**
+         * Save a video clip for a specific game
+         */
+        public CompletableFuture<Void> saveMatchClip(String gameId, String clipTitle, String clipUri) {
+                CompletableFuture<Void> future = new CompletableFuture<>();
+                
+                String clipId = databaseRef.child("matchClips").child(gameId).push().getKey();
+                
+                java.util.Map<String, String> clipData = new java.util.HashMap<>();
+                clipData.put("title", clipTitle);
+                clipData.put("uri", clipUri);
+                clipData.put("id", clipId); // Store ID for deletion
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .child(clipId)
+                        .setValue(clipData)
+                        .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                        future.complete(null);
+                                } else {
+                                        future.completeExceptionally(task.getException());
+                                }
+                        });
+
+                return future;
+        }
+
+        /**
+         * Get all video clips for a specific game
+         */
+        public CompletableFuture<List<java.util.Map<String, String>>> getMatchClips(String gameId) {
+                CompletableFuture<List<java.util.Map<String, String>>> future = new CompletableFuture<>();
+                List<java.util.Map<String, String>> clips = new ArrayList<>();
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                        for (DataSnapshot clipSnapshot : snapshot.getChildren()) {
+                                                java.util.Map<String, String> clip = (java.util.Map<String, String>) clipSnapshot.getValue();
+                                                if (clip != null) {
+                                                        // Ensure the 'id' field is present by using the Firebase Key as a fallback
+                                                        if (!clip.containsKey("id")) {
+                                                                clip.put("id", clipSnapshot.getKey());
+                                                        }
+                                                        clips.add(clip);
+                                                }
+                                        }
+                                        future.complete(clips);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                        future.completeExceptionally(error.toException());
+                                }
+                        });
+
+                return future;
+        }
+
+        /**
+         * Delete a specific video clip
+         */
+        public CompletableFuture<Void> deleteMatchClip(String gameId, String clipId) {
+                CompletableFuture<Void> future = new CompletableFuture<>();
+
+                if (clipId == null) {
+                        future.completeExceptionally(new Exception("Clip ID is null"));
+                        return future;
+                }
+
+                databaseRef.child("matchClips")
+                        .child(gameId)
+                        .child(clipId)
+                        .removeValue()
                         .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                         future.complete(null);

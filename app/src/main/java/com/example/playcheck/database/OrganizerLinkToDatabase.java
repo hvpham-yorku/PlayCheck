@@ -1,13 +1,9 @@
 package com.example.playcheck.database;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -20,75 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class OrganizerLinkToDatabase extends UserLinkToDatabase {
+public class OrganizerLinkToDatabase extends com.example.playcheck.database.UserLinkToDatabase {
 
     public OrganizerLinkToDatabase() {
         super();
     }
-
-    /* Interfaces used for callbacks*/
-    public interface PlayerIdCallback {
-        void onCallback(ArrayList<String> playerIds);
-    }
-
-    public interface PlayerNameCallback {
-        void onCallback(ArrayList<String> names);
-    }
-
-    /* Method that returns all ids for players in the database */
-    public static void getPlayerIDs(final PlayerIdCallback callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
-        ArrayList<String> playerIds = new ArrayList<>();
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                playerIds.clear();
-
-                for (DataSnapshot idSnapshot : snapshot.getChildren()) {
-                    String playerId = idSnapshot.getKey();
-                    playerIds.add(playerId);
-                }
-
-                callback.onCallback(playerIds); //return data
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", error.getMessage());
-            }
-        });
-
-    }
-    /* Method that returns all player names in the database */
-    public static void getPlayerNames(PlayerNameCallback callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
-
-        ArrayList<String> playerNames = new ArrayList<>();
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                playerNames.clear();
-
-                for (DataSnapshot playerSnapshot : snapshot.getChildren()) {
-                    String firstName = playerSnapshot.child("profile").child("firstName").getValue(String.class);
-                    String lastName = playerSnapshot.child("profile").child("lastName").getValue(String.class);
-                    playerNames.add(firstName + " " + lastName);
-                    Log.d("FirebaseTest", firstName + " " + lastName);
-                }
-
-                callback.onCallback(playerNames);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e("Firebase", error.getMessage());
-            }
-        });
-    }
-
 
     //-------------------------------------------------------------------------------------------
     // Organizer-specific Database Operations
@@ -100,14 +32,18 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     public CompletableFuture<String> createEvent(String organizerUid, Event event) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String eventId = databaseRef.child("events").push().getKey();
+        String eventId = getDatabaseRef().child("events").push().getKey();
+        if (eventId == null) {
+            future.completeExceptionally(new Exception("Failed to generate event ID"));
+            return future;
+        }
         event.setEventId(eventId);
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("events/" + eventId, event);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, true);
 
-        databaseRef.getRoot().updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(eventId);
@@ -125,7 +61,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     public CompletableFuture<Void> updateEvent(String eventId, Map<String, Object> updates) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        databaseRef.child("events")
+        getDatabaseRef().child("events")
                 .child(eventId)
                 .updateChildren(updates)
                 .addOnCompleteListener(task -> {
@@ -149,7 +85,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         updates.put("events/" + eventId, null);
         updates.put("organizers/" + organizerUid + "/events/" + eventId, null);
 
-        databaseRef.getRoot().updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);
@@ -167,10 +103,14 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     public CompletableFuture<String> createTeam(Team team) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String teamId = databaseRef.child("teams").push().getKey();
+        String teamId = getDatabaseRef().child("teams").push().getKey();
+        if (teamId == null) {
+            future.completeExceptionally(new Exception("Failed to generate team ID"));
+            return future;
+        }
         team.setTeamId(teamId);
 
-        databaseRef.child("teams")
+        getDatabaseRef().child("teams")
                 .child(teamId)
                 .setValue(team)
                 .addOnCompleteListener(task -> {
@@ -190,7 +130,11 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     public CompletableFuture<String> scheduleGame(Game game) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String gameId = databaseRef.child("games").push().getKey();
+        String gameId = getDatabaseRef().child("games").push().getKey();
+        if (gameId == null) {
+            future.completeExceptionally(new Exception("Failed to generate game ID"));
+            return future;
+        }
         game.setGameId(gameId);
 
         Map<String, Object> updates = new HashMap<>();
@@ -207,7 +151,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
             updates.put("referees/" + game.getRefereeId() + "/assignedGames/" + gameId, true);
         }
 
-        databaseRef.getRoot().updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(gameId);
@@ -225,7 +169,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
     public CompletableFuture<Void> updateGameResult(String gameId, Map<String, Object> result) {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
-        databaseRef.child("games")
+        getDatabaseRef().child("games")
                 .child(gameId)
                 .child("result")
                 .setValue(result)
@@ -247,7 +191,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         CompletableFuture<List<Event>> future = new CompletableFuture<>();
         List<Event> events = new ArrayList<>();
 
-        databaseRef.child("organizers")
+        getDatabaseRef().child("organizers")
                 .child(organizerUid)
                 .child("events")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -259,7 +203,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
                             String eventId = eventSnapshot.getKey();
                             CompletableFuture<Void> eventFuture = new CompletableFuture<>();
 
-                            databaseRef.child("events")
+                            getDatabaseRef().child("events")
                                     .child(eventId)
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -281,12 +225,16 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
                             futures.add(eventFuture);
                         }
 
-                        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                                .thenAccept(v -> future.complete(events))
-                                .exceptionally(throwable -> {
-                                    future.completeExceptionally(throwable);
-                                    return null;
-                                });
+                        if (futures.isEmpty()) {
+                            future.complete(events);
+                        } else {
+                            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                                    .thenAccept(v -> future.complete(events))
+                                    .exceptionally(throwable -> {
+                                        future.completeExceptionally(throwable);
+                                        return null;
+                                    });
+                        }
                     }
 
                     @Override
@@ -308,7 +256,7 @@ public class OrganizerLinkToDatabase extends UserLinkToDatabase {
         updates.put("games/" + gameId + "/refereeId", refereeId);
         updates.put("referees/" + refereeId + "/assignedGames/" + gameId, true);
 
-        databaseRef.getRoot().updateChildren(updates)
+        getDatabaseRef().updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         future.complete(null);

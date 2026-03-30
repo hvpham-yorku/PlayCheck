@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tournament Types -->
+    <string-array name="tournament_types">
+        <item>Single Elimination</item>
+        <item>Double Elimination</item>
+        <item>Round Robin</item>
+    </string-array>
+</resources>

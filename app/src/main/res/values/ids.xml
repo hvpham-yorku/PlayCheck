@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textViewAppName" type="id" />
+    <item name="textViewSubtitle" type="id" />
+    <item name="textInputLayoutEmail" type="id" />
+    <item name="editTextEmail" type="id" />
+    <item name="textInputLayoutPassword" type="id" />
+</resources>
