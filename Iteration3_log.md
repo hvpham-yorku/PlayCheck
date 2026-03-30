@@ -43,39 +43,83 @@ The importance of communication was reinforced.
   - Be able to message referees
   - Create UI for being able to make tournaments
 
+<br>
+
+# Rationale Behind Changes on Plan and Big Design Decisions
+- Changing Software Architecture:
+  - After Iteration 2, we noticed how out of place pieces of code looked. We went through them and arranged them to proper layers so it looks cleaner. We then deleted and unneeded classes and neatly added everything that was needed. Our code works much better now. Regarding the design of the app, we went through different designs and voted on the best one. Moving forward with that design, we linked our pages together to create a great looking app. The biggest drive behind our decisions was cleanliness.
 
 <br>
 
 # Development Tasks per User Story
-#### 1. Detailed User Story (PC 2.2): As a player, I want to view match results and opponents so that I can review performance.
-- Development Tasks Completed:
-  - Update Game List so that it when game is clicked, it leads to the Game Details Page
-    - Estimated Time: 2 days
-    - Actual Time: 2 days
+Khalid - Referee Stories (PC-1.1 → PC-1.4)
+PC-1.1 – Record video footage
+Set up video capture (device/camera API) — 6h
+Backend endpoint to store video — 4h
+Save video metadata (DB) — 2h
+UI (start/stop recording) — 3h
+PC-1.2 – Replay recorded clips
+Video playback UI — 3h
+Fetch video from backend — 2h
+Playback controls (pause, seek) — 2h
+PC-1.3 – Live camera feed
+Integrate live streaming (WebRTC or similar) — 8h
+Display live feed in UI — 3h
+Handle connection/loading states — 2h
+PC-1.4 – Link clips to matches
+DB schema for match-video relation — 2h
+Backend linking logic — 3h
+UI for selecting match — 3h
+Anthony – Organizer Stories (PC-4.1, PC-4.2, PC-6.1)
+PC-4.1 – Assign referees to matches
+DB structure (matches + referees) — 2h
+Backend assignment API — 3h
+UI (select/assign referee) — 3h
 
-#### 2. Detailed User Story (PC 5.4): As a player, I want the ability to create teams and add players to my team. 
-- Development Tasks Completed: 
-  - Implemented Create Team UI 
-      - Estimated Time: 6 hours
-      - Actual Time: 5 hours
-  - Added Create Team Functionality so Teams are created and shown in database
-      - Estimated Time: 2 days
-      - Actual Time: 2 days 
 
-#### 3. Detailed User Story (PC 6.1): As an organizer, I want to create games or tournaments so that events can be scheduled.
-- Development Tasks Completed:
-  - Created Create Game page UI
-    - Estimated Time: 4 hours
-    - Actual Time: 2 hours
-  - Created navigation from Organizer Home Page
-    - Estimated Time: 1 day 
-    - Actual Time: 2 days
-  - Created Database method which will be used to schedule game
-    - Estimated Time: 2 days
-    - Actual Time: 3 days
+PC-4.2 – Message referees
+Messaging DB structure — 2h
+Backend messaging API — 4h
+UI (send/view messages) — 4h
+Basic notifications — 3h
+PC-6.1 – Create tournaments
+DB schema (games/tournaments) — 3h
+Backend creation endpoints — 4h
+UI form for event creation — 4h
+Zaid – Organizer Stories (PC-6.2, PC-6.3)
+PC-6.2 – Invite teams & referees
+Invitation DB structure — 2h
+Backend invite system — 4h
+UI (send/manage invites) — 4h
+Accept/decline logic — 3h
+PC-6.3 – Update schedules/details
+Backend update endpoints — 3h
+UI editing forms — 3h
+Validation + error handling — 2h
+Participant notifications — 3h
+Trinity – Game & Team Stories (PC-5.1 → PC-5.3)
+PC-5.1 – View team standings
+DB query for standings — 3h
+Backend endpoint — 2h
+UI table display — 3h
+PC-5.2 – View win/loss records
+Extend DB queries — 2h
+Backend logic — 2h
+UI integration — 2h
 
-#### 4. Detailed User Story (PC 6.2): As an organizer, I want to invite teams and referees so that participation is coordinated.
-- Development Tasks Completed:
-  - Created Player, Referee, Organizer database categories
-    - Estimated Time: 3 days 
-    - Actual Time: 3 days
+
+
+PC-5.3 – View match/team statistics
+Stats calculation logic — 4h
+Backend API — 3h
+UI (charts/tables) — 4h
+Marwan – Player Stories (PC-2.2, PC-2.3)
+PC-2.2 – View team match results & opponents
+Backend query (matches + opponents) — 3h
+API endpoint — 2h
+UI list view — 3h
+PC-2.3 – View past statistics
+Backend stats aggregation — 3h
+API endpoint — 2h
+UI display (graphs/tables) — 3h
+
