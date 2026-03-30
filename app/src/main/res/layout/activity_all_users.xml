@@ -5,6 +5,171 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".activityfiles.AllUsers_Controller">
+
+    <!-- Header Section -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#BDD4E7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Users"
+            android:textColor="#FF5252"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Main Content Area -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/bg_white_rounded_top"
+        android:paddingTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <!-- Filter Bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/filterCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#F5F5F5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tabAll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_circle_white"
+                    android:backgroundTint="#000000"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="All"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+                <TextView
+                    android:id="@+id/tabOrganizers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="Organizers"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+                <TextView
+                    android:id="@+id/tabReferees"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="Referees"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+                <TextView
+                    android:id="@+id/tabPlayers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="Players"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Search Bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintTop_toBottomOf="@id/filterCard">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:hint="Search"
+                android:paddingHorizontal="16dp"
+                android:textSize="16sp"
+                android:inputType="text"
+                android:importantForAutofill="no" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- User List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUsers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchCard"
+            tools:listitem="@layout/item_user" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_home" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_home" />
+        <ImageView android:id="@+id/navNews" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic__gamelist" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_news" />
+        <ImageView android:id="@+id/navClipboard" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_videoplayback_stats" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_clipboard" />
+        <ImageView android:id="@+id/navBack" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_arrow_back" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_back" />
+        <ImageView android:id="@+id/navProfile" android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:src="@drawable/ic_profile" android:clickable="true" android:focusable="true" android:contentDescription="@string/nav_profile" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

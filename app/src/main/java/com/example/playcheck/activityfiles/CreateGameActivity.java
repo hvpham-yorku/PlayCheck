@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.playcheck.Database.GameLinkToDatabase;
-import com.example.playcheck.Database.TeamLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.GameLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Game;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,21 +88,18 @@ public class CreateGameActivity extends AppCompatActivity {
                     public void onCallback(ArrayList<String> allTeamNames) {
                         teamNames = allTeamNames;
 
-                        user.getAllReferees(new UserLinkToDatabase.RefereesCallback() {
-                            @Override
-                            public void onCallback(ArrayList<String> refids, ArrayList<String> refN) {
+                        user.getAllReferees((refids, refN) -> {
                                 refNames = refN;
                                 refIds = refids;
                                 //create search bar for teamA and teamB and ref
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateGameActivity.this,android.R.layout.simple_dropdown_item_1line, teamNames);
+                                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(CreateGameActivity.this,android.R.layout.simple_dropdown_item_1line, teamNames);
                                 ArrayAdapter<String> adapterRef = new ArrayAdapter<String>(CreateGameActivity.this,android.R.layout.simple_dropdown_item_1line, refNames);
                                 teamA.setThreshold(1);
-                                teamA.setAdapter(adapter);
+                                teamA.setAdapter(adapter1);
                                 teamB.setThreshold(1);
-                                teamB.setAdapter(adapter);
+                                teamB.setAdapter(adapter1);
                                 refSearchBar.setThreshold(1);
                                 refSearchBar.setAdapter(adapterRef);
-                            }
                         });
 
                     }

@@ -23,6 +23,9 @@
             android:name=".activityfiles.MatchClipListActivity"
             android:exported="false" />
         <activity
+            android:name=".activityfiles.User_Profile_Page_Others_Perspective_Controller"
+            android:exported="false" />
+        <activity
             android:name=".activityfiles.Event_Option_Page_Contoroller"
             android:exported="false" />
         <activity

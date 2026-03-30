@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.Database.RefereeAssignmentDatabase;
+import com.example.playcheck.database.RefereeAssignmentDatabase;
 import com.example.playcheck.R;
 import com.example.playcheck.puremodel.Referee;
 import com.google.firebase.database.DataSnapshot;

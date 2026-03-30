@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import androidx.room.Database;
 
-import com.example.playcheck.Database.RefereeLinkToDatabase;
+import com.example.playcheck.database.RefereeLinkToDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;

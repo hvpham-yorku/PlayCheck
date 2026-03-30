@@ -1,12 +1,8 @@
-package com.example.playcheck.Database;
-
-import android.util.Log;
-import android.widget.Toast;
+package com.example.playcheck.database;
 
 import androidx.annotation.NonNull;
 
 import com.example.playcheck.activityfiles.AdapterGameList;
-import com.example.playcheck.activityfiles.CreateGameActivity;
 import com.example.playcheck.puremodel.Game;
 import com.example.playcheck.puremodel.MatchReport;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,83 +16,110 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class GameLinkToDatabase {
+    
+    private DatabaseReference databaseRef;
 
-    /* Interfaces used for callbacks*/
-    public interface RefereeNamesCallback {
-        void onCallback(ArrayList<String> refereeIds, ArrayList<String> refereeNames);
+    public GameLinkToDatabase() {
+        // Lazy initialization to avoid issues in unit tests
     }
 
-    public interface TeamIdsFromGameCallback {
-        void onCallback(String teamAid, String teamBid);
+    public GameLinkToDatabase(DatabaseReference databaseRef) {
+        this.databaseRef = databaseRef;
     }
 
-    public interface MatchReportCallback {
-        void onCallback(MatchReport report);
+    protected DatabaseReference getDatabaseRef() {
+        if (databaseRef == null) {
+            databaseRef = FirebaseDatabase.getInstance().getReference().child("games");
+        }
+        return databaseRef;
     }
 
-    DatabaseReference gamesRef = FirebaseDatabase.getInstance().getReference("games");
-    /* Reusable method that gets game data from the database based on a Query object*/
-    public void getGameData(Query gamedata, ArrayList<Game> games, AdapterGameList adapter){ //DatabaseReference is a child class of Query so this is ok to do
-        gamedata.addValueEventListener(new ValueEventListener() {
+    public interface OnRefereesFetchedListener {
+        void onRefereesFetched(ArrayList<String> refereeIds, ArrayList<String> refereeNames);
+    }
+
+    /**
+     * Fetches all games from the database.
+     */
+    public CompletableFuture<List<Game>> getAllGames() {
+        CompletableFuture<List<Game>> future = new CompletableFuture<>();
+        getDatabaseRef().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {//when games are added/deleted in Firebase, the ArrayList that stores the games gets updated
-                games.clear(); //clear list before updating it again
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Game info = dataSnapshot.getValue(Game.class);
-                    info.setGameId(dataSnapshot.getKey()); //set game id for each game
-                    boolean isCreator = uid.equals(info.getGameCreator());
-                    boolean isParticipant = info.getPlayers() != null && info.getPlayers().containsKey(uid);
-                    boolean isReferee = info.getReferees() != null && info.getReferees().containsKey(uid);
-                    if (isCreator || isParticipant || isReferee) {
-                        games.add(info);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Game> games = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Game game = dataSnapshot.getValue(Game.class);
+                    if (game != null) {
+                        game.setGameId(dataSnapshot.getKey());
+                        games.add(game);
                     }
                 }
-                adapter.notifyDataSetChanged(); //Tells the recycler view to update with new game list
+                future.complete(games);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                future.completeExceptionally(error.toException());
             }
         });
+        return future;
     }
 
-    /* Create a game in the games folder */
-    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String gameVenue, String sport, long gameDateTime, ArrayList<String> playerIds, ArrayList<String> playerNames, ArrayList<String> refIds, ArrayList<String> refNames, OnCompleteListener<Void> listener){
-        String gameId = gamesRef.push().getKey();
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        Map<String,Object> game = new HashMap<>();
-
-        Map<String, String> playersMap = new HashMap<>();
-        for (int i = 0; i < playerIds.size(); i++) {
-            playersMap.put(playerIds.get(i), playerNames.get(i));
+    /**
+     * Saves a new game or updates an existing one.
+     */
+    public CompletableFuture<Void> saveGame(Game game) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        String id = game.getGameId();
+        if (id == null || id.isEmpty()) {
+            id = getDatabaseRef().push().getKey();
+            game.setGameId(id);
         }
 
-        Map<String, String> refsMap = new HashMap<>();
-        for (int i = 0; i < refIds.size(); i++) {
-            refsMap.put(refIds.get(i), refNames.get(i));
+        getDatabaseRef().child(id).setValue(game).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.complete(null);
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
+        return future;
+    }
+
+    /**
+     * Creates a new game and saves it to the database.
+     */
+    public void createGame(String teamAid, String teamBid, String teamA, String teamB, String venue, String type, long date, ArrayList<String> playerIds, ArrayList<String> playerNames, ArrayList<String> refIds, ArrayList<String> refNames, OnCompleteListener<Void> listener) {
+        Map<String, String> players = new HashMap<>();
+        if (playerIds != null && playerNames != null) {
+            for (int i = 0; i < Math.min(playerIds.size(), playerNames.size()); i++) {
+                players.put(playerIds.get(i), playerNames.get(i));
+            }
         }
 
-        game.put("teamA", teamA);
-        game.put("teamB", teamB);
-        game.put("teamAid", teamAid);
-        game.put("teamBid", teamBid);
-        game.put("gameVenue", gameVenue);
-        game.put("gameType", sport);
-        game.put("gameDate", gameDateTime);
-        game.put("gameCreator", uid);
-        game.put("players", playersMap);
-        game.put("referees", refsMap);
-        game.put("score", "No score logged yet");
+        Map<String, String> referees = new HashMap<>();
+        if (refIds != null && refNames != null) {
+            for (int i = 0; i < Math.min(refIds.size(), refNames.size()); i++) {
+                referees.put(refIds.get(i), refNames.get(i));
+            }
+        }
 
-        gamesRef.child(gameId).setValue(game).addOnCompleteListener(listener);
+        String creatorId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
 
+        Game game = new Game(teamA, teamB, date, venue, type, players, creatorId, teamAid, teamBid, referees, "0-0");
+        
+        String id = getDatabaseRef().push().getKey();
+        if (id != null) {
+            game.setGameId(id);
+            getDatabaseRef().child(id).setValue(game).addOnCompleteListener(listener);
+        }
     }
 
     /* Update specific fields for an existing game */
@@ -123,55 +146,104 @@ public class GameLinkToDatabase {
                         }
                         callback.onCallback(refIds, refNames);
                     }
+    /**
+     * Fetches a specific game by ID.
+     */
+    public CompletableFuture<Game> getGameById(String gameId) {
+        CompletableFuture<Game> future = new CompletableFuture<>();
+        getDatabaseRef().child(gameId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Game game = snapshot.getValue(Game.class);
+                if (game != null) {
+                    game.setGameId(snapshot.getKey());
+                    future.complete(game);
+                } else {
+                    future.completeExceptionally(new Exception("Game not found"));
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e("Firebase", error.getMessage());
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                future.completeExceptionally(error.toException());
+            }
+        });
+        return future;
+    }
+
+    /**
+     * Fetees referees for a game by game ID.
+     */
+    public void getRefNamesFromGame(String gameId, OnRefereesFetchedListener listener) {
+        if (gameId == null || gameId.isEmpty()) {
+            listener.onRefereesFetched(new ArrayList<>(), new ArrayList<>());
+            return;
+        }
+        getGameById(gameId).thenAccept(game -> {
+            ArrayList<String> refereeIds = new ArrayList<>();
+            ArrayList<String> refereeNames = new ArrayList<>();
+            if (game != null && game.getReferees() != null) {
+                for (Map.Entry<String, String> entry : game.getReferees().entrySet()) {
+                    refereeIds.add(entry.getKey());
+                    refereeNames.add(entry.getValue());
+                }
+            }
+            listener.onRefereesFetched(refereeIds, refereeNames);
+        }).exceptionally(ex -> {
+            listener.onRefereesFetched(new ArrayList<>(), new ArrayList<>());
+            return null;
+        });
+    }
+
+    /**
+     * Observes the match report for a game.
+     */
+    public void observeMatchReport(String gameId, Consumer<MatchReport> callback) {
+        getDatabaseRef().child(gameId).child("matchReport").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                MatchReport report = snapshot.getValue(MatchReport.class);
+                callback.accept(report);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    /**
+     * Fetches team IDs for a specific game.
+     */
+    public void getTeamIdsFromGame(String gameId, BiConsumer<String, String> callback) {
+        getGameById(gameId).thenAccept(game -> {
+            if (game != null) {
+                callback.accept(game.getTeamAid(), game.getTeamBid());
+            }
+        });
+    }
+
+    public static void getGameData(Query query, ArrayList<Game> games, AdapterGameList adapter) {
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                games.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Game game = dataSnapshot.getValue(Game.class);
+                    if (game != null) {
+                        games.add(game);
                     }
-                });
-
-    }
-
-    /*Given game id, returne the team ids */
-    public void getTeamIdsFromGame(String gameId, TeamIdsFromGameCallback callback) {
-        gamesRef.child(gameId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String teamAid = snapshot.child("teamAid").getValue(String.class);
-                    String teamBid = snapshot.child("teamBid").getValue(String.class);
-                    callback.onCallback(teamAid, teamBid);
-                } else {
-                    callback.onCallback(null, null);
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Error fetching team IDs: " + error.getMessage());
             }
         });
     }
 
-    /*Method that gets game stats */
-    public void observeMatchReport(String gameId, MatchReportCallback callback) {
-        gamesRef.child(gameId).child("matchReport").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    MatchReport report = snapshot.getValue(MatchReport.class);
-                    callback.onCallback(report);
-                } else {
-                    callback.onCallback(null);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "MatchReport update failed: " + error.getMessage());
-            }
-        });
+    public static void getGameData(DatabaseReference databaseReference, ArrayList<Game> games, AdapterGameList adapter) {
+        getGameData((Query) databaseReference, games, adapter);
     }
-
-
-
 }

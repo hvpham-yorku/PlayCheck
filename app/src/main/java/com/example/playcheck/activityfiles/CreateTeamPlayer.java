@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.playcheck.Database.TeamLinkToDatabase;
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.TeamLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,16 +74,17 @@ public class CreateTeamPlayer extends AppCompatActivity {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         currentAddedPlayerIds.add(uid);
                         int indexOfCurrentUserID = playerIds.indexOf(uid);
-                        String currentUserName = playerNames.get(indexOfCurrentUserID);
-                        currentAddedPlayerNames.add(currentUserName);
-
-                        adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1);
+                        if (indexOfCurrentUserID >= 0) {
+                            String currentUserName = playerNames.get(indexOfCurrentUserID);
+                            currentAddedPlayerNames.add(currentUserName);
+                            adapter.notifyItemInserted(currentAddedPlayerNames.size() - 1);
+                        }
 
                         //create search bar for adding players
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeamPlayer.this,android.R.layout.simple_dropdown_item_1line, playerNames);
+                        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(CreateTeamPlayer.this,android.R.layout.simple_dropdown_item_1line, playerNames);
                         playerSearchBar = (AutoCompleteTextView)findViewById(R.id.searchPlayer);
                         playerSearchBar.setThreshold(1); //start searching from first character
-                        playerSearchBar.setAdapter(adapter);
+                        playerSearchBar.setAdapter(adapter1);
 
 
 
@@ -120,9 +121,9 @@ public class CreateTeamPlayer extends AppCompatActivity {
                 }
 
                 //create search bar for adding captain (gets updated when player is added to team)
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateTeamPlayer.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(CreateTeamPlayer.this,android.R.layout.simple_dropdown_item_1line, currentAddedPlayerNames);
                 captainSeachBar.setThreshold(1);
-                captainSeachBar.setAdapter(adapter);
+                captainSeachBar.setAdapter(adapter2);
 
             }
         });

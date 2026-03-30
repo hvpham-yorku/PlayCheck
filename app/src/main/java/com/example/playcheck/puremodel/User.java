@@ -2,12 +2,13 @@ package com.example.playcheck.puremodel;
 
 import android.os.Build;
 
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -75,6 +76,10 @@ public abstract class User implements UserStats {
         return getDatabaseService().getCurrentUser();
     }
 
+    public static CompletableFuture<List<User>> fetchAllUsers() {
+        return getDatabaseService().getAllUsers();
+    }
+
     public CompletableFuture<Void> saveProfile() {
         if (this.uid == null || this.uid.isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -90,7 +95,7 @@ public abstract class User implements UserStats {
                 return CompletableFuture.failedFuture(new Exception("Cannot save profile fields: User UID is null."));
             }
         }
-        return getDatabaseService().updateUserFields(this.uid, fields)
+        return getDatabaseService().updateUserFields(this.uid, this.classType, fields)
                 .thenAccept(v -> updateLocalFields(fields));
     }
 
@@ -108,6 +113,8 @@ public abstract class User implements UserStats {
                 case "dateOfBirth":
                     if (entry.getValue() instanceof String) {
                         this.dateOfBirth = LocalDate.parse((String) entry.getValue());
+                    } else if (entry.getValue() instanceof LocalDate) {
+                        this.dateOfBirth = (LocalDate) entry.getValue();
                     }
                     break;
                 case "dailyStats":
@@ -124,6 +131,32 @@ public abstract class User implements UserStats {
                     break;
             }
         }
+    }
+
+    public CompletableFuture<Void> updateEmail(String newEmail) {
+        return getDatabaseService().updateEmail(this.uid, this.classType, newEmail)
+                .thenAccept(v -> this.email = newEmail);
+    }
+
+    public CompletableFuture<Void> deleteAccount() {
+        return getDatabaseService().deleteUser(this.uid, this.classType);
+    }
+
+    public CompletableFuture<Void> refreshProfile() {
+        return getDatabaseService().fetchUserByUid(this.uid)
+                .thenAccept(updatedUser -> {
+                    if (updatedUser != null) {
+                        this.firstName = updatedUser.getFirstName();
+                        this.lastName = updatedUser.getLastName();
+                        this.email = updatedUser.getEmail();
+                        this.gender = updatedUser.getGender();
+                        this.dateOfBirth = updatedUser.getDateOfBirth();
+                        this.username = updatedUser.getUsername();
+                        this.totallikes = updatedUser.gettotallikes();
+                        this.totaldislikes = updatedUser.gettotaldislikes();
+                        this.totalSavings = updatedUser.gettotalSavings();
+                    }
+                });
     }
 
     // -------------------------------------------------------------------------------------------
@@ -194,6 +227,12 @@ public abstract class User implements UserStats {
     public void setName(String firstName, String lastName) { this.firstName = firstName; this.lastName = lastName; }
     public LocalDate getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+
+    public String getDOBasString() {
+        if (dateOfBirth == null) return null;
+        return dateOfBirth.toString();
+    }
+
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
     public String getFirstName() { return firstName; }

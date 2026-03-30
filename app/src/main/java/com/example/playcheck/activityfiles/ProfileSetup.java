@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.playcheck.Database.UserLinkToDatabase;
+import com.example.playcheck.database.UserLinkToDatabase;
 import com.example.playcheck.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,14 +73,14 @@ public class ProfileSetup extends AppCompatActivity {
                 Toast.makeText(this, "Select gender", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
             if (TextUtils.isEmpty(username)) {
                 Toast.makeText(this, "Enter username", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                Toast.makeText(this, "Error: Not Logged In", Toast.LENGTH_LONG).show();
+                return;
             }
 
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -100,8 +100,8 @@ public class ProfileSetup extends AppCompatActivity {
             profile.put("accountType", accountType);
             profile.put("username", username);
 
-            userDb.saveUserProfile(uid, accountType, profile)
-                    .addOnSuccessListener(unused -> {
+            userDb.updateUserFields(uid, accountType, profile)
+                    .thenAccept(unused -> {
                         Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
                         // Will connect to a home screen that specifically is for that account type
                         Intent nextIntent = null;
@@ -112,7 +112,7 @@ public class ProfileSetup extends AppCompatActivity {
                             nextIntent = new Intent(this, Homepage_Controller.class);
                         }
                         else if (accountType.equals("Referee")) {
-                            startActivity(new Intent(this, Homepage_Controller.class));
+                            nextIntent = new Intent(this, RefereeHomeActivity.class);
                         }
 
                         if (nextIntent != null) {
@@ -120,9 +120,10 @@ public class ProfileSetup extends AppCompatActivity {
                             finish();
                         }
                     })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                    );
+                    .exceptionally(e -> {
+                        Toast.makeText(this, "Save failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return null;
+                    });
 
 
         });

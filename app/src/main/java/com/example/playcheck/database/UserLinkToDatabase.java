@@ -1,4 +1,4 @@
-package com.example.playcheck.Database;
+package com.example.playcheck.database;
 
 import android.util.Log;
 
@@ -9,8 +9,8 @@ import com.example.playcheck.puremodel.Player;
 import com.example.playcheck.puremodel.Referee;
 import com.example.playcheck.puremodel.User;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,223 +30,60 @@ public class UserLinkToDatabase {
     protected DatabaseReference databaseRef;
 
     public UserLinkToDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        // Initialize lazily to avoid issues during unit tests
     }
 
+    public UserLinkToDatabase(FirebaseAuth mAuth, DatabaseReference databaseRef) {
+        this.mAuth = mAuth;
+        this.databaseRef = databaseRef;
+    }
 
-    /*FirebaseAuth uAuth;
-    //The entity that updates/deletion are going to base on in the database
-     User theUser;
-    UserLinkToDatabase(User theUser){
+    protected FirebaseAuth getAuth() {
+        if (mAuth == null) {
+            mAuth = FirebaseAuth.getInstance();
+        }
+        return mAuth;
+    }
 
-        this.theUser = theUser;
-        uAuth = FirebaseAuth.getInstance();
-    } */
+    protected DatabaseReference getDatabaseRef() {
+        if (databaseRef == null) {
+            databaseRef = FirebaseDatabase.getInstance().getReference();
+        }
+        return databaseRef;
+    }
 
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference rootRef = userRef.child("Referee");
-    DatabaseReference rootPlayerRef = userRef.child("Player");
-
-    DatabaseReference rootOrganizerRef = userRef.child("Organizer");
-//-----------------------------------------------------------------------------------------------
-
-
-    /* Interfaces used for callbacks*/
     public interface PlayerIdCallback {
-        void onCallback(ArrayList<String> playerIds);
+        void onCallback(ArrayList<String> ids);
     }
 
     public interface PlayerNameCallback {
         void onCallback(ArrayList<String> names);
     }
 
-    public interface RefereesCallback {
+    public interface RefereeCallback {
         void onCallback(ArrayList<String> refIds, ArrayList<String> refNames);
     }
-
-
-    /*method that returns the user account type as a string */
-    public Task<String> getUserAccountType(FirebaseUser currentUser) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        String uid = currentUser.getUid();
-
-        DatabaseReference playerRef = database.getReference("users")
-                .child("Player")
-                .child(uid)
-                .child("profile")
-                .child("accountType");
-
-        DatabaseReference organizerRef = database.getReference("users")
-                .child("Organizer")
-                .child(uid)
-                .child("profile")
-                .child("accountType");
-
-        DatabaseReference refereeRef = database.getReference("users")
-                .child("Referee")
-                .child(uid)
-                .child("profile")
-                .child("accountType");
-
-        return playerRef.get().continueWithTask(task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                return Tasks.forResult(task.getResult().getValue(String.class));
-            }
-
-            return organizerRef.get().continueWithTask(task2 -> {
-                if (task2.isSuccessful() && task2.getResult().exists()) {
-                    return Tasks.forResult(task2.getResult().getValue(String.class));
-                }
-
-                return refereeRef.get().continueWith(task3 -> {
-                    if (task3.isSuccessful() && task3.getResult().exists()) {
-                        return task3.getResult().getValue(String.class);
-                    }
-                    return null;
-                });
-            });
-        });
-    }
-
-    /**
-     * Registers a new user with Firebase Authentication.
-     */
-    public Task<AuthResult> registerUser(String email, String password) {
-        return mAuth.createUserWithEmailAndPassword(email, password);
-    }
-
-    /**
-     * Saves user profile information to the database.
-     */
-    public Task<Void> saveUserProfile(String uid, String accountType, Map<String, Object> profile) {
-        return databaseRef.child("users")
-                .child(accountType)
-                .child(uid)
-                .child("profile")
-                .setValue(profile);
-    }
-
-    /* Method that returns all ids for players in the database */
-    public void getPlayerIDs(final PlayerIdCallback callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
-        ArrayList<String> playerIds = new ArrayList<>();
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                playerIds.clear();
-
-                for (DataSnapshot idSnapshot : snapshot.getChildren()) {
-                    String playerId = idSnapshot.getKey();
-                    playerIds.add(playerId);
-                }
-
-                callback.onCallback(playerIds); //return data
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", error.getMessage());
-            }
-        });
-
-    }
-
-    /* Method that returns all player names in the database */
-    public void getPlayerNames(PlayerNameCallback callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child("Player");
-
-        ArrayList<String> playerNames = new ArrayList<>();
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                playerNames.clear();
-
-                for (DataSnapshot playerSnapshot : snapshot.getChildren()) {
-                    String firstName = playerSnapshot.child("profile").child("firstName").getValue(String.class);
-                    String lastName = playerSnapshot.child("profile").child("lastName").getValue(String.class);
-                    playerNames.add(firstName + " " + lastName);
-                    Log.d("FirebaseTest", firstName + " " + lastName);
-                }
-
-                callback.onCallback(playerNames);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e("Firebase", error.getMessage());
-            }
-        });
-    }
-
-    /*Method that gets all referee names and ids from database */
-    public void getAllReferees(RefereesCallback callback) {
-        DatabaseReference refRef = FirebaseDatabase.getInstance()
-                .getReference("users")
-                .child("Referee");
-
-        refRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<String> refNames = new ArrayList<>();
-                ArrayList<String> refIds = new ArrayList<>();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String firstName = ds.child("profile").child("firstName").getValue(String.class);
-                    String lastName = ds.child("profile").child("lastName").getValue(String.class);
-
-                    Log.d("FirebaseTest", "REF FOUND: " + firstName + " " + lastName);
-
-                    refIds.add(ds.getKey());
-                    refNames.add(firstName + " " + lastName);
-                }
-                callback.onCallback(refIds, refNames);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", error.getMessage());
-            }
-        });
-    }
-
-    //-------------------------------------------------------------------------------------------
-  /*  1. Core CRUD Operations
-    These are the fundamental building blocks of any persistence class.
-
-    create(entity) / save(entity) / insert(entity)
-
-    Function: Persists a new record to the database.
-
-    Returns: Often returns the saved entity with its generated ID.
 
     /**
      * Creates a new user with email and password.
      * Saves the user profile to the database after successful authentication.
-     *
-     * @param user     The user object (must contain email)
-     * @param password The password for the new account
-     * @return CompletableFuture with the new user's UID
      */
     public CompletableFuture<String> createUser(User user, String password) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        mAuth.createUserWithEmailAndPassword(user.getEmail(), password)
+        getAuth().createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        String uid = mAuth.getCurrentUser().getUid();
+                        String uid = getAuth().getCurrentUser().getUid();
                         user.setUid(uid);
 
-                        // Save user data to Realtime Database
                         saveUserToDatabase(user)
                                 .addOnCompleteListener(dbTask -> {
                                     if (dbTask.isSuccessful()) {
                                         future.complete(uid);
                                     } else {
-                                        // If database save fails, rollback authentication
-                                        deleteAuthUser();
+                                        FirebaseUser currentUser = getAuth().getCurrentUser();
+                                        if (currentUser != null) currentUser.delete();
                                         future.completeExceptionally(dbTask.getException());
                                     }
                                 });
@@ -260,19 +97,14 @@ public class UserLinkToDatabase {
 
     /**
      * Logs in an existing user with email and password.
-     * Fetches the user profile from the database after successful authentication.
-     *
-     * @param email    User's email
-     * @param password User's password
-     * @return CompletableFuture with the fully populated User object
      */
     public CompletableFuture<User> loginUser(String email, String password) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        getAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        String uid = mAuth.getCurrentUser().getUid();
+                        String uid = getAuth().getCurrentUser().getUid();
                         fetchUserByUid(uid).thenAccept(future::complete)
                                 .exceptionally(throwable -> {
                                     future.completeExceptionally(throwable);
@@ -290,18 +122,16 @@ public class UserLinkToDatabase {
      * Logs out the current user.
      */
     public void logout() {
-        mAuth.signOut();
+        getAuth().signOut();
     }
 
     /**
      * Retrieves the currently authenticated user's profile.
-     *
-     * @return CompletableFuture with the current User object, or exceptionally if no user is logged in
      */
     public CompletableFuture<User> getCurrentUser() {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = getAuth().getCurrentUser();
         if (currentUser != null) {
             fetchUserByUid(currentUser.getUid()).thenAccept(future::complete)
                     .exceptionally(throwable -> {
@@ -309,45 +139,40 @@ public class UserLinkToDatabase {
                         return null;
                     });
         } else {
-            future.completeExceptionally(new Exception("No user logged in"));
+            future.complete(null);
         }
 
         return future;
     }
 
-    //-------------------------------------------------------------------------------------------
-    // Database Operations
-    //-------------------------------------------------------------------------------------------
-
-    /**
-     * Saves a user object to the Realtime Database under "users/{uid}".
-     */
     private Task<Void> saveUserToDatabase(User user) {
-        return databaseRef.child("users").child(user.getUid()).setValue(user);
+        String role = getRoleFromUser(user);
+        return getDatabaseRef().child("users").child(role).child(user.getUid()).setValue(user);
     }
 
-    /**
-     * Fetches a user by their UID from the "users" node.
-     *
-     * @param uid The user's unique identifier
-     * @return CompletableFuture with the reconstructed User object (subclass instance)
-     */
     public CompletableFuture<User> fetchUserByUid(String uid) {
         CompletableFuture<User> future = new CompletableFuture<>();
 
-        databaseRef.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabaseRef().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    User user = createUserFromSnapshot(snapshot);
-                    if (user != null) {
-                        user.setUid(uid);
-                        future.complete(user);
-                    } else {
-                        future.completeExceptionally(new Exception("Failed to parse user data"));
-                    }
+                User user = null;
+                if (snapshot.child("Organizer").hasChild(uid)) {
+                    user = snapshot.child("Organizer").child(uid).getValue(Organizer.class);
+                    if (user == null) user = snapshot.child("Organizer").child(uid).child("profile").getValue(Organizer.class);
+                } else if (snapshot.child("Player").hasChild(uid)) {
+                    user = snapshot.child("Player").child(uid).getValue(Player.class);
+                    if (user == null) user = snapshot.child("Player").child(uid).child("profile").getValue(Player.class);
+                } else if (snapshot.child("Referee").hasChild(uid)) {
+                    user = snapshot.child("Referee").child(uid).getValue(Referee.class);
+                    if (user == null) user = snapshot.child("Referee").child(uid).child("profile").getValue(Referee.class);
+                }
+
+                if (user != null) {
+                    user.setUid(uid);
+                    future.complete(user);
                 } else {
-                    future.completeExceptionally(new Exception("User not found with UID: " + uid));
+                    future.completeExceptionally(new Exception("User not found"));
                 }
             }
 
@@ -360,16 +185,10 @@ public class UserLinkToDatabase {
         return future;
     }
 
-    /**
-     * Updates an entire user object in the database.
-     *
-     * @param user The user object with updated fields
-     * @return CompletableFuture indicating completion
-     */
     public CompletableFuture<Void> updateUser(User user) {
         CompletableFuture<Void> future = new CompletableFuture<>();
-
-        databaseRef.child("users").child(user.getUid())
+        String role = getRoleFromUser(user);
+        getDatabaseRef().child("users").child(role).child(user.getUid())
                 .setValue(user)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -378,22 +197,12 @@ public class UserLinkToDatabase {
                         future.completeExceptionally(task.getException());
                     }
                 });
-
         return future;
     }
 
-    /**
-     * Updates only specific fields of a user in the database.
-     * More efficient than updating the entire object.
-     *
-     * @param uid    The user's UID
-     * @param fields A map of field names to new values
-     * @return CompletableFuture indicating completion
-     */
-    public CompletableFuture<Void> updateUserFields(String uid, Map<String, Object> fields) {
+    public CompletableFuture<Void> updateUserFields(String uid, String role, Map<String, Object> fields) {
         CompletableFuture<Void> future = new CompletableFuture<>();
-
-        databaseRef.child("users").child(uid)
+        getDatabaseRef().child("users").child(role).child(uid)
                 .updateChildren(fields)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -402,115 +211,49 @@ public class UserLinkToDatabase {
                         future.completeExceptionally(task.getException());
                     }
                 });
-
         return future;
     }
 
-    /**
-     * Deletes a user completely: removes from database and (if current user) from Authentication.
-     *
-     * @param uid The UID of the user to delete
-     * @return CompletableFuture indicating completion
-     */
-    public CompletableFuture<Void> deleteUser(String uid) {
-        CompletableFuture<Void> future = new CompletableFuture<>();
+    public CompletableFuture<List<User>> getAllUsers() {
+        CompletableFuture<List<User>> future = new CompletableFuture<>();
+        List<User> users = new ArrayList<>();
 
-        // Delete from database first
-        databaseRef.child("users").child(uid).removeValue()
-                .addOnCompleteListener(dbTask -> {
-                    if (dbTask.isSuccessful()) {
-                        // If the deleted user is the currently authenticated one, also delete from Auth
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
-                        if (currentUser != null && currentUser.getUid().equals(uid)) {
-                            currentUser.delete()
-                                    .addOnCompleteListener(authTask -> {
-                                        if (authTask.isSuccessful()) {
-                                            future.complete(null);
-                                        } else {
-                                            future.completeExceptionally(authTask.getException());
-                                        }
-                                    });
+        getDatabaseRef().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot roleSnap : snapshot.getChildren()) {
+                    String role = roleSnap.getKey();
+                    for (DataSnapshot userSnap : roleSnap.getChildren()) {
+                        User user = null;
+                        if (userSnap.hasChild("profile")) {
+                            DataSnapshot profileSnap = userSnap.child("profile");
+                            if ("Organizer".equals(role)) user = profileSnap.getValue(Organizer.class);
+                            else if ("Player".equals(role)) user = profileSnap.getValue(Player.class);
+                            else if ("Referee".equals(role)) user = profileSnap.getValue(Referee.class);
                         } else {
-                            // Either no current user or it's a different user – just complete
-                            future.complete(null);
+                            if ("Organizer".equals(role)) user = userSnap.getValue(Organizer.class);
+                            else if ("Player".equals(role)) user = userSnap.getValue(Player.class);
+                            else if ("Referee".equals(role)) user = userSnap.getValue(Referee.class);
                         }
-                    } else {
-                        future.completeExceptionally(dbTask.getException());
+                        
+                        if (user != null) {
+                            user.setUid(userSnap.getKey());
+                            users.add(user);
+                        }
                     }
-                });
+                }
+                future.complete(users);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                future.completeExceptionally(error.toException());
+            }
+        });
 
         return future;
     }
 
-    /**
-     * Retrieves all players from the database (users with classType = "Player").
-     *
-     * @return CompletableFuture with a list of Player objects
-     */
-    public CompletableFuture<List<Player>> getAllPlayers() {
-        CompletableFuture<List<Player>> future = new CompletableFuture<>();
-        List<Player> players = new ArrayList<>();
-
-        databaseRef.child("users")
-                .orderByChild("classType")
-                .equalTo("Player")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                            Player player = userSnapshot.getValue(Player.class);
-                            if (player != null) {
-                                player.setUid(userSnapshot.getKey());
-                                players.add(player);
-                            }
-                        }
-                        future.complete(players);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        future.completeExceptionally(error.toException());
-                    }
-                });
-
-        return future;
-    }
-
-    /**
-     * Sends a verification email to update the user's email address in Firebase Authentication.
-     * (The actual email change requires the user to click the verification link.)
-     *
-     * @param newEmail The new email address
-     * @return CompletableFuture indicating that the verification email was sent
-     */
-    public CompletableFuture<Void> updateEmail(String newEmail) {
-        CompletableFuture<Void> future = new CompletableFuture<>();
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            user.verifyBeforeUpdateEmail(newEmail)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            future.complete(null);
-                        } else {
-                            future.completeExceptionally(task.getException());
-                        }
-                    });
-        } else {
-            future.completeExceptionally(new Exception("No user logged in"));
-        }
-
-        return future;
-    }
-
-    //-------------------------------------------------------------------------------------------
-    // Helper Methods
-    //-------------------------------------------------------------------------------------------
-
-    /**
-     * Determines the role string from a User object (used for database path, but not strictly needed
-     * if we use a flat "users" node).
-     */
     private String getRoleFromUser(User user) {
         if (user instanceof Referee) return "Referee";
         if (user instanceof Player) return "Player";
@@ -518,39 +261,119 @@ public class UserLinkToDatabase {
         return "User";
     }
 
-    /**
-     * Reconstructs a User (or subclass) object from a DataSnapshot.
-     * Expects the snapshot to contain fields: classType, firstName, lastName, email, dateOfBirth, gender.
-     */
-    private User createUserFromSnapshot(DataSnapshot snapshot) {
-        String classType = snapshot.child("classType").getValue(String.class);
-        String firstName = snapshot.child("firstName").getValue(String.class);
-        String lastName = snapshot.child("lastName").getValue(String.class);
-        String email = snapshot.child("email").getValue(String.class);
-        String dob = snapshot.child("dateOfBirth").getValue(String.class);
-        String gender = snapshot.child("gender").getValue(String.class);
+    public static void getPlayerIDs(PlayerIdCallback callback) {
+        FirebaseDatabase.getInstance().getReference("users").child("Player").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> ids = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    ids.add(child.getKey());
+                }
+                callback.onCallback(ids);
+            }
 
-        if (classType == null) return null;
-
-        switch (classType) {
-            case "Referee":
-                return new Referee(firstName, lastName, email, dob, gender);
-            case "Player":
-                return new Player(firstName, lastName, email, dob, gender);
-            case "Organizer":
-                return new Organizer(firstName, lastName, email, dob, gender);
-            default:
-                return null;
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
-    /**
-     * Deletes the currently authenticated user from Firebase Authentication (rollback helper).
-     */
-    private void deleteAuthUser() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            user.delete();
-        }
+    public static void getPlayerNames(PlayerNameCallback callback) {
+        FirebaseDatabase.getInstance().getReference("users").child("Player").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> names = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String firstName = child.child("firstName").getValue(String.class);
+                    String lastName = child.child("lastName").getValue(String.class);
+                    if (firstName == null && child.hasChild("profile")) {
+                        firstName = child.child("profile").child("firstName").getValue(String.class);
+                        lastName = child.child("profile").child("lastName").getValue(String.class);
+                    }
+                    names.add(firstName + " " + lastName);
+                }
+                callback.onCallback(names);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public void getAllReferees(RefereeCallback callback) {
+        getDatabaseRef().child("users").child("Referee").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> refIds = new ArrayList<>();
+                ArrayList<String> refNames = new ArrayList<>();
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    refIds.add(child.getKey());
+                    String firstName = child.child("firstName").getValue(String.class);
+                    String lastName = child.child("lastName").getValue(String.class);
+                    if (firstName == null && child.hasChild("profile")) {
+                        firstName = child.child("profile").child("firstName").getValue(String.class);
+                        lastName = child.child("profile").child("lastName").getValue(String.class);
+                    }
+                    refNames.add(firstName + " " + lastName);
+                }
+                callback.onCallback(refIds, refNames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    public static Task<String> getUserAccountType(FirebaseUser user) {
+        String uid = user.getUid();
+        TaskCompletionSource<String> tcs = new TaskCompletionSource<>();
+        FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("Organizer").hasChild(uid)) {
+                    tcs.setResult("Organizer");
+                } else if (snapshot.child("Player").hasChild(uid)) {
+                    tcs.setResult("Player");
+                } else if (snapshot.child("Referee").hasChild(uid)) {
+                    tcs.setResult("Referee");
+                } else {
+                    tcs.setResult(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                tcs.setException(error.toException());
+            }
+        });
+        return tcs.getTask();
+    }
+
+    public CompletableFuture<Void> updateEmail(String uid, String role, String newEmail) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        getDatabaseRef().child("users").child(role).child(uid).child("email").setValue(newEmail)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+        return future;
+    }
+
+    public CompletableFuture<Void> deleteUser(String uid, String role) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        getDatabaseRef().child("users").child(role).child(uid).removeValue()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+        return future;
     }
 }
