@@ -29,7 +29,7 @@ The importance of communication was reinforced.
   - Created UI and logic for match or team statistics 
 #### 2. Khalid
   - Create UI and logic for video capture
-  - Add functionality for to replay recorded clips
+  - Add functionality to replay recorded clips
   - Create live camera feed
   - Make it so clips can be linked to matches
 #### 3. Marwan
