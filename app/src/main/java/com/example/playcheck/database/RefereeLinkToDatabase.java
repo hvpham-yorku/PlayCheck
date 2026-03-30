@@ -32,7 +32,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                         dateStrings.add(date.toString());
                 }
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("availability")
                         .setValue(dateStrings)
@@ -54,7 +54,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                 CompletableFuture<List<LocalDate>> future = new CompletableFuture<>();
                 List<LocalDate> dates = new ArrayList<>();
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("availability")
                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,7 +84,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
         public CompletableFuture<Void> assignGameToReferee(String refereeUid, Game game) {
                 CompletableFuture<Void> future = new CompletableFuture<>();
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("assignedGames")
                         .child(game.getGameId())
@@ -107,7 +107,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                 CompletableFuture<List<Game>> future = new CompletableFuture<>();
                 List<Game> games = new ArrayList<>();
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("assignedGames")
                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,7 +137,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
         public CompletableFuture<Void> removeGameAssignment(String refereeUid, String gameId) {
                 CompletableFuture<Void> future = new CompletableFuture<>();
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("assignedGames")
                         .child(gameId)
@@ -159,7 +159,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
         public CompletableFuture<Void> submitGameReport(String refereeUid, String gameId, Object report) {
                 CompletableFuture<Void> future = new CompletableFuture<>();
 
-                databaseRef.child("referees")
+                getDatabaseRef().child("referees")
                         .child(refereeUid)
                         .child("gameReports")
                         .child(gameId)
@@ -181,11 +181,11 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
         public CompletableFuture<Void> saveMatchClip(String gameId, String clipTitle, String clipUri) {
                 CompletableFuture<Void> future = new CompletableFuture<>();
                 
-                String clipId = databaseRef.child("matchClips").child(gameId).push().getKey();
+                String clipId = getDatabaseRef().child("matchClips").child(gameId).push().getKey();
                 
                 Clip clip = new Clip(clipId, clipTitle, clipUri);
 
-                databaseRef.child("matchClips")
+                getDatabaseRef().child("matchClips")
                         .child(gameId)
                         .child(clipId)
                         .setValue(clip)
@@ -207,7 +207,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                 CompletableFuture<List<Clip>> future = new CompletableFuture<>();
                 List<Clip> clips = new ArrayList<>();
 
-                databaseRef.child("matchClips")
+                getDatabaseRef().child("matchClips")
                         .child(gameId)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -245,7 +245,7 @@ public class RefereeLinkToDatabase extends com.example.playcheck.database.UserLi
                         return future;
                 }
 
-                databaseRef.child("matchClips")
+                getDatabaseRef().child("matchClips")
                         .child(gameId)
                         .child(clipId)
                         .removeValue()
