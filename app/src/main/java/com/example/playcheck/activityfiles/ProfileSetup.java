@@ -106,13 +106,13 @@ public class ProfileSetup extends AppCompatActivity {
                         // Will connect to a home screen that specifically is for that account type
                         Intent nextIntent = null;
                         if (accountType.equals("Organizer")) {
-                            nextIntent = new Intent(this, OrganizerDashboardActivity.class);
+                            nextIntent = new Intent(this, Homepage_Controller.class);
                         }
                         else if (accountType.equals("Player")) {
-                            nextIntent = new Intent(this, PlayerHomeActivity.class);
+                            nextIntent = new Intent(this, Homepage_Controller.class);
                         }
                         else if (accountType.equals("Referee")) {
-                            startActivity(new Intent(this, RefereeHomeActivity.class));
+                            startActivity(new Intent(this, Homepage_Controller.class));
                         }
 
                         if (nextIntent != null) {

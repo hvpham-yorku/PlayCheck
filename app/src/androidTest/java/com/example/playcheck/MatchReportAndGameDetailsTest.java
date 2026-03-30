@@ -66,6 +66,6 @@ public class MatchReportAndGameDetailsTest {
         onView(withId(R.id.submitButton)).perform(click());
 
     }
-    
+
 
 }
